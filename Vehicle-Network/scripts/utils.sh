@@ -11,6 +11,11 @@ PEER0_ORG1_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrga
 PEER0_ORG2_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt
 PEER0_ORG3_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org3.example.com/peers/peer0.org3.example.com/tls/ca.crt
 
+C_RESET='\033[0m'
+C_RED='\033[0;31m'
+C_GREEN='\033[0;32m'
+C_BLUE='\033[0;34m'
+C_YELLOW='\033[1;33m'
 # verify the result of the end-to-end test
 verifyResult() {
   if [ $1 -ne 0 ]; then
@@ -21,6 +26,41 @@ verifyResult() {
   fi
 }
 
+# println echos string
+function println() {
+  echo -e "$1"
+}
+
+# errorln echos i red color
+function errorln() {
+  println "${C_RED}${1}${C_RESET}"
+}
+
+# successln echos in green color
+function successln() {
+  println "${C_GREEN}${1}${C_RESET}"
+}
+
+# infoln echos in blue color
+function infoln() {
+  println "${C_BLUE}${1}${C_RESET}"
+}
+
+# warnln echos in yellow color
+function warnln() {
+  println "${C_YELLOW}${1}${C_RESET}"
+}
+
+# fatalln echos in red color and exits with fail status
+function fatalln() {
+  errorln "$1"
+  exit 1
+}
+
+export -f errorln
+export -f successln
+export -f infoln
+export -f warnln
 # Set OrdererOrg.Admin globals
 setOrdererGlobals() {
   CORE_PEER_LOCALMSPID="OrdererMSP"
@@ -115,6 +155,7 @@ joinChannelWithRetry() {
 
 ## Call the script to deploy a chaincode to the channel
 function deployCC() {
+
   scripts/deployCC.sh $CHANNEL_NAME $CC_NAME $CC_SRC_PATH $CC_SRC_LANGUAGE $CC_VERSION $CC_SEQUENCE $CC_INIT_FCN $CC_END_POLICY $CC_COLL_CONFIG $CLI_DELAY $MAX_RETRY $VERBOSE
 
   if [ $? -ne 0 ]; then

@@ -38,28 +38,30 @@ echo "Channel name : "$CHANNEL_NAME
 
 # import utils
 . scripts/utils.sh
+. scripts/deployCC.sh
 
 createChannel() {
-	setGlobals 0 1
-
-	if [ -z "$CORE_PEER_TLS_ENABLED" -o "$CORE_PEER_TLS_ENABLED" = "false" ]; then
-                set -x
-		peer channel create -o orderer.example.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/channel.tx >&log.txt
+	setGlobals 1
+	
+	# Poll in case the raft leader is not set yet
+	local rc=1
+	local COUNTER=1
+	while [ $rc -ne 0 -a $COUNTER -lt $MAX_RETRY ] ; do
+		sleep $DELAY
+		set -x
+		peer channel create -o localhost:7050 -c $CHANNEL_NAME --ordererTLSHostnameOverride orderer.example.com -f ./channel-artifacts/${CHANNEL_NAME}.tx --outputBlock $BLOCKFILE --tls --cafile $ORDERER_CA >&log.txt
 		res=$?
-                set +x
-	else
-				set -x
-		peer channel create -o orderer.example.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/channel.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA >&log.txt
-		res=$?
-				set +x
-	fi
+		{ set +x; } 2>/dev/null
+		let rc=$res
+		COUNTER=$(expr $COUNTER + 1)
+	done
 	cat log.txt
 	verifyResult $res "Channel creation failed"
-	echo "===================== Channel '$CHANNEL_NAME' created ===================== "
-	echo
 }
 
+
 joinChannel () {
+	  FABRIC_CFG_PATH=$PWD/../config/
 	for org in 1 2 3; do
 	    for peer in 0 1; do
 		joinChannelWithRetry $peer $org

@@ -29,8 +29,10 @@
 # prepending $PWD/../bin to PATH to ensure we are picking up the correct binaries
 # this may be commented out to resolve installed version of tools if desired
 export PATH=${PWD}/../bin:${PWD}:$PATH
-export FABRIC_CFG_PATH=${PWD}
+export FABRIC_CFG_PATH=${PWD}/configtx
 export VERBOSE=false
+
+source scripts/utils.sh
 
 # Print the usage message
 function printHelp() {
@@ -140,6 +142,13 @@ function checkPrereqs() {
       echo "ERROR! Local Fabric binary version of $LOCAL_VERSION does not match this newer version of BYFN and is unsupported. Either move to a later version of Fabric or checkout an earlier version of fabric-samples."
       exit 1
     fi
+     if [[ $? -ne 0 || ! -d "../config" ]]; then
+    errorln "Peer binary and configuration files not found.."
+    errorln
+    errorln "Follow the instructions in the Fabric docs to install the Fabric Binaries:"
+    errorln "https://hyperledger-fabric.readthedocs.io/en/latest/install.html"
+    exit 1
+  fi
 
     echo "$DOCKER_IMAGE_VERSION" | grep -q $UNSUPPORTED_VERSION
     if [ $? -eq 0 ]; then
@@ -153,6 +162,7 @@ function buildContract()
 {
 echo "Build Smart contract "
 ROOT=${PWD}
+CC_SRC_PATH=${PWD}/../SampleApplication/contract
 cd ../SampleApplication/contract
 echo "Remove dist folder"
 rm -f -R dist
@@ -208,7 +218,7 @@ function networkUp() {
   fi
 
   # now run the end to end script
-  docker exec cli scripts/script.sh $CHANNEL_NAME $CLI_DELAY $LANGUAGE $CLI_TIMEOUT $VERBOSE false $CHAIN_CODE_VERSION
+  docker exec cli scripts/script.sh $CHANNEL_NAME $CLI_DELAY $CC_SRC_PATH $LANGUAGE $CLI_TIMEOUT $VERBOSE false $CHAIN_CODE_VERSION
   if [ $? -ne 0 ]; then
     echo "ERROR !!!! Test failed"
     exit 1
