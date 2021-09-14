@@ -24,6 +24,7 @@
         "fabric-contract-api": "2.2.1",
         "fabric-shim": "2.2.1",
         "get-params": "0.1.2",
+        "nanoid": "2.0.3",
         "pkijs": "2.1.97",
         "reflect-metadata": "0.1.13",
         "uuid": "8.3.2"
