@@ -64,7 +64,7 @@ export class StateList<T extends State> {
         if (data.length === 0) {
             throw new Error(`Cannot get state. No state exists for key ${key} ${this.name}`);
         }
-        const state = State.deserialize(data, this.supportedClasses) as T;
+        const state = State.deserialize(Buffer.from(data), this.supportedClasses) as T;
 
         return state;
     }
@@ -126,7 +126,7 @@ export class StateList<T extends State> {
         const states: T[] = [];
 
         while (value) {
-            const state = State.deserialize((value.getValue() as any).toBuffer(), this.supportedClasses) as T;
+            const state = State.deserialize((value as any).toBuffer(), this.supportedClasses) as T;
             logger.info(JSON.stringify(state));
             states.push(state);
             const next = await iterator.next();
