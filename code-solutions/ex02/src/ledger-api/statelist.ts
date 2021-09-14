@@ -126,7 +126,7 @@ export class StateList<T extends State> {
         const states: T[] = [];
 
         while (value) {
-            const state = State.deserialize((value as any).toBuffer(), this.supportedClasses) as T;
+            const state = State.deserialize((value.value as any).toBuffer(), this.supportedClasses) as T;
             logger.info(JSON.stringify(state));
             states.push(state);
             const next = await iterator.next();
