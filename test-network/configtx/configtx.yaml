@@ -98,6 +98,8 @@ Organizations:
                 Type: Signature
                 Rule: "OR('Org2MSP.peer')"
 
+    
+       
 ################################################################################
 #
 #   SECTION: Capabilities
