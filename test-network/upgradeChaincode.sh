@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ "$#" -ne 1 ]; then
+if [ "$#" -ne 2 ]; then
     echo "Illegal number of parameters. Expected: "
     echo "./upgradeChaincode.sh <CHAINCODE_VERSION> <CHAINCODE_SEQUENCE>"
     exit 1 
