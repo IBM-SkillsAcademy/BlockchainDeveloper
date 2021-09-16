@@ -379,7 +379,7 @@ CC_SEQUENCE=1
 # default image tag
 IMAGETAG="2.2"
 # default ca image tag
-CA_IMAGETAG="2.2"
+CA_IMAGETAG="1.5.1"
 # default database
 DATABASE="couchdb"
 
