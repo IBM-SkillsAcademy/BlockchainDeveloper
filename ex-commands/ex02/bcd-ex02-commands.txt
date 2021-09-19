@@ -10,6 +10,11 @@ code .
 npm run build
 
 
+cd /home/blockchain/.fabric-vscode/v2/packages
+ls
+nautilus .
+
+
 =======
 Part 2
 =======
