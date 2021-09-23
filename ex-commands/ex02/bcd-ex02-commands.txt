@@ -15,6 +15,19 @@ ls
 nautilus .
 
 
+
+{
+ “myAssetId”:”001”,
+ “value”:”myFirstValue”
+}
+
+
+
+{ 
+ “myAssetId”:”001” 
+}
+
+
 =======
 Part 2
 =======
@@ -50,7 +63,7 @@ await ctx.getVehicleList().updateVehicle(vehicle);
 =======
 Part 3
 =======
-initLedger
+
 
 =======
 Part 4

@@ -7,7 +7,7 @@ import { VehicleContext } from '../utils/vehicleContext';
 import { VehicleDetails } from '../utils/vehicleDetails';
 import { newLogger } from 'fabric-shim';
 /**
- * *** Exercise 02 > Part 4 ***
+ * *** Exercise 02 > Part 5 > Step7 ***
  *
  */
 // Import definitions from the policy asset
@@ -45,7 +45,7 @@ export class VehicleContract extends Contract {
 
     // ############################################################### Vehicle Functions #################################################
     /**
-     * *** Exercise 02 > Part 1 ***
+     * *** Exercise 02 > Part 2 > Step 4 ***
      *
      * @param { ctx } the smart contract transaction context.
      * @param { orderId } vehicle order id.
@@ -56,7 +56,7 @@ export class VehicleContract extends Contract {
      */
     @Transaction(true)
     @Returns('Vehicle')
-    public async createVehicle(ctx: VehicleContext, orderId: string, make: string, model: string, color: string, owner: string) {
+    public async createVehicle(ctx: VehicleContext, orderId: string, make: string, model: string, color: string, owner: string): Promise<Vehicle> {
         /*
         Create a vehicle from existing vehicle order, this action will be performed by the manufacturer participant.
         The createVehicle transaction will check for an existing order asset for the vehicle before creating a new vehicle asset
@@ -79,7 +79,7 @@ export class VehicleContract extends Contract {
             // Creates a new vehicle asset
             vehicle = Vehicle.createInstance('', orderId, owner, model, make, color);
             // Append vehicle asset to ledger
-            await ctx.getVehicleList().add(vehicle);
+            await ctx.getVehicleList().add(vehicle)
         } else {
             throw new Error(`Order  with ID : ${orderId} doesn't exists`);
         }
@@ -89,7 +89,7 @@ export class VehicleContract extends Contract {
     }
 
     /**
-     * *** Exercise 02 > Part 1 ***
+     * *** Exercise 02 > Part 2 > Step 5 ***
      *
      * @param { ctx } the smart contract transaction context
      * @param { vehicleNumber } vehicle number to query
@@ -112,7 +112,7 @@ export class VehicleContract extends Contract {
     }
 
     /**
-     * *** Exercise 02 > Part 1 ***
+     * *** Exercise 02 > Part 2 > Step 6 ***
      *
      * @param { ctx } the smart contract transaction context
      */
@@ -129,7 +129,7 @@ export class VehicleContract extends Contract {
     }
 
     /**
-     * *** Exercise 02 > Part 1 ***
+     * *** Exercise 02 > Part 2 > Step 7 ***
      *
      * @param { ctx } the smart contract transaction context
      * @param { vehicleNumber } vehicle number to delete
@@ -152,7 +152,7 @@ export class VehicleContract extends Contract {
     }
 
     /**
-     * *** Exercise 02 > Part 1 ***
+     * *** Exercise 02 > Part 2 > Step 8***
      *
      * @param { ctx } the smart contract transaction context
      * @param { vehicleNumber } vehicle number to request VIN
@@ -192,7 +192,7 @@ export class VehicleContract extends Contract {
     }
 
     /**
-     * *** Exercise 02 > Part 1 ***
+     * *** Exercise 02 > Part 2 > Step 9 ***
      *
      * @param { ctx } the smart contract transaction context
      * @param { vehicleNumber } vehicle number to issue VIN
@@ -235,7 +235,7 @@ export class VehicleContract extends Contract {
     }
 
     /**
-     * *** Exercise 02 > Part 1 ***
+     * *** Exercise 02 > Part 2 > Step 10 ***
      *
      * @param { ctx } the smart contract transaction context
      * @param { vehicleNumber } vehicle number
@@ -265,7 +265,7 @@ export class VehicleContract extends Contract {
     @Returns('Order')
     public async placeOrder(ctx: VehicleContext, orderId: string, owner: string,
         make: string, model: string, color: string,
-    ): Promise <Order> {
+    ): Promise<Order> {
         logger.info('============= START : place order ===========');
 
         const vehicleDetails: VehicleDetails = {
@@ -352,7 +352,7 @@ export class VehicleContract extends Contract {
     }
     // ############################################################### Policy Functions #################################################
     /**
-     * *** Exercise 02 > Part 4 ***
+     * *** Exercise 02 > Part 5 > Step 8 ***
      *
      * @param { ctx } the smart contract transaction context
      */
@@ -383,20 +383,7 @@ export class VehicleContract extends Contract {
     }
 
     /**
-     * *** Exercise 02 > Part 4 ***
-     *
-     * @param { ctx } the smart contract transaction context
-     * @param { policyId } the insurance policy id
-     */
-    @Transaction(false)
-    @Returns('Policy')
-    public async getPolicy(ctx: VehicleContext, policyId: string) {
-        // This transaction will query for a specific policy according to the supplied policy ID parameter.
-        return await ctx.getPolicyList().get(policyId);
-    }
-
-    /**
-     * *** Exercise 02 > Part 4 ***
+     * *** Exercise 02 > Part 5 > Step 9 ***
      *
      * @param { ctx } the smart contract transaction context
      * @param { id } the insurance policy ID
@@ -426,7 +413,20 @@ export class VehicleContract extends Contract {
     }
 
     /**
-     * *** Exercise 02 > Part 4 ***
+ * *** Exercise 02 > Part 5 > Step 10 ***
+ *
+ * @param { ctx } the smart contract transaction context
+ * @param { policyId } the insurance policy id
+ */
+    @Transaction(false)
+    @Returns('Policy')
+    public async getPolicy(ctx: VehicleContext, policyId: string) {
+        // This transaction will query for a specific policy according to the supplied policy ID parameter.
+        return await ctx.getPolicyList().get(policyId);
+    }
+
+    /**
+     * *** Exercise 02 > Part 5 > Step 11 ***
      *
      * @param { ctx } the smart contract transaction context
      */
@@ -454,7 +454,6 @@ export class VehicleContract extends Contract {
     // Examples of what you may wish to code are Logging, Event Publishing or Permissions checks
     // If an error is thrown, the whole transaction will be rejected
     public async afterTransaction(ctx: VehicleContext, result: any) {
-
         logger.info(`After Calling Transaction function ${ctx.stub.getFunctionAndParameters().fcn}`);
     }
 }
