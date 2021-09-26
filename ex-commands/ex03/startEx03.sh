@@ -7,7 +7,7 @@ cp ../../code-solutions/ex02/package.json ../../SampleApplication/contract/packa
 
 echo "################## START NETWORK ########################"
 cd ../../test-network/
-./byfn.sh up -V 1.9.2
+./startNetwork.sh
 
 # echo "Update Contract with Ex03 Artifacts "
 # cd $ROOT

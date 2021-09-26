@@ -11,7 +11,7 @@ import { newLogger } from 'fabric-shim';
  *
  */
 // Import definitions from the policy asset
-// import { Policy, PolicyStatus, PolicyType } from '../assets/policy';
+import { Policy, PolicyStatus, PolicyType } from '../assets/policy';
 
 const logger = newLogger('VehicleContract');
 
@@ -56,7 +56,7 @@ export class VehicleContract extends Contract {
      */
     @Transaction(true)
     @Returns('Vehicle')
-    public async createVehicle(ctx: VehicleContext, orderId: string, make: string, model: string, color: string, owner: string): Promise <Vehicle> {
+    public async createVehicle(ctx: VehicleContext, orderId: string, make: string, model: string, color: string, owner: string): Promise<Vehicle> {
         /*
         Create a vehicle from existing vehicle order, this action will be performed by the manufacturer participant.
         The createVehicle transaction will check for an existing order asset for the vehicle before creating a new vehicle asset
@@ -77,9 +77,9 @@ export class VehicleContract extends Contract {
                 throw new Error(`Order  with ID : ${orderId} Should be with Status Delivered to be able to create Vehicle`);
             }
             // Creates a new vehicle asset
-            vehicle = Vehicle.createInstance('');
+            vehicle = Vehicle.createInstance('', orderId, owner, model, make, color);
             // Append vehicle asset to ledger
-            await ctx.getVehicleList().add();
+            await ctx.getVehicleList().add(vehicle)
         } else {
             throw new Error(`Order  with ID : ${orderId} doesn't exists`);
         }
@@ -108,7 +108,7 @@ export class VehicleContract extends Contract {
         }
 
         // Return vehicle asset from ledger
-        return await ctx.getVehicleList();
+        return await ctx.getVehicleList().get(vehicleNumber);
     }
 
     /**
@@ -125,7 +125,7 @@ export class VehicleContract extends Contract {
         */
 
         // Return all vehicles asset from ledger
-        return await ctx.getVehicleList();
+        return await ctx.getVehicleList().getAll();
     }
 
     /**
@@ -147,7 +147,7 @@ export class VehicleContract extends Contract {
             throw new Error(`vehicle with ID : ${vehicleNumber} doesn't exists`);
         }
         // Delete vehicle asset from ledger
-        await ;
+        await ctx.getVehicleList().delete(vehicleNumber);
         logger.info('============= END : delete vehicle ===========');
     }
 
@@ -179,9 +179,9 @@ export class VehicleContract extends Contract {
             throw new Error(`VIN for vehicle  ${vehicleNumber} is already REQUESTED`);
         }
         // Change vin status state to "REQUESTED"
-        vehicle.vinStatus = ;
+        vehicle.vinStatus = VinStatus.REQUESTED;
         // Update state in ledger
-        await ;
+        await ctx.getVehicleList().updateVehicle(vehicle);
 
         /*
         Fire an event after the transaction is successfully committed to the ledger,
@@ -222,9 +222,9 @@ export class VehicleContract extends Contract {
             throw new Error(`VIN for vehicle  ${vehicleNumber} is already ISSUED`);
         }
         // Set vin status to "ISSUED"
-        vehicle.vinStatus = ;
+        vehicle.vinStatus = VinStatus.ISSUED;
         // Update state in ledger
-        await ;
+        await ctx.getVehicleList().updateVehicle(vehicle);
 
         /*
         Fire an event after the transaction is successfully committed to the ledger,
@@ -253,9 +253,9 @@ export class VehicleContract extends Contract {
         // Get vehicle by vehicle number
         const vehicle = await ctx.getVehicleList().get(vehicleNumber);
         // Change vehicle owner
-        vehicle.owner = ;
+        vehicle.owner = newOwner;
         // Update state in ledger
-        await ;
+        await ctx.getVehicleList().updateVehicle(vehicle);
         logger.info('============= END : changevehicleOwner ===========');
     }
 
@@ -265,7 +265,7 @@ export class VehicleContract extends Contract {
     @Returns('Order')
     public async placeOrder(ctx: VehicleContext, orderId: string, owner: string,
         make: string, model: string, color: string,
-    ): Promise <Order> {
+    ): Promise<Order> {
         logger.info('============= START : place order ===========');
 
         const vehicleDetails: VehicleDetails = {
@@ -356,44 +356,31 @@ export class VehicleContract extends Contract {
      *
      * @param { ctx } the smart contract transaction context
      */
-    // @Transaction(true)
-    // public async requestPolicy(ctx: VehicleContext, id: string,
-        // vehicleNumber: string, insurerId: string, holderId: string, policyType: PolicyType,
-        // startDate: number, endDate: number) {
+    @Transaction(true)
+    public async requestPolicy(ctx: VehicleContext, id: string,
+        vehicleNumber: string, insurerId: string, holderId: string, policyType: PolicyType,
+        startDate: number, endDate: number) {
         /*
         This transaction will simulate the process of requesting a vehicle insurance policy for a vehicle.
         This action will be performed by the manufacturer participant.
         */
-        // logger.info('============= START : request insurance policy ===========');
+        logger.info('============= START : request insurance policy ===========');
 
         // Check if vehicle exist
-        // await ctx.getVehicleList().getVehicle(vehicleNumber);
+        await ctx.getVehicleList().getVehicle(vehicleNumber);
 
         // Create new policy asset.
-        // const policy = ;
+        const policy = Policy.createInstance(id, vehicleNumber, insurerId, holderId, policyType, startDate, endDate);
         // Add policy asset to the ledger.
-        // await ;
+        await ctx.getPolicyList().add(policy);
 
         /*
         Fire an event after the transaction is successfully committed to the ledger,
         applications that acts as event listeners can listen for this event trigger and respond accordingly.
         */
-        // ctx.stub.setEvent('CREATE_POLICY', policy.toBuffer());
-        // logger.info('============= END : request insurance policy ===========');
-    // }
-
-    /**
-     * *** Exercise 02 > Part 5 > Step 10 ***
-     *
-     * @param { ctx } the smart contract transaction context
-     * @param { policyId } the insurance policy id
-     */
-    // @Transaction(false)
-    // @Returns('Policy')
-    // public async getPolicy(ctx: VehicleContext, policyId: string) {
-        // This transaction will query for a specific policy according to the supplied policy ID parameter.
-        // return await ;
-    // }
+        ctx.stub.setEvent('CREATE_POLICY', policy.toBuffer());
+        logger.info('============= END : request insurance policy ===========');
+    }
 
     /**
      * *** Exercise 02 > Part 5 > Step 9 ***
@@ -401,8 +388,8 @@ export class VehicleContract extends Contract {
      * @param { ctx } the smart contract transaction context
      * @param { id } the insurance policy ID
      */
-    // @Transaction(true)
-    // public async issuePolicy(ctx: VehicleContext, id: string) {
+    @Transaction(true)
+    public async issuePolicy(ctx: VehicleContext, id: string) {
         /*
         This transaction will change the insurance policy status from "REQUESTED" to "ISSUED",
         to simulate the process of issuing a vehicle insurance policy.
@@ -410,32 +397,45 @@ export class VehicleContract extends Contract {
         */
 
         // Get policy by ID from policy list
-        // const policy = await ctx.getPolicyList().get(id);
+        const policy = await ctx.getPolicyList().get(id);
 
         // Set policy status to "ISSUED"
-        // policy.status = ;
+        policy.status = PolicyStatus.ISSUED;
 
         // Update policy asset in the ledger
-        // await ;
+        await ctx.getPolicyList().update(policy);
 
         /*
         Fire an event after the transaction is successfully committed to the ledger,
         applications that acts as event listeners can listen for this event trigger and respond accordingly.
         */
-        // ctx.stub.setEvent('POLICY_ISSUED', policy.toBuffer());
-    // }
+        ctx.stub.setEvent('POLICY_ISSUED', policy.toBuffer());
+    }
+
+    /**
+ * *** Exercise 02 > Part 5 > Step 10 ***
+ *
+ * @param { ctx } the smart contract transaction context
+ * @param { policyId } the insurance policy id
+ */
+    @Transaction(false)
+    @Returns('Policy')
+    public async getPolicy(ctx: VehicleContext, policyId: string) {
+        // This transaction will query for a specific policy according to the supplied policy ID parameter.
+        return await ctx.getPolicyList().get(policyId);
+    }
 
     /**
      * *** Exercise 02 > Part 5 > Step 11 ***
      *
      * @param { ctx } the smart contract transaction context
      */
-    // @Transaction(false)
-    // @Returns('Policy[]')
-    // public async getPolicies(ctx: VehicleContext): Promise<Policy[]> {
+    @Transaction(false)
+    @Returns('Policy[]')
+    public async getPolicies(ctx: VehicleContext): Promise<Policy[]> {
         // This transaction will return a list of all the available insurance policies in the ledger.
-        // return await ;
-    // }
+        return await ctx.getPolicyList().getAll();
+    }
 
     // ############################################################### Utility Functions #################################################
 
@@ -454,7 +454,6 @@ export class VehicleContract extends Contract {
     // Examples of what you may wish to code are Logging, Event Publishing or Permissions checks
     // If an error is thrown, the whole transaction will be rejected
     public async afterTransaction(ctx: VehicleContext, result: any) {
-
         logger.info(`After Calling Transaction function ${ctx.stub.getFunctionAndParameters().fcn}`);
     }
 }
