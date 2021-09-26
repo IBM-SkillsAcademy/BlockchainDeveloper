@@ -7,11 +7,12 @@ import { VehicleContext } from '../utils/vehicleContext';
 import { VehicleDetails } from '../utils/vehicleDetails';
 import { newLogger } from 'fabric-shim';
 /**
- * *** Exercise 02 > Part 5 > Step7 ***
+ * *** Exercise 02 > Part 4 > Step 7 ***
  *
  */
 // Import definitions from the policy asset
-import { Policy, PolicyStatus, PolicyType } from '../assets/policy';
+ import { Policy, PolicyStatus, PolicyType } from '../assets/policy';
+import { QueryResponse } from '../utils/queryResponse';
 
 const logger = newLogger('VehicleContract');
 
@@ -45,7 +46,7 @@ export class VehicleContract extends Contract {
 
     // ############################################################### Vehicle Functions #################################################
     /**
-     * *** Exercise 02 > Part 2 > Step 4 ***
+     * *** Exercise 02 > Part 1 > Step 4 ***
      *
      * @param { ctx } the smart contract transaction context.
      * @param { orderId } vehicle order id.
@@ -56,7 +57,7 @@ export class VehicleContract extends Contract {
      */
     @Transaction(true)
     @Returns('Vehicle')
-    public async createVehicle(ctx: VehicleContext, orderId: string, make: string, model: string, color: string, owner: string): Promise<Vehicle> {
+    public async createVehicle(ctx: VehicleContext, orderId: string, make: string, model: string, color: string, owner: string) {
         /*
         Create a vehicle from existing vehicle order, this action will be performed by the manufacturer participant.
         The createVehicle transaction will check for an existing order asset for the vehicle before creating a new vehicle asset
@@ -79,7 +80,7 @@ export class VehicleContract extends Contract {
             // Creates a new vehicle asset
             vehicle = Vehicle.createInstance('', orderId, owner, model, make, color);
             // Append vehicle asset to ledger
-            await ctx.getVehicleList().add(vehicle)
+            await ctx.getVehicleList().add(vehicle);
         } else {
             throw new Error(`Order  with ID : ${orderId} doesn't exists`);
         }
@@ -89,7 +90,7 @@ export class VehicleContract extends Contract {
     }
 
     /**
-     * *** Exercise 02 > Part 2 > Step 5 ***
+     * *** Exercise 02 > Part 1 > Step 5 ***
      *
      * @param { ctx } the smart contract transaction context
      * @param { vehicleNumber } vehicle number to query
@@ -112,7 +113,7 @@ export class VehicleContract extends Contract {
     }
 
     /**
-     * *** Exercise 02 > Part 2 > Step 6 ***
+     * *** Exercise 02 > Part 1 > Step 6 ***
      *
      * @param { ctx } the smart contract transaction context
      */
@@ -129,7 +130,7 @@ export class VehicleContract extends Contract {
     }
 
     /**
-     * *** Exercise 02 > Part 2 > Step 7 ***
+     * *** Exercise 02 > Part 1 > Step 7 ***
      *
      * @param { ctx } the smart contract transaction context
      * @param { vehicleNumber } vehicle number to delete
@@ -152,7 +153,7 @@ export class VehicleContract extends Contract {
     }
 
     /**
-     * *** Exercise 02 > Part 2 > Step 8***
+     * *** Exercise 02 > Part 1 > Step 8 ***
      *
      * @param { ctx } the smart contract transaction context
      * @param { vehicleNumber } vehicle number to request VIN
@@ -192,7 +193,7 @@ export class VehicleContract extends Contract {
     }
 
     /**
-     * *** Exercise 02 > Part 2 > Step 9 ***
+     * *** Exercise 02 > Part 1 > Step 9 ***
      *
      * @param { ctx } the smart contract transaction context
      * @param { vehicleNumber } vehicle number to issue VIN
@@ -235,7 +236,7 @@ export class VehicleContract extends Contract {
     }
 
     /**
-     * *** Exercise 02 > Part 2 > Step 10 ***
+     * *** Exercise 02 > Part 1 > Step 10 ***
      *
      * @param { ctx } the smart contract transaction context
      * @param { vehicleNumber } vehicle number
@@ -258,14 +259,32 @@ export class VehicleContract extends Contract {
         await ctx.getVehicleList().updateVehicle(vehicle);
         logger.info('============= END : changevehicleOwner ===========');
     }
-
+      /**
+       * *** Exercise 03 > Part 4 ***
+       * @param  {VehicleContext} ctx: Vehicle context.
+       * @param  {string} vehicleNumber: Vehicle number to return history for
+       * get history for vehicle as provenance of changes over vehicle
+       */
+      @Transaction(false)
+    public async getHistoryForVehicle(ctx: VehicleContext, vehicleNumber: string) {
+        // get vehicle history using vehiclelist and function getVehicleHistory
+        return await ctx.getVehicleList().getVehicleHistory(vehicleNumber);
+    }
+    /**
+     * *** Exercise 03 > Part 3 ***
+     * @param  {VehicleContext} ctx
+     */
+    @Transaction(false)
+    public async getVehicleCount(ctx: VehicleContext) {
+         return await ctx.getVehicleList().count();
+    }
     // ############################################################### Order Functions #################################################
     // End user place order function
     @Transaction(true)
     @Returns('Order')
     public async placeOrder(ctx: VehicleContext, orderId: string, owner: string,
         make: string, model: string, color: string,
-    ): Promise<Order> {
+    ): Promise <Order> {
         logger.info('============= START : place order ===========');
 
         const vehicleDetails: VehicleDetails = {
@@ -350,9 +369,78 @@ export class VehicleContract extends Contract {
         logger.info('============= END : Get Orders ===========');
         return await ctx.getOrderList().getAll();
     }
+    /**
+     * *** Exercise 03 > Part 3 ***
+     * @param  {VehicleContext} ctx
+     * @param  {string} orderStatus
+     * @returns {array} array of orders
+     * Return all orders with a specific status. Explain how to use the index defined in JSON format.
+     * All indexes are defined in the META-INF folder.
+     */
+    @Transaction(false)
+    @Returns('Order[]')
+    public async getOrdersByStatus(ctx: VehicleContext, orderStatus: string) {
+        logger.info('============= START : Get Orders by Status ===========');
+      // Create query string and use orderStatusIndex and order status design document
+        const queryString = {
+            selector: {
+                orderStatus,
+            },
+            use_index: ['_design/orderStatusDoc', 'orderStatusIndex'],
+        };
+          // Call queryWithQueryString with a custom function to run the query and return the results.
+        return await this.queryWithQueryString(ctx, JSON.stringify(queryString), '');
+    }
+    /**
+     * *** Exercise 03 > Part 4 ***
+     * @param  {VehicleContext} ctx
+     * @param  {string} orderID: orderId to get the history for.
+     * Return all transactions history for orders by using orderID.
+     */
+    @Transaction(false)
+    @Returns('IHistoricState[]')
+    public async getHistoryForOrder(ctx: VehicleContext, orderID: string) {
+        return await ctx.getOrderList().getOrderHistory(orderID);
+    }
+    /**
+     * *** Exercise 03 > Part 4 ***
+     * @param  {VehicleContext} ctx
+     * @param  {string} startKey: Start key as starting point for query.
+     * @param  {string} endKey: End key as end point for queey.
+     */
+    @Transaction(false)
+    @Returns('Order[]')
+    public async getOrdersByRange(ctx: VehicleContext, startKey: string, endKey: string) {
+        // Use the object that is retuned by getOrderList and call getOrdersByRange.
+        return await ctx.getOrderList().getOrdersByRange(startKey, endKey);
+    }
+    /**
+     * *** Exercise 03 > Part 5 ***
+     * @param  {VehicleContext} ctx
+     * @param  {string} orderStatus
+     * @param  {string} pagesize: Number of result per page.
+     * @param  {string} bookmark: When the bookmark is not an empty string,
+     * The iterator can be used to fetch the first `pageSize` key between the bookmark and the last key in the query results.
+     * Get all orders with status paginated by number of results per page and using bookmark
+     */
+    @Transaction(false)
+    @Returns('QueryPaginationResponse[]')
+    public async getOrdersByStatusPaginated(ctx: VehicleContext, orderStatus: string, pagesize: string, bookmark: string) {
+        // Build query string
+        const queryString = {
+            selector: {
+                orderStatus,
+            },
+            use_index: ['_design/orderStatusDoc', 'orderStatusIndex'],
+        };
+       // Convert string to integer by using the JavaScript function parseInt
+        const pagesizeInt = parseInt(pagesize, 10);
+
+        return await ctx.getOrderList().queryStatusPaginated(JSON.stringify(queryString), pagesizeInt, bookmark);
+    }
     // ############################################################### Policy Functions #################################################
     /**
-     * *** Exercise 02 > Part 5 > Step 8 ***
+     * *** Exercise 02 > Part 4 > Step 7 ***
      *
      * @param { ctx } the smart contract transaction context
      */
@@ -383,7 +471,20 @@ export class VehicleContract extends Contract {
     }
 
     /**
-     * *** Exercise 02 > Part 5 > Step 9 ***
+     * *** Exercise 02 > Part 4 > Step 9 ***
+     *
+     * @param { ctx } the smart contract transaction context
+     * @param { policyId } the insurance policy id
+     */
+    @Transaction(false)
+    @Returns('Policy')
+    public async getPolicy(ctx: VehicleContext, policyId: string) {
+        // This transaction will query for a specific policy according to the supplied policy ID parameter.
+        return await ctx.getPolicyList().get(policyId);
+    }
+
+    /**
+     * *** Exercise 02 > Part 4 > Step 8 ***
      *
      * @param { ctx } the smart contract transaction context
      * @param { id } the insurance policy ID
@@ -413,20 +514,7 @@ export class VehicleContract extends Contract {
     }
 
     /**
- * *** Exercise 02 > Part 5 > Step 10 ***
- *
- * @param { ctx } the smart contract transaction context
- * @param { policyId } the insurance policy id
- */
-    @Transaction(false)
-    @Returns('Policy')
-    public async getPolicy(ctx: VehicleContext, policyId: string) {
-        // This transaction will query for a specific policy according to the supplied policy ID parameter.
-        return await ctx.getPolicyList().get(policyId);
-    }
-
-    /**
-     * *** Exercise 02 > Part 5 > Step 11 ***
+     * *** Exercise 02 > Part 4 > Step 10 ***
      *
      * @param { ctx } the smart contract transaction context
      */
@@ -454,6 +542,60 @@ export class VehicleContract extends Contract {
     // Examples of what you may wish to code are Logging, Event Publishing or Permissions checks
     // If an error is thrown, the whole transaction will be rejected
     public async afterTransaction(ctx: VehicleContext, result: any) {
+
         logger.info(`After Calling Transaction function ${ctx.stub.getFunctionAndParameters().fcn}`);
+    }
+       /**
+        * *** Exercise 03 > Part 3 ***
+        * @param {VehicleContext } ctx: The transaction context
+        * @param {string} queryString: The query string to be evaluated
+        * @param {string } collection: Flag to identify this function. It is used in getQueryResult or getPrivateDataQueryResult
+        */
+       public async queryWithQueryString(ctx: VehicleContext, queryString: string, collection: string) {
+
+        logger.info('query String');
+        logger.info(JSON.stringify(queryString));
+
+        let resultsIterator: import('fabric-shim').Iterators.StateQueryIterator;
+        if (collection === '') {
+            resultsIterator = await ctx.stub.getQueryResult(queryString);
+        } else {
+            // Workaround for tracked issue: https://jira.hyperledger.org/browse/FAB-14216
+            const result: any = await ctx.stub.getPrivateDataQueryResult(collection, queryString);
+            resultsIterator = result.iterator;
+        }
+
+        console.log(typeof resultsIterator);
+        // Array to hold query result
+        const allResults = [];
+        while (true) {
+               // Use iterator to get next element
+            const res = await resultsIterator.next();
+             // If next element has value
+            if (res.value && res.value.value.toString()) {
+                // Create object of custom type QueryResponse to hold current element result
+                const jsonRes = new QueryResponse();
+               // Assign current key value to key of QueryResponse object
+                jsonRes.key = res.value.key;
+
+                try {
+                    // Assign current record value to value of QueryResponse object
+                    jsonRes.record = JSON.parse(res.value.value.toString());
+                } catch (err) {
+                    logger.info(err);
+                    jsonRes.record = res.value.value.toString();
+                }
+                 // Push current object to array of result
+                allResults.push(jsonRes);
+            }
+            if (res.done) {
+                logger.info('end of data');
+                // Close iterator
+                await resultsIterator.close();
+
+                return JSON.stringify(allResults);
+            }
+        }
+
     }
 }

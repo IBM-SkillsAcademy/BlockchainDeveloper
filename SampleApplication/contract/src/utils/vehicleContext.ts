@@ -5,7 +5,7 @@ import { Vehicle } from '../assets/vehicle';
 import { OrderList } from '../lists/orderList';
 import { VehicleList } from '../lists/vehicleList';
 /**
- * *** Exercise 2 > Part 5 > Step 6 ***
+ * *** Exercise 02 > Part 4 > Step 6 ***
  */
 
 /*
@@ -33,7 +33,7 @@ export class VehicleContext extends Context {
         this.policyList = new PolicyList(this, [Policy]);
     }
 
-    public getOrderList() {
+    public getOrderList(): OrderList<Order> {
         return this.orderList;
     }
     public getVehicleList(): VehicleList<Vehicle> {
