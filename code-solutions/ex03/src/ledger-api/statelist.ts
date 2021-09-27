@@ -64,7 +64,7 @@ export class StateList<T extends State> {
         if (data.length === 0) {
             throw new Error(`Cannot get state. No state exists for key ${key} ${this.name}`);
         }
-        const state = State.deserialize(data, this.supportedClasses) as T;
+        const state = State.deserialize(Buffer.from(data), this.supportedClasses) as T;
 
         return state;
     }
@@ -126,7 +126,7 @@ export class StateList<T extends State> {
         const states: T[] = [];
 
         while (value) {
-            const state = State.deserialize((value.getValue() as any).toBuffer(), this.supportedClasses) as T;
+            const state = State.deserialize(Buffer.from(value.value as any), this.supportedClasses) as T;
             logger.info(JSON.stringify(state));
             states.push(state);
             const next = await iterator.next();
@@ -173,10 +173,10 @@ export class StateList<T extends State> {
 
         while (value) {
            // deserialize the state which convert object into one of a set of supported JSON classes
-            const state = State.deserialize((value.getValue() as any).toBuffer(), this.supportedClasses);
+            const state = State.deserialize(Buffer.from(value.value as any), this.supportedClasses);
 
             const historicState: IHistoricState<T> = new IHistoricState(
-                (value.getTimestamp().getSeconds() as any).toInt(), value.getTxId(), state as T,
+                (value.timestamp.seconds as any).toInt(), value.txId, state as T,
             );
 
              history.push(historicState);
@@ -214,7 +214,7 @@ export class StateList<T extends State> {
     // while the value has a defined value (exits and not null)
     while (value) {
         // deserialize the state which converts the object into one of a set of supported JSON classes
-        const state = State.deserialize((value.getValue() as any).toBuffer(), this.supportedClasses) as T;
+        const state = State.deserialize(Buffer.from(value.value as any), this.supportedClasses) as T;
         states.push(state);
         const next = await result.next();
         value = next.value;
@@ -242,7 +242,7 @@ export class StateList<T extends State> {
    */
   const result = await this.ctx.stub.getQueryResultWithPagination(queryString, pageSize, bookmark);
    // Create object of custom type QueryPaginationResponse (which exists under folder util)
-    const queryPaginatedRes: QueryPaginationResponse<T> = new QueryPaginationResponse(result.metadata.fetched_records_count, result.metadata.bookmark);
+    const queryPaginatedRes: QueryPaginationResponse<T> = new QueryPaginationResponse(result.metadata.fetchedRecordsCount, result.metadata.bookmark);
     // Fetch the first item from iterator
     let value = (await result.iterator.next()).value;
     // Create array of states to hold query result
@@ -250,7 +250,7 @@ export class StateList<T extends State> {
     // While the value has a defined value (exits and not null)
     while (value) {
         // Deserialize the state, which converts the object into one of a set of supported JSON classes
-        const state = State.deserialize((value.getValue() as any).toBuffer(), this.supportedClasses) as T;
+        const state = State.deserialize(Buffer.from(value.value as any), this.supportedClasses) as T;
         logger.info(JSON.stringify(state));
         // Push the state to array as a new entry
         states.push(state);
