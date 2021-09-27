@@ -165,7 +165,7 @@ export class StateList<T extends State> {
         the historic value and associated transaction ID and time stamp are returned.
         The time stamp is the time stamp provided by the client in the proposal header.
          This method requires peer configuration core.ledger.history.enableHistoryDatabase to be true.*/
-        const keyHistory = await this.ctx.stub.getHistoryForKey(ledgerKey);
+        // const keyHistory = await this.ctx.stub.getHistoryForKey(ledgerKey);
        // array of IHistoricState to hold query result
         const history: Array<IHistoricState<T>> = [];
 
@@ -205,7 +205,7 @@ export class StateList<T extends State> {
     // If the number of keys between startKey and endKey is greater than totalQueryLimit,
     // which is defined in the peer's configuration file core.yaml,
     // this iterator cannot be used to fetch all keys (results are limited by the totalQueryLimit).
-    const result = await this.ctx.stub.getStateByRange(ledgerStartKey, ledgerEndKey );
+    const result = await this.ctx.stub.getStateByRange(ledgerStartKey, );
 
     // The iterator can be used to iterate over all keys between the startKey (inclusive) and endKey (exclusive).
     let value = (await result.next()).value;
@@ -220,7 +220,7 @@ export class StateList<T extends State> {
         value = next.value;
     }
     // Call close() on the returned StateQueryIterator object when done
-     result.close();
+    //  result.close();
 
     return states;
 
@@ -240,9 +240,9 @@ export class StateList<T extends State> {
     getQueryResultWithPagination, which performs a "rich" query against a state database. It is only supported for state databases that support rich query, for example,
     CouchDB. The query string is in the native syntax of the underlying state database.
    */
-  const result = await this.ctx.stub.getQueryResultWithPagination(queryString, pageSize, bookmark);
+  const result = await this.ctx.stub.getQueryResultWithPagination();
    // Create object of custom type QueryPaginationResponse (which exists under folder util)
-    const queryPaginatedRes: QueryPaginationResponse<T> = new QueryPaginationResponse(result.metadata.fetchedRecordsCount, result.metadata.bookmark);
+    const queryPaginatedRes: QueryPaginationResponse<T> = new QueryPaginationResponse(result.metadata.fetchedRecordsCount, result.metadata);
     // Fetch the first item from iterator
     let value = (await result.iterator.next()).value;
     // Create array of states to hold query result
@@ -273,7 +273,7 @@ export class StateList<T extends State> {
         /*Queries the state in the ledger based on a given partial composite key.
         This function returns an iterator, which can be used to iterate over all composite keys
         whose prefix matches the given partial composite key */
-         const data = await this.ctx.stub.getStateByPartialCompositeKey(this.name, []);
+         const data = await this.ctx.stub.getStateByPartialCompositeKey(, []);
          let counter = 0;
 
          while (true) {
