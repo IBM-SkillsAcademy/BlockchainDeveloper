@@ -7,7 +7,7 @@ import { VehicleContext } from '../utils/vehicleContext';
 import { VehicleDetails } from '../utils/vehicleDetails';
 import { newLogger } from 'fabric-shim';
 /**
- * *** Exercise 02 > Part 4 > Step 7 ***
+ * *** Exercise 02 > Part 4 ***
  *
  */
 // Import definitions from the policy asset
@@ -46,7 +46,7 @@ export class VehicleContract extends Contract {
 
     // ############################################################### Vehicle Functions #################################################
     /**
-     * *** Exercise 02 > Part 1 > Step 4 ***
+     * *** Exercise 02 > Part 1 ***
      *
      * @param { ctx } the smart contract transaction context.
      * @param { orderId } vehicle order id.
@@ -90,7 +90,7 @@ export class VehicleContract extends Contract {
     }
 
     /**
-     * *** Exercise 02 > Part 1 > Step 5 ***
+     * *** Exercise 02 > Part 1 ***
      *
      * @param { ctx } the smart contract transaction context
      * @param { vehicleNumber } vehicle number to query
@@ -113,7 +113,7 @@ export class VehicleContract extends Contract {
     }
 
     /**
-     * *** Exercise 02 > Part 1 > Step 6 ***
+     * *** Exercise 02 > Part 1 ***
      *
      * @param { ctx } the smart contract transaction context
      */
@@ -130,7 +130,7 @@ export class VehicleContract extends Contract {
     }
 
     /**
-     * *** Exercise 02 > Part 1 > Step 7 ***
+     * *** Exercise 02 > Part 1 ***
      *
      * @param { ctx } the smart contract transaction context
      * @param { vehicleNumber } vehicle number to delete
@@ -153,7 +153,7 @@ export class VehicleContract extends Contract {
     }
 
     /**
-     * *** Exercise 02 > Part 1 > Step 8 ***
+     * *** Exercise 02 > Part 1 ***
      *
      * @param { ctx } the smart contract transaction context
      * @param { vehicleNumber } vehicle number to request VIN
@@ -193,7 +193,7 @@ export class VehicleContract extends Contract {
     }
 
     /**
-     * *** Exercise 02 > Part 1 > Step 9 ***
+     * *** Exercise 02 > Part 1 ***
      *
      * @param { ctx } the smart contract transaction context
      * @param { vehicleNumber } vehicle number to issue VIN
@@ -236,7 +236,7 @@ export class VehicleContract extends Contract {
     }
 
     /**
-     * *** Exercise 02 > Part 1 > Step 10 ***
+     * *** Exercise 02 > Part 1 ***
      *
      * @param { ctx } the smart contract transaction context
      * @param { vehicleNumber } vehicle number
@@ -276,7 +276,7 @@ export class VehicleContract extends Contract {
      */
     @Transaction(false)
     public async getVehicleCount(ctx: VehicleContext) {
-         return await ctx.getVehicleList().count();
+        // return await ctx.getVehicleList().count();
     }
     // ############################################################### Order Functions #################################################
     // End user place order function
@@ -389,7 +389,7 @@ export class VehicleContract extends Contract {
             use_index: ['_design/orderStatusDoc', 'orderStatusIndex'],
         };
           // Call queryWithQueryString with a custom function to run the query and return the results.
-        return await this.queryWithQueryString(ctx, JSON.stringify(queryString), '');
+       // return await this.queryWithQueryString(ctx, JSON.stringify(queryString), '');
     }
     /**
      * *** Exercise 03 > Part 4 ***
@@ -400,7 +400,7 @@ export class VehicleContract extends Contract {
     @Transaction(false)
     @Returns('IHistoricState[]')
     public async getHistoryForOrder(ctx: VehicleContext, orderID: string) {
-        return await ctx.getOrderList().getOrderHistory(orderID);
+       // return await ctx.getOrderList().getOrderHistory(orderID);
     }
     /**
      * *** Exercise 03 > Part 4 ***
@@ -412,7 +412,7 @@ export class VehicleContract extends Contract {
     @Returns('Order[]')
     public async getOrdersByRange(ctx: VehicleContext, startKey: string, endKey: string) {
         // Use the object that is retuned by getOrderList and call getOrdersByRange.
-        return await ctx.getOrderList().getOrdersByRange(startKey, endKey);
+       // return await ctx.getOrderList().getOrdersByRange(startKey, endKey);
     }
     /**
      * *** Exercise 03 > Part 5 ***
@@ -436,11 +436,11 @@ export class VehicleContract extends Contract {
        // Convert string to integer by using the JavaScript function parseInt
         const pagesizeInt = parseInt(pagesize, 10);
 
-        return await ctx.getOrderList().queryStatusPaginated(JSON.stringify(queryString), pagesizeInt, bookmark);
+       // return await ctx.getOrderList().queryStatusPaginated(JSON.stringify(queryString), pagesizeInt, bookmark);
     }
     // ############################################################### Policy Functions #################################################
     /**
-     * *** Exercise 02 > Part 4 > Step 7 ***
+     * *** Exercise 02 > Part 4 ***
      *
      * @param { ctx } the smart contract transaction context
      */
@@ -471,7 +471,7 @@ export class VehicleContract extends Contract {
     }
 
     /**
-     * *** Exercise 02 > Part 4 > Step 9 ***
+     * *** Exercise 02 > Part 4 ***
      *
      * @param { ctx } the smart contract transaction context
      * @param { policyId } the insurance policy id
@@ -484,7 +484,7 @@ export class VehicleContract extends Contract {
     }
 
     /**
-     * *** Exercise 02 > Part 4 > Step 8 ***
+     * *** Exercise 02 > Part 4 ***
      *
      * @param { ctx } the smart contract transaction context
      * @param { id } the insurance policy ID
@@ -514,7 +514,7 @@ export class VehicleContract extends Contract {
     }
 
     /**
-     * *** Exercise 02 > Part 4 > Step 10 ***
+     * *** Exercise 02 > Part 4 ***
      *
      * @param { ctx } the smart contract transaction context
      */

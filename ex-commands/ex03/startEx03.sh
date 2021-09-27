@@ -9,11 +9,9 @@ echo "################## START NETWORK ########################"
 cd ../../test-network/
 ./startNetwork.sh
 
-# echo "Update Contract with Ex03 Artifacts "
-# cd $ROOT
-# #cd ex03Artifacts
-# pwd
-# cp -R ex03Artifacts/src/. ../../SampleApplication/contract/src
-# cp  ex03Artifacts/package.json ../../SampleApplication/contract/package.json
+echo "Update Contract with Ex03 Artifacts "
+cd $ROOT
+cp -R ex03Artifacts/src/. ../../SampleApplication/contract/src
+cp  ex03Artifacts/package.json ../../SampleApplication/contract/package.json
 
 

@@ -30,7 +30,7 @@ export class OrderList <T extends Order> extends StateList<T> {
      */
     public async getOrderHistory(orderID: string) {
         // Call the history function, which is defined in stateList.ts
-        return this.getHistory(orderID);
+       // return this.getHistory(orderID);
     }
     /**
      * *** Exercise 03 > Part 4 ***
@@ -39,7 +39,7 @@ export class OrderList <T extends Order> extends StateList<T> {
      */
     public async getOrdersByRange(startkey: string, endkey: string) {
         // Call getAssetsByRange from stateList.ts
-        return this.getAssetsByRange(startkey, endkey);
+       // return this.getAssetsByRange(startkey, endkey);
     }
     /**
      * *** Exercise 03 > Part 5 ***
@@ -49,6 +49,6 @@ export class OrderList <T extends Order> extends StateList<T> {
      */
     public async queryStatusPaginated(queryString: string, pageSize: number , bookmark: string ) {
         // Call queryWithPagination, which is defined in stateList.ts
-       return this.queryWithPagination(queryString, pageSize, bookmark);
+      // return this.queryWithPagination(queryString, pageSize, bookmark);
     }
 }
