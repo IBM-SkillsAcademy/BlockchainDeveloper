@@ -1,74 +1,13 @@
 'use strict';
 
-const {Contract , FileSystemWallet, Gateway } = require('fabric-network');
-const path = require('path');
+const {
+  checkAuthorization,
+  setupGateway,
+  getContract,
+} = require("../utils");
 let eventEmitter = require('events');
 let event = new eventEmitter();
 
-const utils = require('../utils');
-
-// Create a file system-based wallet for managing identities.
-const walletPath = path.join(process.cwd(), 'wallet');
-const wallet = new FileSystemWallet(walletPath);
-console.log(`Wallet path: ${walletPath}`);
-
-async function checkAuthorization (req, res) {
-  try {
-    const enrollmentID = req.headers['enrollment-id'];
-    // Check to see if we've already enrolled the user.
-    const userExists = await wallet.exists(enrollmentID);
-    console.log('User Exists ' + userExists);
-    if (!userExists) {
-      return res.status(401).send({
-        message: `An identity for the user ${enrollmentID} does not exist in the wallet`
-      });
-    }
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
-}
-async function setupGateway (user) {
-  try {
-    const ccp = await utils.getCCP();
-    const gateway = new Gateway();
-    const connectionOptions = {
-      identity: user,
-      wallet: wallet
-    };
-    // Create a new gateway for connecting to the peer node
-    await gateway.connect(ccp, connectionOptions);
-    return gateway;
-  } catch (error) {
-    throw error;
-  }
-}
-
-
-
-
-async function getContract (gateway) {
-  try {
-   let network = await gateway.getNetwork('mychannel');
-   
-   // Adding Block Listener to listen to new Blocks
-   
-   const blockListener = await network.addBlockListener('my-block-listener', (err, block) => {
-    if (err) {
-        console.error(err);
-        return;
-    }
-    console.log(`Block Added-----------------: ${JSON.stringify(block)}`);
-});
-
-    // Get the contract from the network.
-    console.log("get Contract called")
-    return await network.getContract('vehicle-manufacture');
-  
-  } catch (err) {
-    throw new Error('Error connecting to channel . ERROR:' + err.message);
-  }
-}
 /**
  *  Exercise 7 > part 3
  * This function gets vehicles with a specific ID

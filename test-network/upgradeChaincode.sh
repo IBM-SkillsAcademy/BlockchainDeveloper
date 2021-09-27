@@ -6,4 +6,4 @@ if [ "$#" -ne 2 ]; then
     exit 1 
 fi
 
-./network.sh deployCC -ccn sampleApp -ccp ~/BlockchainDeveloper/SampleApplication/contract -ccl typescript -ccv $1 -ccs $2
+./network.sh deployCC -ccn vehicle-network -ccp ~/BlockchainDeveloper/SampleApplication/contract -ccl typescript -ccv $1 -ccs $2
