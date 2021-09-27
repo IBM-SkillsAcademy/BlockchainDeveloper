@@ -55,6 +55,10 @@ peer chaincode query -C mychannel -n vehicle-manufacture -c '{"args":["getOrders
 peer chaincode query -C mychannel -n vehicle-manufacture -c '{"args":["getHistoryForOrder", "Order1"]}'
 peer chaincode query -C mychannel -n vehicle-manufacture -c '{"args":["getOrdersByRange", "Order11","Order15"]}'
 
+{
+  "orderStatus": "ISSUED"
+}
+
 http://localhost:5984/_utils/ 
 
 
