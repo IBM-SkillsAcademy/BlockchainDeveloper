@@ -64,7 +64,7 @@ export class StateList<T extends State> {
         if (data.length === 0) {
             throw new Error(`Cannot get state. No state exists for key ${key} ${this.name}`);
         }
-        const state = State.deserialize(data, this.supportedClasses) as T;
+        const state = State.deserialize(Buffer.from(data), this.supportedClasses) as T;
 
         return state;
     }
@@ -126,7 +126,7 @@ export class StateList<T extends State> {
         const states: T[] = [];
 
         while (value) {
-            const state = State.deserialize((value.getValue() as any).toBuffer(), this.supportedClasses) as T;
+            const state = State.deserialize(Buffer.from(value.value as any), this.supportedClasses) as T;
             logger.info(JSON.stringify(state));
             states.push(state);
             const next = await iterator.next();
@@ -165,7 +165,7 @@ export class StateList<T extends State> {
         the historic value and associated transaction ID and time stamp are returned.
         The time stamp is the time stamp provided by the client in the proposal header.
          This method requires peer configuration core.ledger.history.enableHistoryDatabase to be true.*/
-       // const keyHistory = await this.ctx.stub.getHistoryForKey(ledgerKey);
+        const keyHistory = await this.ctx.stub.getHistoryForKey(ledgerKey);
        // array of IHistoricState to hold query result
         const history: Array<IHistoricState<T>> = [];
 
@@ -173,16 +173,16 @@ export class StateList<T extends State> {
 
         while (value) {
            // deserialize the state which convert object into one of a set of supported JSON classes
-            const state = State.deserialize((value.getValue() as any).toBuffer(), this.supportedClasses);
+            const state = State.deserialize(Buffer.from(value.value as any), this.supportedClasses);
 
             const historicState: IHistoricState<T> = new IHistoricState(
-                (value.getTimestamp().getSeconds() as any).toInt(), value.getTxId(), state as T,
+                (value.timestamp.seconds as any).toInt(), value.txId, state as T,
             );
 
-            // history.push(historicState);
+             history.push(historicState);
 
-           // const next = await keyHistory.next();
-           // value = next.value;
+            const next = await keyHistory.next();
+            value = next.value;
         }
 
         return history;
@@ -205,7 +205,7 @@ export class StateList<T extends State> {
     // If the number of keys between startKey and endKey is greater than totalQueryLimit,
     // which is defined in the peer's configuration file core.yaml,
     // this iterator cannot be used to fetch all keys (results are limited by the totalQueryLimit).
-    const result = await this.ctx.stub.getStateByRange(ledgerStartKey, );
+    const result = await this.ctx.stub.getStateByRange(ledgerStartKey, ledgerEndKey );
 
     // The iterator can be used to iterate over all keys between the startKey (inclusive) and endKey (exclusive).
     let value = (await result.next()).value;
@@ -214,13 +214,13 @@ export class StateList<T extends State> {
     // while the value has a defined value (exits and not null)
     while (value) {
         // deserialize the state which converts the object into one of a set of supported JSON classes
-        const state = State.deserialize((value.getValue() as any).toBuffer(), this.supportedClasses) as T;
+        const state = State.deserialize(Buffer.from(value.value as any), this.supportedClasses) as T;
         states.push(state);
         const next = await result.next();
         value = next.value;
     }
     // Call close() on the returned StateQueryIterator object when done
-    // result.close();
+     result.close();
 
     return states;
 
@@ -240,9 +240,9 @@ export class StateList<T extends State> {
     getQueryResultWithPagination, which performs a "rich" query against a state database. It is only supported for state databases that support rich query, for example,
     CouchDB. The query string is in the native syntax of the underlying state database.
    */
-    const result = await this.ctx.stub.getQueryResultWithPagination();
-    // Create object of custom type QueryPaginationResponse (which exists under folder util)
-   // const queryPaginatedRes: QueryPaginationResponse<T> = new QueryPaginationResponse(result.metadata.fetched_records_count, result.metadata);
+  const result = await this.ctx.stub.getQueryResultWithPagination(queryString, pageSize, bookmark);
+   // Create object of custom type QueryPaginationResponse (which exists under folder util)
+    const queryPaginatedRes: QueryPaginationResponse<T> = new QueryPaginationResponse(result.metadata.fetchedRecordsCount, result.metadata.bookmark);
     // Fetch the first item from iterator
     let value = (await result.iterator.next()).value;
     // Create array of states to hold query result
@@ -250,7 +250,7 @@ export class StateList<T extends State> {
     // While the value has a defined value (exits and not null)
     while (value) {
         // Deserialize the state, which converts the object into one of a set of supported JSON classes
-        const state = State.deserialize((value.getValue() as any).toBuffer(), this.supportedClasses) as T;
+        const state = State.deserialize(Buffer.from(value.value as any), this.supportedClasses) as T;
         logger.info(JSON.stringify(state));
         // Push the state to array as a new entry
         states.push(state);
@@ -273,7 +273,7 @@ export class StateList<T extends State> {
         /*Queries the state in the ledger based on a given partial composite key.
         This function returns an iterator, which can be used to iterate over all composite keys
         whose prefix matches the given partial composite key */
-         const data = await this.ctx.stub.getStateByPartialCompositeKey(, []);
+         const data = await this.ctx.stub.getStateByPartialCompositeKey(this.name, []);
          let counter = 0;
 
          while (true) {

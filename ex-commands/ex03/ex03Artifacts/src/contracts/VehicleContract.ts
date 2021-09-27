@@ -580,10 +580,10 @@ export class VehicleContract extends Contract {
 
                 try {
                     // Assign current record value to value of QueryResponse object
-                    jsonRes.record = JSON.parse(res.value.value.toString('utf8'));
+                    jsonRes.record = JSON.parse(res.value.value.toString());
                 } catch (err) {
                     logger.info(err);
-                    jsonRes.record = res.value.value.toString('utf8');
+                    jsonRes.record = res.value.value.toString();
                 }
                  // Push current object to array of result
                 allResults.push(jsonRes);
