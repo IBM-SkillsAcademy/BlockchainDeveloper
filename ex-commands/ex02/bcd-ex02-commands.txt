@@ -63,7 +63,7 @@ await ctx.getVehicleList().updateVehicle(vehicle);
 =======
 Part 3
 =======
-
+npm run build
 
 =======
 Part 4
