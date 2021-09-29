@@ -179,10 +179,10 @@ export class StateList<T extends State> {
                 (value.timestamp.seconds as any).toInt(), value.txId, state as T,
             );
 
-             history.push(historicState);
+            //  history.push(historicState);
 
-            const next = await keyHistory.next();
-            value = next.value;
+            // const next = await keyHistory.next();
+            // value = next.value;
         }
 
         return history;
