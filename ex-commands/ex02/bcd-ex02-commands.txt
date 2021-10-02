@@ -26,10 +26,13 @@ my-1org-env
 
 ["001","myFirstValue"]
 
+
+
 {
   "myAssetId": "001"
 }
 
+["001"]
 
 =======
 Part 2
