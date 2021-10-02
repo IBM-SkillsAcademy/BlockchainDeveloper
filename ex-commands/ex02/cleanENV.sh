@@ -1,4 +1,7 @@
 #!/bin/bash
+
+rm -R /home/blockchain/my-first-chaincode
+
 docker rm -f $(docker ps -aq) 
 docker volume rm -f $(docker volume ls -q)
 count=`cat /etc/resolv.conf | sed -n "/options/p" | wc -l`
