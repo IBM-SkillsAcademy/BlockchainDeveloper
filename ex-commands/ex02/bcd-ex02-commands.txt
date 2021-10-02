@@ -16,6 +16,8 @@ ls
 nautilus .
 
 
+my-1org-env
+
 
 {
  “myAssetId”:”001”,
