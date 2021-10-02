@@ -100,6 +100,9 @@ return await ctx.getPolicyList().getAll();
 =======
 Part 6
 =======
+
+npm run build
+
 ["policy1","order1:Fit","insr1","hldr1","THIRD_PART","12122020","31122020"]
 
 
