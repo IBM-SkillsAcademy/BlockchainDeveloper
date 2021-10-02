@@ -20,14 +20,14 @@ my-1org-env
 
 
 {
- “myAssetId”:”001”,
- “value”:”myFirstValue”
+  "myAssetId": "001",
+  "value": "myFirstValue"
 }
 
+["001","myFirstValue"]
 
-
-{ 
- “myAssetId”:”001” 
+{
+  "myAssetId": "001"
 }
 
 
