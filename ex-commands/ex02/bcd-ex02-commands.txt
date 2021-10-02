@@ -16,18 +16,23 @@ ls
 nautilus .
 
 
+my-1org-env
+
 
 {
- “myAssetId”:”001”,
- “value”:”myFirstValue”
+  "myAssetId": "001",
+  "value": "myFirstValue"
 }
 
+["001","myFirstValue"]
 
 
-{ 
- “myAssetId”:”001” 
+
+{
+  "myAssetId": "001"
 }
 
+["001"]
 
 =======
 Part 2
@@ -95,6 +100,9 @@ return await ctx.getPolicyList().getAll();
 =======
 Part 6
 =======
+
+npm run build
+
 ["policy1","order1:Fit","insr1","hldr1","THIRD_PART","12122020","31122020"]
 
 
