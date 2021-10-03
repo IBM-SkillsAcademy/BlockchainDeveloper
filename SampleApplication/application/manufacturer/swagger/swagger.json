@@ -461,12 +461,12 @@
       }
     
   },
-  "/api/v1/vehicles/orders/range": {
+  "/api/v1/vehicles/policies/range": {
       "get": {
         "tags": [
-          "Order"
+          "Policy"
         ],
-        "summary": "Get all Orders by range",
+        "summary": "Get all policies by range",
         "parameters": [{
           "in": "header",
           "name": "enrollment-id",
@@ -480,7 +480,7 @@
           "name": "startKey",
           "schema": {
             "type": "string",
-            "example": "Order11"
+            "example": "Policy11"
           }
            }
            , {
@@ -488,7 +488,7 @@
           "name": "endKey",
           "schema": {
             "type": "string",
-            "example": "Order15"
+            "example": "Policy15"
           }
         }],
         "responses": {
