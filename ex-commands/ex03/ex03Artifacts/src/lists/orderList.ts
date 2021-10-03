@@ -40,6 +40,6 @@ export class OrderList <T extends Order> extends StateList<T> {
      */
     public async queryStatusPaginated(queryString: string, pageSize: number , bookmark: string ) {
         // Call queryWithPagination, which is defined in stateList.ts
-      // return this.queryWithPagination(queryString, pageSize, bookmark);
+      return this.queryWithPagination(queryString, pageSize, bookmark);
     }
 }

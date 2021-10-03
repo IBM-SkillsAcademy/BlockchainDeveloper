@@ -270,7 +270,7 @@ export class StateList<T extends State> {
    */
   const result = await this.ctx.stub.getQueryResultWithPagination();
    // Create object of custom type QueryPaginationResponse (which exists under folder util)
-    const queryPaginatedRes: QueryPaginationResponse<T> = new QueryPaginationResponse(result.metadata.fetchedRecordsCount, result.metadata);
+    // const queryPaginatedRes: QueryPaginationResponse<T> = new QueryPaginationResponse(result.metadata.fetchedRecordsCount, result.metadata);
     // Fetch the first item from iterator
     let value = (await result.iterator.next()).value;
     // Create array of states to hold query result

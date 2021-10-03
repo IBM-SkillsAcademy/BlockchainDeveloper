@@ -24,6 +24,8 @@ Part 5
 =======
 
  const result = await this.ctx.stub.getQueryResultWithPagination(queryString, pageSize, bookmark);	
+ const queryPaginatedRes: QueryPaginationResponse<T> = new QueryPaginationResponse(result.metadata.fetchedRecordsCount, result.metadata.bookmark);
+ 
 =======
 Part 6
 =======
@@ -52,6 +54,11 @@ Part 7
    "orderId": "Order1"
 }
 
+{
+   "startKey": "Policy11",
+   "endKey": "Policy15"
+}
+
 docker exec -ti cli bash 
 
 export CORE_PEER_TLS_ENABLED=true
@@ -60,10 +67,10 @@ export CORE_PEER_MSPCONFIGPATH=${PWD}/organizations/peerOrganizations/org1.examp
 export CORE_PEER_TLS_ROOTCERT_FILE=${PWD}/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
 export CORE_PEER_ADDRESS=peer0.org1.example.com:7051
 
-peer chaincode query -C mychannel -n vehicle-manufacture -c '{"args":["getOrdersByStatus", "ISSUED"]}'
-peer chaincode query -C mychannel -n vehicle-manufacture -c '{"args":["getOrdersByStatusPaginated", "ISSUED","5",""]}' 
-peer chaincode query -C mychannel -n vehicle-manufacture -c '{"args":["getHistoryForOrder", "Order1"]}'
-peer chaincode query -C mychannel -n vehicle-manufacture -c '{"args":["getOrdersByRange", "Order11","Order15"]}'
+peer chaincode query -C mychannel -n vehicle-network -c '{"args":["getOrdersByStatus", "ISSUED"]}'
+peer chaincode query -C mychannel -n vehicle-network -c '{"args":["getOrdersByStatusPaginated", "ISSUED","5",""]}' 
+peer chaincode query -C mychannel -n vehicle-network -c '{"args":["getHistoryForOrder", "Order11"]}'
+peer chaincode query -C mychannel -n vehicle-network -c '{"args":["getPoliciesByRange", "Policy11","Policy15"]}'
 
 http://localhost:5984/_utils/ 
 
