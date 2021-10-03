@@ -33,7 +33,7 @@ export class VehicleContract extends Contract {
         const vehicles: Vehicle[] = new Array<Vehicle>();
         vehicles[0] = Vehicle.createInstance('CD58911', '4567788', 'Tomoko', 'Prius', 'Toyota', 'blue');
         vehicles[1] = Vehicle.createInstance('CD57271', '1230819', 'Jin soon', 'Tucson', 'Hyundai', 'green');
-        vehicles[2] = Vehicle.createInstance('CD57291', '3456777', 'Max', 'Passat', 'Volklswagen', 'red');
+        vehicles[2] = Vehicle.createInstance('CD57291', '3456777', 'Max', 'Passat', 'Volkswagen', 'red');
 
         for (let i = 0; i < vehicles.length; i++) {
             vehicles[i].docType = 'vehicle';
