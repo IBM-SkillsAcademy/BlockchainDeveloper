@@ -3,7 +3,7 @@ import { IState } from '../ledger-api/state';
 import { StateList } from '../ledger-api/statelist';
 import { VehicleContext } from '../utils/vehicleContext';
 
-export class VehicleList<T extends Vehicle> extends StateList<T> {
+export class VehicleList <T extends Vehicle> extends StateList<T> {
 
     constructor(ctx: VehicleContext, validTypes: Array<IState<T>>) {
 

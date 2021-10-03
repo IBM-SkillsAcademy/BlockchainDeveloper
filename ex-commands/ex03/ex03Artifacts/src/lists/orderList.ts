@@ -33,15 +33,6 @@ export class OrderList <T extends Order> extends StateList<T> {
        // return this.getHistory(orderID);
     }
     /**
-     * *** Exercise 03 > Part 4 ***
-     * @param  {string} startkey
-     * @param  {string} endkey
-     */
-    public async getOrdersByRange(startkey: string, endkey: string) {
-        // Call getAssetsByRange from stateList.ts
-       // return this.getAssetsByRange(startkey, endkey);
-    }
-    /**
      * *** Exercise 03 > Part 5 ***
      * @param  {string} queryString
      * @param  {number} pageSize

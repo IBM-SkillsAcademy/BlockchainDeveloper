@@ -411,7 +411,7 @@ export class VehicleContract extends Contract {
     @Transaction(false)
     @Returns('Order[]')
     public async getPoliciesByRange(ctx: VehicleContext, startKey: string, endKey: string) {
-        // Use the object that is retuned by getOrderList and call getOrdersByRange.
+        // Use the object that is retuned by getPolicyList and call getPoliciesByRange.
         return await ctx.getPolicyList().getPoliciesByRange(startKey, endKey);
     }
     /**
