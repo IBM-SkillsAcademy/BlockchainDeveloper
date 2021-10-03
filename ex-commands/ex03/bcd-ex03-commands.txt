@@ -70,7 +70,7 @@ export CORE_PEER_ADDRESS=peer0.org1.example.com:7051
 peer chaincode query -C mychannel -n vehicle-network -c '{"args":["getOrdersByStatus", "ISSUED"]}'
 peer chaincode query -C mychannel -n vehicle-network -c '{"args":["getOrdersByStatusPaginated", "ISSUED","5",""]}' 
 peer chaincode query -C mychannel -n vehicle-network -c '{"args":["getHistoryForOrder", "Order11"]}'
-peer chaincode query -C mychannel -n vehicle-network -c '{"args":["getPoliciesByRange", "Policy11","Policy15"]}'
+peer chaincode query -C mychannel -n vehicle-network -c '{"args":["getPoliciesByRange", "Policy11","Policy16"]}'
 
 http://localhost:5984/_utils/ 
 

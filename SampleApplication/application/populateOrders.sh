@@ -72,12 +72,3 @@ curl -X POST "http://localhost:6001/api/v1/vehicles/policies/request" -H "accept
 curl -X POST "http://localhost:6001/api/v1/vehicles/policies/request" -H "accept: */*" -H "enrollment-id: Manu-User" -H "Content-Type: application/json" -d "{\"id\":\"Policy13\",\"vehicleNumber\":\"Order13:Passat\",\"insurerId\":\"insurer1\",\"holderId\":\"holder1\",\"policyType\":\"THIRD_PARTY\",\"startDate\":\"12122021\",\"endDate\":\"31122021\"}"
 curl -X POST "http://localhost:6001/api/v1/vehicles/policies/request" -H "accept: */*" -H "enrollment-id: Manu-User" -H "Content-Type: application/json" -d "{\"id\":\"Policy14\",\"vehicleNumber\":\"Order14:Accord\",\"insurerId\":\"insurer1\",\"holderId\":\"holder1\",\"policyType\":\"THIRD_PARTY\",\"startDate\":\"12122021\",\"endDate\":\"31122021\"}"
 curl -X POST "http://localhost:6001/api/v1/vehicles/policies/request" -H "accept: */*" -H "enrollment-id: Manu-User" -H "Content-Type: application/json" -d "{\"id\":\"Policy15\",\"vehicleNumber\":\"Order15:Tucson\",\"insurerId\":\"insurer1\",\"holderId\":\"holder1\",\"policyType\":\"THIRD_PARTY\",\"startDate\":\"12122021\",\"endDate\":\"31122021\"}"
-
-
-
-
-
-
-
-
-
