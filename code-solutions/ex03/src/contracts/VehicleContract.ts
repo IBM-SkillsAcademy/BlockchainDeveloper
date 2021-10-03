@@ -410,9 +410,9 @@ export class VehicleContract extends Contract {
      */
     @Transaction(false)
     @Returns('Order[]')
-    public async getOrdersByRange(ctx: VehicleContext, startKey: string, endKey: string) {
+    public async getPoliciesByRange(ctx: VehicleContext, startKey: string, endKey: string) {
         // Use the object that is retuned by getOrderList and call getOrdersByRange.
-        return await ctx.getOrderList().getOrdersByRange(startKey, endKey);
+        return await ctx.getPolicyList().getPoliciesByRange(startKey, endKey);
     }
     /**
      * *** Exercise 03 > Part 5 ***
@@ -460,7 +460,7 @@ export class VehicleContract extends Contract {
         // Create new policy asset.
         const policy = Policy.createInstance(id, vehicleNumber, insurerId, holderId, policyType, startDate, endDate);
         // Add policy asset to the ledger.
-        await ctx.getPolicyList().add(policy);
+        await ctx.getPolicyList().addSimpleKey(policy);
 
         /*
         Fire an event after the transaction is successfully committed to the ledger,
@@ -480,7 +480,7 @@ export class VehicleContract extends Contract {
     @Returns('Policy')
     public async getPolicy(ctx: VehicleContext, policyId: string) {
         // This transaction will query for a specific policy according to the supplied policy ID parameter.
-        return await ctx.getPolicyList().get(policyId);
+        return await ctx.getPolicyList().getSimpleKey(policyId);
     }
 
     /**
