@@ -33,15 +33,6 @@ export class OrderList <T extends Order> extends StateList<T> {
        // return this.getHistory(orderID);
     }
     /**
-     * *** Exercise 03 > Part 4 ***
-     * @param  {string} startkey
-     * @param  {string} endkey
-     */
-    public async getOrdersByRange(startkey: string, endkey: string) {
-        // Call getAssetsByRange from stateList.ts
-       // return this.getAssetsByRange(startkey, endkey);
-    }
-    /**
      * *** Exercise 03 > Part 5 ***
      * @param  {string} queryString
      * @param  {number} pageSize
@@ -49,6 +40,6 @@ export class OrderList <T extends Order> extends StateList<T> {
      */
     public async queryStatusPaginated(queryString: string, pageSize: number , bookmark: string ) {
         // Call queryWithPagination, which is defined in stateList.ts
-      // return this.queryWithPagination(queryString, pageSize, bookmark);
+      return this.queryWithPagination(queryString, pageSize, bookmark);
     }
 }

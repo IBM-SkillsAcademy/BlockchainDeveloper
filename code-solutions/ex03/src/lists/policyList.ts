@@ -1,5 +1,5 @@
 /**
- * *** Exercise 02 > Part 4 > Step 5 ***
+ * *** Exercise 02 > Part 5 ***
  */
 // Import policy asset class definition.
 import { Policy } from '../assets/policy';
@@ -29,11 +29,21 @@ export class PolicyList <T extends Policy> extends StateList<T> {
 
     // Utilitity functions to add policy assets to ledger
     public async addPolicy(policy: T) {
-        return this.add(policy);
+        return this.addSimpleKey(policy);
     }
 
     // Utility functions to retrieve policy assets from ledger
     public async getPolicy(policyKey) {
-        return this.get(policyKey);
+        return this.getSimpleKey(policyKey);
+    }
+
+    /**
+     * *** Exercise 03 > Part 4 ***
+     * @param  {string} startkey
+     * @param  {string} endkey
+     */
+     public async getPoliciesByRange(startkey: string, endkey: string) {
+        // Call getAssetsByRange from stateList.ts
+        return this.getAssetsByRange(startkey, endkey);
     }
 }

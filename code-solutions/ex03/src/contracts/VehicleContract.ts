@@ -7,7 +7,7 @@ import { VehicleContext } from '../utils/vehicleContext';
 import { VehicleDetails } from '../utils/vehicleDetails';
 import { newLogger } from 'fabric-shim';
 /**
- * *** Exercise 02 > Part 4 > Step 7 ***
+ * *** Exercise 02 > Part 5 ***
  *
  */
 // Import definitions from the policy asset
@@ -34,7 +34,7 @@ export class VehicleContract extends Contract {
         const vehicles: Vehicle[] = new Array<Vehicle>();
         vehicles[0] = Vehicle.createInstance('CD58911', '4567788', 'Tomoko', 'Prius', 'Toyota', 'blue');
         vehicles[1] = Vehicle.createInstance('CD57271', '1230819', 'Jin soon', 'Tucson', 'Hyundai', 'green');
-        vehicles[2] = Vehicle.createInstance('CD57291', '3456777', 'Max', 'Passat', 'Volklswagen', 'red');
+        vehicles[2] = Vehicle.createInstance('CD57291', '3456777', 'Max', 'Passat', 'Volkswagen', 'red');
 
         for (let i = 0; i < vehicles.length; i++) {
             vehicles[i].docType = 'vehicle';
@@ -46,7 +46,7 @@ export class VehicleContract extends Contract {
 
     // ############################################################### Vehicle Functions #################################################
     /**
-     * *** Exercise 02 > Part 1 > Step 4 ***
+     * *** Exercise 02 > Part 2 ***
      *
      * @param { ctx } the smart contract transaction context.
      * @param { orderId } vehicle order id.
@@ -90,7 +90,7 @@ export class VehicleContract extends Contract {
     }
 
     /**
-     * *** Exercise 02 > Part 1 > Step 5 ***
+     * *** Exercise 02 > Part 2 ***
      *
      * @param { ctx } the smart contract transaction context
      * @param { vehicleNumber } vehicle number to query
@@ -113,7 +113,7 @@ export class VehicleContract extends Contract {
     }
 
     /**
-     * *** Exercise 02 > Part 1 > Step 6 ***
+     * *** Exercise 02 > Part 2 ***
      *
      * @param { ctx } the smart contract transaction context
      */
@@ -130,7 +130,7 @@ export class VehicleContract extends Contract {
     }
 
     /**
-     * *** Exercise 02 > Part 1 > Step 7 ***
+     * *** Exercise 02 > Part 2 ***
      *
      * @param { ctx } the smart contract transaction context
      * @param { vehicleNumber } vehicle number to delete
@@ -153,7 +153,7 @@ export class VehicleContract extends Contract {
     }
 
     /**
-     * *** Exercise 02 > Part 1 > Step 8 ***
+     * *** Exercise 02 > Part 2 ***
      *
      * @param { ctx } the smart contract transaction context
      * @param { vehicleNumber } vehicle number to request VIN
@@ -193,7 +193,7 @@ export class VehicleContract extends Contract {
     }
 
     /**
-     * *** Exercise 02 > Part 1 > Step 9 ***
+     * *** Exercise 02 > Part 2 ***
      *
      * @param { ctx } the smart contract transaction context
      * @param { vehicleNumber } vehicle number to issue VIN
@@ -236,7 +236,7 @@ export class VehicleContract extends Contract {
     }
 
     /**
-     * *** Exercise 02 > Part 1 > Step 10 ***
+     * *** Exercise 02 > Part 2 ***
      *
      * @param { ctx } the smart contract transaction context
      * @param { vehicleNumber } vehicle number
@@ -284,7 +284,7 @@ export class VehicleContract extends Contract {
     @Returns('Order')
     public async placeOrder(ctx: VehicleContext, orderId: string, owner: string,
         make: string, model: string, color: string,
-    ): Promise <Order> {
+    ): Promise<Order> {
         logger.info('============= START : place order ===========');
 
         const vehicleDetails: VehicleDetails = {
@@ -410,9 +410,9 @@ export class VehicleContract extends Contract {
      */
     @Transaction(false)
     @Returns('Order[]')
-    public async getOrdersByRange(ctx: VehicleContext, startKey: string, endKey: string) {
-        // Use the object that is retuned by getOrderList and call getOrdersByRange.
-        return await ctx.getOrderList().getOrdersByRange(startKey, endKey);
+    public async getPoliciesByRange(ctx: VehicleContext, startKey: string, endKey: string) {
+        // Use the object that is retuned by getPolicyList and call getPoliciesByRange.
+        return await ctx.getPolicyList().getPoliciesByRange(startKey, endKey);
     }
     /**
      * *** Exercise 03 > Part 5 ***
@@ -440,7 +440,7 @@ export class VehicleContract extends Contract {
     }
     // ############################################################### Policy Functions #################################################
     /**
-     * *** Exercise 02 > Part 4 > Step 7 ***
+     * *** Exercise 02 > Part 4 ***
      *
      * @param { ctx } the smart contract transaction context
      */
@@ -460,7 +460,7 @@ export class VehicleContract extends Contract {
         // Create new policy asset.
         const policy = Policy.createInstance(id, vehicleNumber, insurerId, holderId, policyType, startDate, endDate);
         // Add policy asset to the ledger.
-        await ctx.getPolicyList().add(policy);
+        await ctx.getPolicyList().addSimpleKey(policy);
 
         /*
         Fire an event after the transaction is successfully committed to the ledger,
@@ -471,7 +471,7 @@ export class VehicleContract extends Contract {
     }
 
     /**
-     * *** Exercise 02 > Part 4 > Step 9 ***
+     * *** Exercise 02 > Part 4 ***
      *
      * @param { ctx } the smart contract transaction context
      * @param { policyId } the insurance policy id
@@ -480,11 +480,11 @@ export class VehicleContract extends Contract {
     @Returns('Policy')
     public async getPolicy(ctx: VehicleContext, policyId: string) {
         // This transaction will query for a specific policy according to the supplied policy ID parameter.
-        return await ctx.getPolicyList().get(policyId);
+        return await ctx.getPolicyList().getSimpleKey(policyId);
     }
 
     /**
-     * *** Exercise 02 > Part 4 > Step 8 ***
+     * *** Exercise 02 > Part 4 ***
      *
      * @param { ctx } the smart contract transaction context
      * @param { id } the insurance policy ID
@@ -514,7 +514,7 @@ export class VehicleContract extends Contract {
     }
 
     /**
-     * *** Exercise 02 > Part 4 > Step 10 ***
+     * *** Exercise 02 > Part 4 ***
      *
      * @param { ctx } the smart contract transaction context
      */

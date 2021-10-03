@@ -52,6 +52,34 @@ export class StateList<T extends State> {
         await this.ctx.stub.putState(key, data);
 
     }
+
+    public async addSimpleKey(state: T) {
+        const key = `${this.name}:${state.getSplitKey()[0]}`;
+
+        const data = state.serialize();
+
+        const buff = await this.ctx.stub.getState(key);
+
+        if (buff.length > 0) {
+            throw new Error('Cannot create new state. State already exists for key ' + key);
+        }
+
+        await this.ctx.stub.putState(key, data);
+
+    }
+
+    public async getSimpleKey(key: string): Promise<T> {
+        const ledgerKey = `${this.name}:${key}`
+        const data = await this.ctx.stub.getState(ledgerKey);
+
+        if (data.length === 0) {
+            throw new Error(`Cannot get state. No state exists for key ${key} ${this.name}`);
+        }
+        const state = State.deserialize(Buffer.from(data), this.supportedClasses) as T;
+
+        return state;
+    }
+
         /**
          * Get a state from the list using supplied keys. Form composite
          * keys to retrieve state from world state. State data is deserialized
@@ -197,9 +225,9 @@ export class StateList<T extends State> {
    */
   public async getAssetsByRange(startKey: string, endKey: string): Promise<T[]> {
 
-    const ledgerStartKey = this.ctx.stub.createCompositeKey(this.name, State.splitKey(startKey));
+    const ledgerStartKey = `${this.name}:${State.splitKey(startKey)[0]}`;
 
-    const ledgerEndKey = this.ctx.stub.createCompositeKey(this.name, State.splitKey(endKey));
+    const ledgerEndKey = `${this.name}:${State.splitKey(endKey)[0]}`;
 
     // Returns a range iterator (StateQueryIterator) over a set of keys in the ledger.
     // If the number of keys between startKey and endKey is greater than totalQueryLimit,
@@ -242,7 +270,7 @@ export class StateList<T extends State> {
    */
   const result = await this.ctx.stub.getQueryResultWithPagination();
    // Create object of custom type QueryPaginationResponse (which exists under folder util)
-    const queryPaginatedRes: QueryPaginationResponse<T> = new QueryPaginationResponse(result.metadata.fetchedRecordsCount, result.metadata);
+    // const queryPaginatedRes: QueryPaginationResponse<T> = new QueryPaginationResponse(result.metadata.fetchedRecordsCount, result.metadata);
     // Fetch the first item from iterator
     let value = (await result.iterator.next()).value;
     // Create array of states to hold query result
