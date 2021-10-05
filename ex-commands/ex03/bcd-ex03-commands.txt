@@ -70,7 +70,7 @@ export CORE_PEER_ADDRESS=peer0.org1.example.com:7051
 peer chaincode query -C mychannel -n vehicle-network -c '{"args":["getOrdersByStatus", "ISSUED"]}'
 peer chaincode query -C mychannel -n vehicle-network -c '{"args":["getOrdersByStatusPaginated", "ISSUED","5",""]}' 
 peer chaincode query -C mychannel -n vehicle-network -c '{"args":["getHistoryForOrder", "Order11"]}'
-peer chaincode query -C mychannel -n vehicle-network -c '{"args":["getPoliciesByRange", "Policy11","Policy16"]}'
+peer chaincode query -C mychannel -n vehicle-network -c '{"args":["getPoliciesByRange", "Policy11","Policy15"]}'
 
 http://localhost:5984/_utils/ 
 
@@ -87,4 +87,11 @@ http://localhost:5984/_utils/
 
 
  curl -X POST "http://localhost:5984/mychannel_vehicle-network/_find" -H  "accept: */*"  -H  "Content-Type: application/json" -d "{\"selector\":{\"orderStatus\":\"ISSUED\"},\"use_index\":[\"_design/orderStatusDoc\",\"orderStatusIndex\"],\"execution_stats\":true,\"limit\":2,\"skip\":0}"
+
+=======
+Part 7 
+=======
+
+cd ~/BlockchainDeveloper/ex-commands/ex03/
+./stopEx03.sh
 
