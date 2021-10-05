@@ -409,7 +409,7 @@ export class VehicleContract extends Contract {
      * @param  {string} endKey: End key as end point for queey.
      */
     @Transaction(false)
-    @Returns('Order[]')
+    @Returns('Policies[]')
     public async getPoliciesByRange(ctx: VehicleContext, startKey: string, endKey: string) {
         // Use the object that is retuned by getPolicyList and call getPoliciesByRange.
        // return await ctx.getPolicyList().getPoliciesByRange(startKey, endKey);
