@@ -1,6 +1,6 @@
 #!/bin/bash
 
-rm -R ~/my-first-chaincode
+[[ -d ~/my-first-chaincode ]] && rm -R ~/my-first-chaincode
 
 docker rm -f $(docker ps -aq) 
 docker volume rm -f $(docker volume ls -q)
