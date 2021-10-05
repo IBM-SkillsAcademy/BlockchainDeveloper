@@ -34,10 +34,12 @@ my-1org-env
 
 ["001"]
 
+
+~/BlockchainDeveloper/ex-commands/ex02/cleanENV.sh
+
 =======
 Part 2
 =======
-~/BlockchainDeveloper/ex-commands/ex02/cleanENV.sh
 
 cd ~/BlockchainDeveloper/SampleApplication/contract/
 npm install
