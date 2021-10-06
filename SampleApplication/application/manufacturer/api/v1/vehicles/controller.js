@@ -439,13 +439,13 @@ exports.getOrdersByStatusPaginated = async (req, res, next) => {
   }
 };
 
-exports.getOrdersByRange = async (req, res, next) => {
+exports.getPoliciesByRange = async (req, res, next) => {
   try {
     await checkAuthorization(req, res);
     const gateway = await setupGateway(req.headers['enrollment-id']);
     const contract = await getContract(gateway);
 
-    const result = await contract.evaluateTransaction('getOrdersByRange', req.query.startKey, req.query.endKey);
+    const result = await contract.evaluateTransaction('getPoliciesByRange', req.query.startKey, req.query.endKey);
 
     const rawResult = result.toString();
 
@@ -455,9 +455,9 @@ exports.getOrdersByRange = async (req, res, next) => {
     });
   } catch (err) {
     const msg = err.message;
-    const msgString = msg.slice(msg.indexOf('Errors:') + 8, msg.length);
-    const json = JSON.parse(msgString);
+    // const msgString = msg.slice(msg.indexOf('Errors:') + 8, msg.length);
+    // const json = JSON.parse(msgString);
     res.status(500);
-    res.send(json);
+    res.send(msg);
   }
 };

@@ -2,6 +2,7 @@
 Part 1
 =======
 ~/BlockchainDeveloper/ex-commands/ex02/cleanENV.sh
+
 mkdir ~/my-first-chaincode
 cd ~/my-first-chaincode
 code .
@@ -15,23 +16,30 @@ ls
 nautilus .
 
 
+my-1org-env
+
 
 {
- “myAssetId”:”001”,
- “value”:”myFirstValue”
+  "myAssetId": "001",
+  "value": "myFirstValue"
 }
 
+["001","myFirstValue"]
 
 
-{ 
- “myAssetId”:”001” 
+
+{
+  "myAssetId": "001"
 }
 
+["001"]
+
+
+~/BlockchainDeveloper/ex-commands/ex02/cleanENV.sh
 
 =======
 Part 2
 =======
-~/BlockchainDeveloper/ex-commands/ex02/cleanENV.sh
 
 cd ~/BlockchainDeveloper/SampleApplication/contract/
 npm install
@@ -63,7 +71,7 @@ await ctx.getVehicleList().updateVehicle(vehicle);
 =======
 Part 3
 =======
-
+npm run build
 
 =======
 Part 4
@@ -94,6 +102,9 @@ return await ctx.getPolicyList().getAll();
 =======
 Part 6
 =======
+
+npm run build
+
 ["policy1","order1:Fit","insr1","hldr1","THIRD_PART","12122020","31122020"]
 
 

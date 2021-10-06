@@ -14,7 +14,6 @@ router.get('/orders', controller.getOrder);
 router.get('/orders/status', controller.getOrder);
 router.get('/orders/status/paginated', controller.getOrdersByStatusPaginated);
 router.get('/orders/history', controller.getHistoryForOrder);
-router.get('/orders/range', controller.getOrdersByRange);
 
 router.post('/', controller.createVehicle);
 router.get('/', controller.getVehicle);
@@ -24,5 +23,6 @@ router.post('/prices', controller.updatePrice);
 router.post('/vin/request', controller.requestVIN);
 router.post('/policies/request', controller.requestPolicy);
 router.get('/policies', controller.getPolicy);
+router.get('/policies/range', controller.getPoliciesByRange);
 router.get('/history', controller.getHistoryForVehicle);
 module.exports = router;
