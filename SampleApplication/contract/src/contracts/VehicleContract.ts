@@ -526,11 +526,13 @@ export class VehicleContract extends Contract {
     }
 
     // ############################################################### Utility Functions #################################################
-
-    // 'unknownTransaction' will be called if the required transaction function requested does not exist
-    public async unknownTransaction(ctx: VehicleContext) {
-        throw new Error(`The transaction function ${ctx.stub.getFunctionAndParameters().fcn} doesn't exists, provide a valid transaction function `);
-    }
+    // Function to check whether the users have rights to perform the role based on their role
+    public async hasRole(ctx: VehicleContext, roleName: string[]) {
+        const clientId = ctx.clientIdentity;
+        for (let i = 0; i < roleName.length; i++) {
+            if (clientId.assertAttributeValue('role', roleName[i])) {
+                return true;
+            }
     // 'beforeTransaction' will be called before any of the transaction functions within  contract
     // Examples of what you may wish to code are Logging, Event Publishing or Permissions checks
     // If an error is thrown, the whole transaction will be rejected
