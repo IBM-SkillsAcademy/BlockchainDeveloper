@@ -7,14 +7,14 @@ docker rm -f $(docker ps -aq); docker volume rm -f $(docker volume ls -q)
 
 docker ps -a
 
-cd ~/BlockchainDeveloper2019/ex-commands/ex06/
+cd ~/BlockchainDeveloper/ex-commands/ex06/
 
 ./startEx06.sh
 
 =======
 Part 2
 =======
-code ~/BlockchainDeveloper2019
+code ~/BlockchainDeveloper
 
 [
     {
@@ -23,7 +23,11 @@ code ~/BlockchainDeveloper2019
         "requiredPeerCount": 1,
         "maxPeerCount": 3,
         "blockToLive": 3,
-        "memberOnlyRead": true
+        "memberOnlyRead": true,
+        "memberOnlyWrite": true,
+        "endorsementPolicy": {
+            "signaturePolicy": "OR('Org2MSP.member')"
+        }
     }
 ]
 
