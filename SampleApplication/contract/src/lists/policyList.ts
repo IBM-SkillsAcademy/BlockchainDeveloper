@@ -29,11 +29,11 @@ is an abstraction of all list of states that the asset can have.
 
     // Utilitity functions to add policy assets to ledger
     // public async addPolicy(policy: T) {
-        // return this.add(policy);
+        // return this.addSimpleKey(policy);
     // }
 
     // Utility functions to retrieve policy assets from ledger
     // public async getPolicy(policyKey) {
-        // return this.get(policyKey);
+        // return this.getSimpleKey(policyKey);
     // }
 // }
