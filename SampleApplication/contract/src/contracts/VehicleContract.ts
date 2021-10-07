@@ -7,7 +7,7 @@ import { VehicleContext } from '../utils/vehicleContext';
 import { VehicleDetails } from '../utils/vehicleDetails';
 import { newLogger } from 'fabric-shim';
 /**
- * *** Exercise 02 > Part 5 > Step7 ***
+ * *** Exercise 02 > Part 5 ***
  *
  */
 // Import definitions from the policy asset
@@ -45,7 +45,7 @@ export class VehicleContract extends Contract {
 
     // ############################################################### Vehicle Functions #################################################
     /**
-     * *** Exercise 02 > Part 2 > Step 4 ***
+     * *** Exercise 02 > Part 2 ***
      *
      * @param { ctx } the smart contract transaction context.
      * @param { orderId } vehicle order id.
@@ -89,7 +89,7 @@ export class VehicleContract extends Contract {
     }
 
     /**
-     * *** Exercise 02 > Part 2 > Step 5 ***
+     * *** Exercise 02 > Part 2 ***
      *
      * @param { ctx } the smart contract transaction context
      * @param { vehicleNumber } vehicle number to query
@@ -112,7 +112,7 @@ export class VehicleContract extends Contract {
     }
 
     /**
-     * *** Exercise 02 > Part 2 > Step 6 ***
+     * *** Exercise 02 > Part 2 ***
      *
      * @param { ctx } the smart contract transaction context
      */
@@ -129,7 +129,7 @@ export class VehicleContract extends Contract {
     }
 
     /**
-     * *** Exercise 02 > Part 2 > Step 7 ***
+     * *** Exercise 02 > Part 2 ***
      *
      * @param { ctx } the smart contract transaction context
      * @param { vehicleNumber } vehicle number to delete
@@ -192,7 +192,7 @@ export class VehicleContract extends Contract {
     }
 
     /**
-     * *** Exercise 02 > Part 2 > Step 9 ***
+     * *** Exercise 02 > Part 2 ***
      *
      * @param { ctx } the smart contract transaction context
      * @param { vehicleNumber } vehicle number to issue VIN
@@ -235,7 +235,7 @@ export class VehicleContract extends Contract {
     }
 
     /**
-     * *** Exercise 02 > Part 2 > Step 10 ***
+     * *** Exercise 02 > Part 2 ***
      *
      * @param { ctx } the smart contract transaction context
      * @param { vehicleNumber } vehicle number
@@ -352,7 +352,7 @@ export class VehicleContract extends Contract {
     }
     // ############################################################### Policy Functions #################################################
     /**
-     * *** Exercise 02 > Part 5 > Step 8 ***
+     * *** Exercise 02 > Part 5 ***
      *
      * @param { ctx } the smart contract transaction context
      */
@@ -383,20 +383,7 @@ export class VehicleContract extends Contract {
     // }
 
     /**
-     * *** Exercise 02 > Part 5 > Step 10 ***
-     *
-     * @param { ctx } the smart contract transaction context
-     * @param { policyId } the insurance policy id
-     */
-    // @Transaction(false)
-    // @Returns('Policy')
-    // public async getPolicy(ctx: VehicleContext, policyId: string) {
-        // This transaction will query for a specific policy according to the supplied policy ID parameter.
-        // return await ;
-    // }
-
-    /**
-     * *** Exercise 02 > Part 5 > Step 9 ***
+     * *** Exercise 02 > Part 5 ***
      *
      * @param { ctx } the smart contract transaction context
      * @param { id } the insurance policy ID
@@ -425,8 +412,21 @@ export class VehicleContract extends Contract {
         // ctx.stub.setEvent('POLICY_ISSUED', policy.toBuffer());
     // }
 
+        /**
+     * *** Exercise 02 > Part 5 ***
+     *
+     * @param { ctx } the smart contract transaction context
+     * @param { policyId } the insurance policy id
+     */
+    // @Transaction(false)
+    // @Returns('Policy')
+    // public async getPolicy(ctx: VehicleContext, policyId: string) {
+        // This transaction will query for a specific policy according to the supplied policy ID parameter.
+        // return await ;
+    // }
+    
     /**
-     * *** Exercise 02 > Part 5 > Step 11 ***
+     * *** Exercise 02 > Part 5 ***
      *
      * @param { ctx } the smart contract transaction context
      */

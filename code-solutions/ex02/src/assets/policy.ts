@@ -1,5 +1,5 @@
 /**
- * *** Exercise 02 > Part 5 > Step 2***
+ * *** Exercise 02 > Part 5 ***
  */
 
 /*
@@ -29,7 +29,7 @@ export enum PolicyStatus {
 }
 
 /**
- * *** Exercise 02 > Part 5 > Step 3 ***
+ * *** Exercise 02 > Part 5  ***
  */
 /*
 The "@ContractObject" modifier flags the policy class as an "object",
@@ -39,25 +39,25 @@ the set of business object functions and properties, such as the
 generation of a composite key, the serialization or deserialization of
 object into buffers, etc.
 */
-@ContractObject()
-export class Policy extends State {
-    /**
-     *
-     * @param { id } policy ID
-     * @param { vehicleNumber } vehicle number
-     * @param { insurerId } insurer ID
-     * @param { holderId } insurance holder ID
-     * @param { policyType } insurance policy enum type
-     * @param { startDate } insurance policy start date
-     * @param { endDate } insurance policy end date
-     */
+ @ContractObject()
+ export class Policy extends State {
+/**
+ *
+ * @param { id } policy ID
+ * @param { vehicleNumber } vehicle number
+ * @param { insurerId } insurer ID
+ * @param { holderId } insurance holder ID
+ * @param { policyType } insurance policy enum type
+ * @param { startDate } insurance policy start date
+ * @param { endDate } insurance policy end date
+ */
     public  static createInstance( id: string,
                                    vehicleNumber: string, insurerId: string, holderId: string, policyType: PolicyType,
                                    startDate: number, endDate: number) {
-        /*
-        The function accepts the supplied parameters, sets status to "REQUESTED", and returns a new in-
-        memory representation of a Policy state.
-        */
+/*
+The function accepts the supplied parameters, sets status to "REQUESTED", and returns a new in-
+memory representation of a Policy state.
+*/
         const status = PolicyStatus.REQUESTED;
         return new Policy({id, vehicleNumber, insurerId, holderId, policyType, startDate, endDate, status});
     }
@@ -81,10 +81,10 @@ export class Policy extends State {
     public status: PolicyStatus;
 
     private policyType: PolicyType;
-    /*
-    Within the constructor function, the policy class creates a key (which is the policy id) when
-    the policy object is created, this key will be used when accessing the ledger.
-    */
+/*
+Within the constructor function, the policy class creates a key (which is the policy id) when
+the policy object is created, this key will be used when accessing the ledger.
+*/
     constructor(obj) {
         super(Policy.getClass(), [obj.id]);
         Object.assign(this, obj);

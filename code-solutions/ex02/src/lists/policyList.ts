@@ -1,5 +1,5 @@
 /**
- * *** Exercise 02 > Part 5  > Step 5***
+ * *** Exercise 02 > Part 5 ***
  */
 // Import policy asset class definition.
 import { Policy } from '../assets/policy';
@@ -8,13 +8,13 @@ import { IState } from '../ledger-api/state';
 // Import state list container for the collection of asset's states.
 import { StateList } from '../ledger-api/statelist';
 // Import the vehicle chaincode context defined in utils folder.
-import {  VehicleContext } from '../utils/vehicleContext';
+import { VehicleContext } from '../utils/vehicleContext';
 
 /*
 The policy list class extends an application defined state list class which
 is an abstraction of all list of states that the asset can have.
 */
-export class PolicyList <T extends Policy> extends StateList<T> {
+export class PolicyList<T extends Policy> extends StateList<T> {
     /*
     The constructor function sets the namespace to the policy asset's namespace
     within the smart contract application and is passed the set of functions
@@ -29,11 +29,11 @@ export class PolicyList <T extends Policy> extends StateList<T> {
 
     // Utilitity functions to add policy assets to ledger
     public async addPolicy(policy: T) {
-        return this.add(policy);
+        return this.addSimpleKey(policy);
     }
 
     // Utility functions to retrieve policy assets from ledger
     public async getPolicy(policyKey) {
-        return this.get(policyKey);
+        return this.getSimpleKey(policyKey);
     }
 }

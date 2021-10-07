@@ -29,7 +29,7 @@ policy status for the policy asset.
 // }
 
 /**
- * *** Exercise 02 > Part 5 > Step 3 ***
+ * *** Exercise 02 > Part 5 ***
  */
 /*
 The "@ContractObject" modifier flags the policy class as an "object",
