@@ -280,6 +280,7 @@ export class VehicleContract extends Contract {
     }
     // ############################################################### Order Functions #################################################
     // End user place order function
+    /** 
     @Transaction(true)
     @Returns('Order')
     public async placeOrder(ctx: VehicleContext, orderId: string, owner: string,
@@ -303,6 +304,7 @@ export class VehicleContract extends Contract {
         logger.info('============= END : place order ===========');
         return order;
     }
+    */
 
     // Update order status to be in progress
     @Transaction(true)
