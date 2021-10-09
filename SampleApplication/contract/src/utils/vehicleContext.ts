@@ -18,7 +18,7 @@ smart contract application to recognize and interact with the policy asset.
 /* Custom Context that extend chain code Context class
  Used to define
 A smart contract transaction context allows smart contracts to define and maintain user variables across transaction invocations
-https://hyperledger-fabric.readthedocs.io/en/latest/developapps/transactioncontext.html
+https://hyperledger-fabric.readthedocs.io/en/release-2.2/developapps/transactioncontext.html
 */
 export class VehicleContext extends Context {
     private orderList: OrderList<Order>;
