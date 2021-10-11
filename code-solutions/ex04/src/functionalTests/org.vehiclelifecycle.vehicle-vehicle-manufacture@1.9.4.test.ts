@@ -34,11 +34,14 @@ describe('org.vehiclelifecycle.vehicle-vehicle-manufacture@1.9.4' , () => {
     let fabricWallet: fabricNetwork.Wallet;
     const identityName: string = 'Org1 Admin';
     let connectionProfile: any;
-
+    const orderId: string = `Order${generate('1234567890abcdef', 4)}`;
+    const vehicleNumber = orderId + ':Accord';
     before(async () => {
         connectionProfile = await SmartContractUtil.getConnectionProfile();
         fabricWallet = await fabricNetwork.Wallets.newFileSystemWallet(walletPath);
+
     });
+   
 
     beforeEach(async () => {
         const discoveryAsLocalhost: boolean = SmartContractUtil.hasLocalhostURLs(connectionProfile);
@@ -59,8 +62,7 @@ describe('org.vehiclelifecycle.vehicle-vehicle-manufacture@1.9.4' , () => {
     afterEach(async () => {
         gateway.disconnect();
     });
-    const orderId: string = `Order${generate('1234567890abcdef', 4)}`;
-    const vehicleNumber = orderId + ':Accord';
+ 
     
     // Test place order function using below parameter
     
@@ -78,8 +80,8 @@ describe('org.vehiclelifecycle.vehicle-vehicle-manufacture@1.9.4' , () => {
     // assert that returned class should be the org.vehiclelifecycle.order
     assert.equal(returnedOrder.class, 'org.vehiclelifecycle.order');
     // assert that returned order status should be ISSUED
-    assert.equal(returnedOrder.orderStatus, '');
-    }).timeout(10000);
+    assert.equal(returnedOrder.orderStatus, 'ISSUED');
+    }).timeout(1000000);
     
     it('getOrders', async () => {
     
@@ -88,7 +90,7 @@ describe('org.vehiclelifecycle.vehicle-vehicle-manufacture@1.9.4' , () => {
     const response: Buffer = await SmartContractUtil.submitTransaction('org.vehiclelifecycle.vehicle', 'getOrders', args, gateway);
     const jsonarray = JSON.parse(response.toString());
     
-    }).timeout(10000);
+    }).timeout(1000000);
     
     it('getOrdersByStatus', async () => {
     
@@ -143,7 +145,7 @@ describe('org.vehiclelifecycle.vehicle-vehicle-manufacture@1.9.4' , () => {
     }).timeout(10000);
     it('changeVehicleOwner', async () => {
     const newOwner: string = 'TestUser';
-    const args: string[] = [ '1230819:Tucson', newOwner];
+    const args: string[] = [ orderId+ ':Accord', newOwner];
     
     const response: Buffer = await SmartContractUtil.submitTransaction('org.vehiclelifecycle.vehicle', 'changeVehicleOwner', args, gateway);
     const returnedVehicle = JSON.parse(response.toString('utf8'));
