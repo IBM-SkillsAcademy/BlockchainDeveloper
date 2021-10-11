@@ -19,7 +19,6 @@
 */
 
 import * as assert from 'assert';
-import * as generate from 'nanoid/generate';
 import * as fabricNetwork from 'fabric-network';
 import { SmartContractUtil } from './ts-smart-contract-util';
 
@@ -27,7 +26,7 @@ import * as os from 'os';
 import * as path from 'path';
 
 describe('org.vehiclelifecycle.vehicle-vehicle-manufacture@1.9.4' , () => {
-    const orderId: string = `Order${generate('1234567890abcdef', 4)}`;
+    const orderId: string = `Orders`;
     const vehicleNumber = orderId + ':Accord';
 
     const homedir: string = os.homedir();
@@ -142,7 +141,7 @@ describe('org.vehiclelifecycle.vehicle-vehicle-manufacture@1.9.4' , () => {
         
         it('changeVehicleOwner', async () => {
             const newOwner: string = 'TestUser';
-            const args: string[] = [ '1230819:Tucson', newOwner];
+            const args: string[] = [ vehicleNumber, newOwner];
             
             const response: Buffer = await SmartContractUtil.submitTransaction('org.vehiclelifecycle.vehicle', 'changeVehicleOwner', args, gateway);
             const returnedVehicle = JSON.parse(response.toString('utf8'));
@@ -160,7 +159,7 @@ describe('org.vehiclelifecycle.vehicle-vehicle-manufacture@1.9.4' , () => {
         // assert color equal to black
         assert.equal(returnedVehicle.color, 'Black');
         // assert that owner changed by changeVehicleOwner test
-        assert.equal(returnedVehicle.owner, 'John');
+        assert.equal(returnedVehicle.owner, 'TestUser');
         }).timeout(10000);
         it('requestVehicleVIN', async () => {
         
@@ -190,15 +189,7 @@ describe('org.vehiclelifecycle.vehicle-vehicle-manufacture@1.9.4' , () => {
         // assert VIN STATUS
         assert.equal(returnedVehicle.vinStatus, 'ISSUED');
         }).timeout(10000);
-        it('getVehicleCount', async () => {
-        
-        const args: string[] = [];
-        
-        const response: Buffer = await SmartContractUtil.submitTransaction('org.vehiclelifecycle.vehicle', 'getVehicleCount', args, gateway);
-        
-        assert(JSON.parse(response.toString()) > 1 , 'Vehicle count should be more than 1');
-        
-        }).timeout(10000);
+  
         it('deleteVehicle', async () => {
         const args: string[] = [ vehicleNumber];
         

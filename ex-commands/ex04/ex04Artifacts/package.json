@@ -27,7 +27,8 @@
         "nanoid": "2.0.3",
         "pkijs": "2.1.97",
         "reflect-metadata": "0.1.13",
-        "uuid": "8.3.2"
+        "uuid": "8.3.2",
+    "js-yaml" : "latest"
     },
     "devDependencies": {
         "@types/chai": "4.1.7",
