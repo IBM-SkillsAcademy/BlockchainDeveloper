@@ -1,0 +1,9 @@
+{
+    "ibm-blockchain-platform.v2.fabric.runtime": {
+        "1 Org Local Fabric": 8080
+    },
+    "javascript-test-runner.additionalArgs": "-r ts-node/register"
+    "workbench.colorTheme": "Visual Studio Light"
+}
+
+

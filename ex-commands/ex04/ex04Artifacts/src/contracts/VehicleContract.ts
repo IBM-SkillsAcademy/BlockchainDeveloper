@@ -280,6 +280,10 @@ export class VehicleContract extends Contract {
     }
     // ############################################################### Order Functions #################################################
     // End user place order function
+     /**
+     * *** Exercise 04 > Part 1 ***
+     * @param  {VehicleContext} ctx
+     */
     /** 
     @Transaction(true)
     @Returns('Order')
@@ -299,7 +303,7 @@ export class VehicleContract extends Contract {
         await ctx.getOrderList().add(order);
 
         // Fire Event
-        ctx.stub.setEvent('ORDER_EVENT', order.toBuffer());
+       // ctx.stub.setEvent('ORDER_EVENT', order.toBuffer());
 
         logger.info('============= END : place order ===========');
         return order;

@@ -1,0 +1,11 @@
+=======
+Part 1
+=======     
+cd ~/BlockchainDeveloper/ex-commands/ex04/
+./startEx04.sh
+
+=======
+Part 2
+=======  
+
+
