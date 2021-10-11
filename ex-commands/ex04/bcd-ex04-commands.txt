@@ -5,31 +5,31 @@ cd ~/BlockchainDeveloper/ex-commands/ex04/
 ./startEx04.sh
 
 cd ex04Artifacts/
-set-title “Start Orderer”
+set-title "Start Orderer"
 ./startOrderer.sh
 
-set-title “Start Peer”
+set-title "Start Peer"
 ./startPeer.sh
 
-set-title “Create Channel and Join peer”
+set-title "Create Channel and Join peer"
 ./createChannelAndJoinPeer.sh
 
-set-title “Build And Start Chaincode”
+set-title "Build And Start Chaincode"
 ./buildAndStartChaincode.sh
 
-set-title “Approve Definition”
+set-title "Approve Definition"
 ./approveDefinition.sh
 
 cd ~/BlockchainDeveloper/config
 CORE_PEER_ADDRESS=127.0.0.1:7051 peer chaincode invoke -o 127.0.0.1:7050 -C ch1 -n mycc -c '{"Args":["initLedger"]}' --isInit
 
-CORE_PEER_ADDRESS=127.0.0.1:7051 peer chaincode invoke -o 127.0.0.1:7050 -C ch1 -n mycc -c '{"Args":["placeOrder","John","Toyota","Accord","Black"]}'
+CORE_PEER_ADDRESS=127.0.0.1:7051 peer chaincode invoke -o 127.0.0.1:7050 -C ch1 -n mycc -c '{"Args":["placeOrder","123","John","Toyota","Accord","Black"]}'
 
 code .
 
 ./buildAndStartChaincode.sh 
 
-CORE_PEER_ADDRESS=127.0.0.1:7051 peer chaincode invoke -o 127.0.0.1:7050 -C ch1 -n mycc -c '{"Args":["placeOrder",”123” "John","Toyota","Accord","Black"]}'
+CORE_PEER_ADDRESS=127.0.0.1:7051 peer chaincode invoke -o 127.0.0.1:7050 -C ch1 -n mycc -c '{"Args":["placeOrder","123" "John","Toyota","Accord","Black"]}'
 
 
 
@@ -37,7 +37,9 @@ CORE_PEER_ADDRESS=127.0.0.1:7051 peer chaincode invoke -o 127.0.0.1:7050 -C ch1 
 Part 2
 ======= 
 code .
-
+ISSUED
+assert(Object.keys(jsonarray).length >= 1); 
+return vehicle
 cd ~/BlockchainDeveloper2019/SampleApplication/contract/
 npm test
 
