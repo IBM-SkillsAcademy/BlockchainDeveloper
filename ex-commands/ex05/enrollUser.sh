@@ -1,6 +1,12 @@
 #!/bin/bash
 echo "Register and Enrolling User $1 $2 $3 $4" 
 
+PORT=0
+if [[ $2 == "org1" ]]; then PORT=7054 
+elif [[ $2 == "org2" ]]; then PORT=8054
+elif [[ $2 == "org3" ]]; then PORT=11054
+fi
+
 CA_IP=`docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ca_$2`
 echo "IP of CA ( ca_$2 ) server ${CA_IP}"
 count=`cat /etc/hosts | sed -n "/ca_$2/p" | wc -l`
@@ -23,18 +29,18 @@ echo "Copy Fabric CA Certificate to Client Folder "
 cp ../../test-network/organizations/peerOrganizations/$2.example.com/ca/ca.$2.example.com-cert.pem  $HOME/fabric-ca/client/
 chmod +777 -R $HOME/fabric-ca/client/
 
-fabric-ca-client enroll -u https://admin:adminpw@ca_$2:7054  --tls.certfiles ca.$2.example.com-cert.pem
+fabric-ca-client enroll -u https://admin:adminpw@ca_$2:${PORT}  --tls.certfiles ca.$2.example.com-cert.pem
 
-# ATTRS=role=$4:ecert
-# OUTPUT=$(fabric-ca-client register --id.type client --id.name $1 --id.affiliation $2.$3 --id.attrs ${ATTRS} --tls.certfiles ca.$2.example.com-cert.pem | tail -1)
-# PASSWORD=$(echo $OUTPUT | awk -F" " '{print $2}')
+ATTRS=role=$4:ecert
+OUTPUT=$(fabric-ca-client register --id.type client --id.name $1 --id.affiliation $2.$3 --id.attrs ${ATTRS} --tls.certfiles ca.$2.example.com-cert.pem | tail -1)
+PASSWORD=$(echo $OUTPUT | awk -F" " '{print $2}')
 
-# fabric-ca-client enroll -u https://$1:${PASSWORD}@ca_$2:7054  --tls.certfiles ca.$2.example.com-cert.pem
-# cp -r $HOME/fabric-ca/client/msp/signcerts $HOME/fabric-ca/client/msp/admincerts
+fabric-ca-client enroll -u https://$1:${PASSWORD}@ca_$2:${PORT}  --tls.certfiles ca.$2.example.com-cert.pem
+cp -r $HOME/fabric-ca/client/msp/signcerts $HOME/fabric-ca/client/msp/admincerts
 
-# # check if directory exists from cryptogen
-# if [ -d "../../test-network/organizations/peerOrganizations/$2.example.com/users/$1@$2.example.com" ]; then
-#    rm -rf ../../test-network/organizations/peerOrganizations/$2.example.com/users/$1@$2.example.com
-# fi
-# mkdir ../../test-network/organizations/peerOrganizations/$2.example.com/users/$1@$2.example.com
-# cp -rf $HOME/fabric-ca/client/msp ../../test-network/organizations/peerOrganizations/$2.example.com/users/$1@$2.example.com/msp
+# check if directory exists from cryptogen
+if [ -d "../../test-network/organizations/peerOrganizations/$2.example.com/users/$1@$2.example.com" ]; then
+   rm -rf ../../test-network/organizations/peerOrganizations/$2.example.com/users/$1@$2.example.com
+fi
+mkdir ../../test-network/organizations/peerOrganizations/$2.example.com/users/$1@$2.example.com
+cp -rf $HOME/fabric-ca/client/msp ../../test-network/organizations/peerOrganizations/$2.example.com/users/$1@$2.example.com/msp
