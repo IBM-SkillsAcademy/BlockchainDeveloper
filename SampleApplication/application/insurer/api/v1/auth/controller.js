@@ -140,6 +140,10 @@ exports.registerUser = async (req, res, next) => {
 
 exports.createAffiliation = async (req, res, next) => {
   try {
+    // Create a new file system based wallet for managing identities.
+    const walletPath = path.join(process.cwd(), "wallet");
+    const wallet = await Wallets.newFileSystemWallet(walletPath);
+
     // get connection profile
     const ccp = await utils.getCCP();
 
@@ -160,10 +164,17 @@ exports.createAffiliation = async (req, res, next) => {
       caInfo.caName
     );
 
+    // build a user object for authenticating with the CA
+    const provider = wallet
+      .getProviderRegistry()
+      .getProvider(adminIdentity.type);
+    const adminUser = await provider.getUserContext(adminIdentity, "admin");
+
+    // create new affiliation
     await caClient.newAffiliationService().create({
       name: 'org3.department1',
       force: true
-    }, adminIdentity);
+    }, adminUser);
 
     return res.send({
       message: `Successfully created affiliation 'org3.department1'`
