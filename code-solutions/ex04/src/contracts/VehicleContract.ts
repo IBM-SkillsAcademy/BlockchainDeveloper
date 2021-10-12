@@ -284,7 +284,7 @@ export class VehicleContract extends Contract {
      * *** Exercise 04 > Part 1 ***
      * @param  {VehicleContext} ctx
      */
-    /** 
+  
     @Transaction(true)
     @Returns('Order')
     public async placeOrder(ctx: VehicleContext, orderId: string, owner: string,
@@ -303,12 +303,12 @@ export class VehicleContract extends Contract {
         await ctx.getOrderList().add(order);
 
         // Fire Event
-       // ctx.stub.setEvent('ORDER_EVENT', order.toBuffer());
+       ctx.stub.setEvent('ORDER_EVENT', order.toBuffer());
 
         logger.info('============= END : place order ===========');
         return order;
     }
-    */
+    
 
     // Update order status to be in progress
     @Transaction(true)
