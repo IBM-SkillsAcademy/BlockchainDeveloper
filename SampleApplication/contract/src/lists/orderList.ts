@@ -22,4 +22,24 @@ export class OrderList <T extends Order> extends StateList<T> {
     public async updateOrder(order) {
         return this.update(order);
     }
+
+    /**
+     * *** Exercise 03 > Part 4 ***
+     * @param  {string} orderID
+     * Return order history
+     */
+    public async getOrderHistory(orderID: string) {
+        // Call the history function, which is defined in stateList.ts
+        return this.getHistory(orderID);
+    }
+    /**
+     * *** Exercise 03 > Part 5 ***
+     * @param  {string} queryString
+     * @param  {number} pageSize
+     * @param  {string} bookmark
+     */
+    public async queryStatusPaginated(queryString: string, pageSize: number , bookmark: string ) {
+        // Call queryWithPagination, which is defined in stateList.ts
+       return this.queryWithPagination(queryString, pageSize, bookmark);
+    }
 }
