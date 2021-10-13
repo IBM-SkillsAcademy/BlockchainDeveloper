@@ -6,7 +6,7 @@ cp -R ex08Artifacts/contract/. ../../SampleApplication/contract/.
 
 
 echo "################## START NETWORK ########################"
-cd /home/blockchain/BlockchainDeveloper2019/Vehicle-Network
+cd /home/blockchain/BlockchainDeveloper/Vehicle-Network
 
 
 ./byfn.sh down
@@ -23,7 +23,7 @@ cp -R ex08Artifacts/application/regulator/api/v1/vehicles/controller.js ../../Sa
 
 echo "################## enroll Admin and users in applications ########################"
 
-cd /home/blockchain/BlockchainDeveloper2019/SampleApplication/application
+cd /home/blockchain/BlockchainDeveloper/SampleApplication/application
 ls
 ./start.sh
 

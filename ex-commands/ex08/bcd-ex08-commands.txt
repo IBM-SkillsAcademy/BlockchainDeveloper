@@ -7,7 +7,7 @@ docker rm -f $(docker ps -aq); docker volume rm -f $(docker volume ls -q)
 
 docker ps -a
 
-cd ~/BlockchainDeveloper2019/ex-commands/ex08
+cd ~/BlockchainDeveloper/ex-commands/ex08
 
 ./startEx08.sh
 
@@ -16,15 +16,15 @@ cd ~/BlockchainDeveloper2019/ex-commands/ex08
 =======
 Part 2
 =======
-cd ~/BlockchainDeveloper2019/SampleApplication/application/manufacturer 
+cd ~/BlockchainDeveloper/SampleApplication/application/manufacturer 
 
 set-title "manufacturer screen"
 
-cd ~/BlockchainDeveloper2019/SampleApplication/application/insurer
+cd ~/BlockchainDeveloper/SampleApplication/application/insurer
 
 set-title "insurer screen"
 
-cd ~/BlockchainDeveloper2019/SampleApplication/application
+cd ~/BlockchainDeveloper/SampleApplication/application
 code . 
 
 npm start
@@ -51,7 +51,7 @@ Part 3
 =======
 set-title "regulator screen"
 
-cd ~/BlockchainDeveloper2019/SampleApplication/application/regulator
+cd ~/BlockchainDeveloper/SampleApplication/application/regulator
 
 npm start
 
@@ -65,6 +65,6 @@ Regu-User
 Part 4
 =======
 
-cd ~/BlockchainDeveloper2019/ex-commands/ex08
+cd ~/BlockchainDeveloper/ex-commands/ex08
 
 ./stopEx08.sh
