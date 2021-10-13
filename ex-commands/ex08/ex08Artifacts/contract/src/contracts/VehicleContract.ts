@@ -74,9 +74,9 @@ export class VehicleContract extends Contract {
             // Retrieve order asset from ledger
             const order = await ctx.getOrderList().getOrder(orderId);
             // If order status is not equal to 'DELIVERED', throw error
-            if (order.orderStatus !== OrderStatus.DELIVERED) {
-                throw new Error(`Order  with ID : ${orderId} Should be with Status Delivered to be able to create Vehicle`);
-            }
+            // if (order.orderStatus !== OrderStatus.DELIVERED) {
+            //     throw new Error(`Order  with ID : ${orderId} Should be with Status Delivered to be able to create Vehicle`);
+            // }
             // Creates a new vehicle asset
             vehicle = Vehicle.createInstance('', orderId, owner, model, make, color);
             // Append vehicle asset to ledger
