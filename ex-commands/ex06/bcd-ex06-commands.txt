@@ -45,11 +45,12 @@ return await ctx.getPriceList().getPrice(vehicleNumber)
 =======
 Part 4
 =======
-cd ~/BlockchainDeveloper2019/Vehicle-Network
 
-code upgrade.sh
+cd ~/BlockchainDeveloper/SampleApplication/contract 
+npm run-script build 
 
-./upgrade.sh 1.9.5
+cd ~/BlockchainDeveloper/test-network
+./upgradeChaincode.sh 1.9.7 2 ../SampleApplication/contract/collections_config.json
 
 =======
 Part 5
@@ -62,40 +63,41 @@ set-title Insurer
 
 docker exec -it cli bash
 
+export CORE_PEER_TLS_ENABLED=true
 export CORE_PEER_LOCALMSPID=Org1MSP
 export CORE_PEER_ADDRESS=peer0.org1.example.com:7051
-export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/CLI-Manu-User@org1.example.com/msp
-export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
+export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/organizations/peerOrganizations/org1.example.com/users/CLI-Manu-User@org1.example.com/msp
+export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
 
-export PRICE=$(echo -n "{\"vehicleNumber\":\"1230819:Tucson\",\"value\":40000}" | base64 | tr -d \\n)
+export PRICE=$(echo -n "{\"vehicleNumber\":\"Order11:Civic\",\"value\":40000}" | base64 | tr -d \\n)
 
 peer chaincode invoke -o orderer.example.com:7050 --tls \
---cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem \
---peerAddresses peer0.org1.example.com:7051 \
---tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt \
---peerAddresses peer0.org2.example.com:9051 \
---tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt \
---peerAddresses peer0.org3.example.com:11051 \
---tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org3.example.com/peers/peer0.org3.example.com/tls/ca.crt \
--C mychannel -n vehicle-manufacture -c '{"Args":["updatePriceDetails"]}' --transient "{\"price\":\"$PRICE\"}"
+--cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem \
+-C mychannel -n vehicle-network -c '{"Args":["updatePriceDetails"]}' --transient "{\"price\":\"$PRICE\"}"
 
 docker exec -it cli bash
 
+export CORE_PEER_TLS_ENABLED=true
 export CORE_PEER_LOCALMSPID=Org2MSP
 export CORE_PEER_ADDRESS=peer0.org2.example.com:9051
-export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/users/CLI-Regu-User@org2.example.com/msp
-export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt
+export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/organizations/peerOrganizations/org2.example.com/users/CLI-Regu-User@org2.example.com/msp
+export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt
 
-peer chaincode query -o orderer.example.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C mychannel -n vehicle-manufacture -c '{"Args":["getPriceDetails", "1230819:Tucson"]}'
+peer chaincode query -o orderer.example.com:7050 --tls \
+--cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem \
+-C mychannel -n vehicle-network -c '{"Args":["getPriceDetails", "Order11:Civic"]}'
 
 docker exec -it cli bash
 
+export CORE_PEER_TLS_ENABLED=true
 export CORE_PEER_LOCALMSPID=Org3MSP
 export CORE_PEER_ADDRESS=peer0.org3.example.com:11051
-export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org3.example.com/users/CLI-Insu-User@org3.example.com/msp
-export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org3.example.com/peers/peer0.org3.example.com/tls/ca.crt
+export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/organizations/peerOrganizations/org3.example.com/users/CLI-Insu-User@org3.example.com/msp
+export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/organizations/peerOrganizations/org3.example.com/peers/peer0.org3.example.com/tls/ca.crt
 
-peer chaincode query -o orderer.example.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C mychannel -n vehicle-manufacture -c '{"Args":["getPriceDetails", "1230819:Tucson"]}'
+peer chaincode query -o orderer.example.com:7050 --tls \
+--cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem \
+-C mychannel -n vehicle-network -c '{"Args":["getPriceDetails", "Order11:Civic"]}'
 
 =======
 Part 6
@@ -151,13 +153,15 @@ http://localhost:5984/_utils
 =======
 Part 9
 =======
-cd ~/BlockchainDeveloper2019/ex-commands/ex06
+cd ~/BlockchainDeveloper/ex-commands/ex06
 
 ./stopEx06.sh
 
 ========================================
 Troubleshooting collection config issue
 ========================================
-cd ~/BlockchainDeveloper2019/code-solutions/ex06
+cd ~/BlockchainDeveloper/code-solutions/ex06
 
 ./applyEx06Solution.sh
+
+error in simulation: transaction returned with failure: Error: Cannot get state. No state exists for key Order12:Prius org.vehiclelifecycle.price
