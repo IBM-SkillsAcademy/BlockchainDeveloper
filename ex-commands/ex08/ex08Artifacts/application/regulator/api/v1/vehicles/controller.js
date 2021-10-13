@@ -254,59 +254,59 @@ exports.countVehicle = async (req, res, next) => {
 
 //network query functions 
 
-exports.getChannelHeight = async (req,res ,next) =>{
-  try{
+exports.getChannelHeight = async (req, res, next) => {
+  try {
     await checkAuthorization(req, res)
     const gateway = await setupGateway(req.headers['enrollment-id']);
-   
-    const network = await gateway.getNetwork("mychannel");
-    const   channel = network.getChannel();
-    //get Blockchain info 
-    let channelHeight =  await channel.queryInfo(null, false);
-    
+    /*
+     const network = await gateway.getNetwork("mychannel");
+     const   channel = network.getChannel();
+     //get Blockchain info 
+     let channelHeight =  await channel.queryInfo(null, false);
+     */
     let prevHash = JSON.stringify(channelHeight.previousBlockHash);
     let currentHash = JSON.stringify(channelHeight.currentBlockHash);
-      let prevHashStr = prevHash.toString();
-   
- 
-   
-     return    res.send({
+    let prevHashStr = prevHash.toString();
+
+
+
+    return res.send({
       message: ` Details listed`,
-      details:`Blockchain Info :Height : ${channelHeight.height}   currentBlockHash : ${currentHash.toString()} 
+      details: `Blockchain Info :Height : ${channelHeight.height}   currentBlockHash : ${currentHash.toString()} 
       previousBlockHash : ${prevHashStr}`
-  
+
     });
-    
- 
-  
-}catch(err) {
-  throw new Error (err);
-}
+
+
+
+  } catch (err) {
+    throw new Error(err);
+  }
 
 }
 
-exports.queryBlock = async (req,res ,next) =>{
-  try{
+exports.queryBlock = async (req, res, next) => {
+  try {
     await checkAuthorization(req, res)
     const gateway = await setupGateway(req.headers['enrollment-id']);
     const network = await gateway.getNetwork("mychannel");
-    const   channel = network.getChannel();
+    const channel = network.getChannel();
     console.log(parseInt(req.query.blockNumber));
-    
-     let block = await channel.queryBlock(parseInt(req.query.blockNumber));
-     
-  return    res.send({
+/*
+    let block = await channel.queryBlock(parseInt(req.query.blockNumber));
+*/
+    return res.send({
       message: `Block Details listed`,
-      details: `Block Info : ${ block.header.number}   Number of Transactions :  ${block.data.data.length}
+      details: `Block Info : ${block.header.number}   Number of Transactions :  ${block.data.data.length}
       ID of the transaction in the block  ${block.data.data[0].payload.header.channel_header.tx_id}`
     });
- 
-     
- 
-  
-}catch(err) {
-  throw new Error (err);
-}
+
+
+
+
+  } catch (err) {
+    throw new Error(err);
+  }
 
 }
 

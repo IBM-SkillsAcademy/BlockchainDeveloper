@@ -8,7 +8,7 @@ exports.getCCP = async () => {
   try {
     const ccpPath = path.resolve(__dirname, '..', '..', '..', '..', '..',
       'test-network', 'organizations', 'peerOrganizations',
-      'org3.example.com', 'connection-org3.json');    
+      'org3.example.com', 'connection-org3.json');
     const ccpJSON = fs.readFileSync(ccpPath, 'utf8');
     let ccp = JSON.parse(ccpJSON);
 
@@ -69,6 +69,17 @@ exports.setupGateway = async (user) => {
 exports.getContract = async (gateway) => {
   try {
     const network = await gateway.getNetwork("mychannel");
+
+    // Adding Block Listener to listen to new Blocks
+    /*
+    const blockListener = await network.addBlockListener('my-block-listener', (err, block) => {
+     if (err) {
+         console.error(err);
+         return;
+     }
+     console.log(`Block Added-----------------: ${JSON.stringify(block)}`);
+ });
+ */
     // Get the contract from the network.
     return await network.getContract("vehicle-network");
   } catch (err) {
