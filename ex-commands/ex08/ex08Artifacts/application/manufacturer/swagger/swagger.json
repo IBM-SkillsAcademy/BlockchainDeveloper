@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "description": "Vehicle Manufacture Sample Application Smart Contract used for creating Blockchain Developer Course V2",
+    "description": "Vehicle Manufacture Sample Application Smart Contract used for creating Blockchain Developer Course V3",
     "version": "1.0.0",
     "title": "Manufacturer"
   },
@@ -461,12 +461,12 @@
       }
     
   },
-  "/api/v1/vehicles/orders/range": {
+  "/api/v1/vehicles/policies/range": {
       "get": {
         "tags": [
-          "Order"
+          "Policy"
         ],
-        "summary": "Get all Orders by range",
+        "summary": "Get all policies by range",
         "parameters": [{
           "in": "header",
           "name": "enrollment-id",
@@ -480,7 +480,7 @@
           "name": "startKey",
           "schema": {
             "type": "string",
-            "example": "Order11"
+            "example": "Policy11"
           }
            }
            , {
@@ -488,7 +488,7 @@
           "name": "endKey",
           "schema": {
             "type": "string",
-            "example": "Order15"
+            "example": "Policy15"
           }
         }],
         "responses": {
@@ -670,11 +670,11 @@
                   },
                   "startDate": {
                     "type": "string",
-                    "example": "12122019"
+                    "example": "12122021"
                   },
                   "endDate": {
                     "type": "string",
-                    "example": "31122019"
+                    "example": "31122021"
                   }
                 }
               }

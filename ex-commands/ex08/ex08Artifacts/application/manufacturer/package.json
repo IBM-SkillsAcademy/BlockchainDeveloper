@@ -1,7 +1,7 @@
 {
   "name": "sample-application",
   "version": "1.0.0",
-  "description": "Vehicle Manufacture Sample Application Smart Contract used for creating Blockchain Developer Course V2",
+  "description": "Vehicle Manufacture Sample Application Smart Contract used for creating Blockchain Developer Course V3",
   "main": "index.js",
   "directories": {
     "test": "test"
@@ -11,8 +11,8 @@
     "chai": "^4.2.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "fabric-ca-client": "^1.4.1",
-    "fabric-network": "^1.4.1",
+    "fabric-ca-client": "^2.2.9",
+    "fabric-network": "^2.2.9",
     "fs": "0.0.1-security",
     "mocha": "^6.1.4",
     "path": "^0.12.7",
@@ -34,7 +34,6 @@
   },
   "contributors": [
     "hdeanzak@id.ibm.com",
-    "knurherb@id.ibm.com",
     "labib.farag@ibm.com",
     "norhan.ali.araba@ibm.com"
   ],

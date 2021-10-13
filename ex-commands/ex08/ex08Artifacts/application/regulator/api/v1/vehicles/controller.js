@@ -1,13 +1,9 @@
 'use strict';
-
-const { FileSystemWallet, Gateway } = require('fabric-network');
-const path = require('path');
-const utils = require('../utils');
-
-// Create a new file system based wallet for managing identities.
-const walletPath = path.join(process.cwd(), 'wallet');
-const wallet = new FileSystemWallet(walletPath);
-console.log(`Wallet path: ${walletPath}`);
+const {
+  checkAuthorization,
+  setupGateway,
+  getContract,
+} = require("../utils");
 
 exports.getOrder = async (req, res, next) => {
   try {
@@ -256,61 +252,18 @@ exports.countVehicle = async (req, res, next) => {
   }
 };
 
-
-async function checkAuthorization(req, res) {
-  try {
-    const enrollmentID = req.headers['enrollment-id'];
-    // Check to see if we've already enrolled the user.
-    const userExists = await wallet.exists(enrollmentID);
-    console.log("User Exists " + userExists)
-    if (!userExists) {
-      return res.status(401).send({
-        message: `An identity for the user ${enrollmentID} does not exist in the wallet`
-      });
-    }
-  } catch (error) {
-    console.log(error)
-    throw error;
-  }
-}
-async function setupGateway(user) {
-  try {
-    const ccp = await utils.getCCP();
-    const gateway = new Gateway();
-    const connectionOptions = {
-      identity: user,
-      wallet: wallet,
-    };
-    // Create a new gateway for connecting to our peer node
-    await gateway.connect(ccp, connectionOptions);
-    return gateway;
-  } catch (error) {
-    throw error;
-  }
-}
-
-async function getContract(gateway) {
-  try {
-    const network = await gateway.getNetwork("mychannel");
-    // Get the contract from the network.
-    return await network.getContract("vehicle-manufacture");
-  } catch (err) {
-    throw new Error('Error connecting to channel . ERROR:' + err.message);
-  }
-}
-
 //network query functions 
 
 exports.getChannelHeight = async (req,res ,next) =>{
   try{
     await checkAuthorization(req, res)
     const gateway = await setupGateway(req.headers['enrollment-id']);
-   /* 
+   
     const network = await gateway.getNetwork("mychannel");
     const   channel = network.getChannel();
     //get Blockchain info 
     let channelHeight =  await channel.queryInfo(null, false);
-    */
+    
     let prevHash = JSON.stringify(channelHeight.previousBlockHash);
     let currentHash = JSON.stringify(channelHeight.currentBlockHash);
       let prevHashStr = prevHash.toString();
@@ -324,6 +277,7 @@ exports.getChannelHeight = async (req,res ,next) =>{
   
     });
     
+ 
   
 }catch(err) {
   throw new Error (err);
@@ -338,9 +292,9 @@ exports.queryBlock = async (req,res ,next) =>{
     const network = await gateway.getNetwork("mychannel");
     const   channel = network.getChannel();
     console.log(parseInt(req.query.blockNumber));
-    /*
+    
      let block = await channel.queryBlock(parseInt(req.query.blockNumber));
-     */
+     
   return    res.send({
       message: `Block Details listed`,
       details: `Block Info : ${ block.header.number}   Number of Transactions :  ${block.data.data.length}

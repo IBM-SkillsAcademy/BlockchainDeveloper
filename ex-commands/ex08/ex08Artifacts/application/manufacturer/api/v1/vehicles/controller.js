@@ -1,13 +1,9 @@
 'use strict';
-
-const { FileSystemWallet, Gateway } = require('fabric-network');
-const path = require('path');
-const utils = require('../utils');
-
-// Create a new file system-based wallet for managing identities.
-const walletPath = path.join(process.cwd(), 'wallet');
-const wallet = new FileSystemWallet(walletPath);
-console.log(`Wallet path: ${walletPath}`);
+const {
+  checkAuthorization,
+  setupGateway,
+  getContract,
+} = require("../utils");
 
 exports.placeOrder = async (req, res, next) => {
   try {
@@ -52,15 +48,12 @@ exports.getOrder = async (req, res, next) => {
     let result, rawResult;
     if (req.query.status) {
       result = await contract.evaluateTransaction('getOrdersByStatus', req.query.status);
-      rawResult = JSON.parse(result);
     } else if (req.query.id) {
       result = await contract.evaluateTransaction('getOrder', req.query.id);
-      rawResult = result.toString();
     } else {
       result = await contract.evaluateTransaction('getOrders');
-      rawResult = result.toString();
     }
-    const obj = JSON.parse(rawResult);
+    const obj = JSON.parse(result);
     return res.send({
       result: obj
     });
@@ -210,7 +203,7 @@ exports.updatePrice = async (req, res, next) => {
     // submit the transaction
    let transaction= await contract.createTransaction('updatePriceDetails');
    transaction.setTransient(transientData);
-   /*
+   
    transaction.addCommitListener((err, transactionId, status, blockNumber) => {
         if (err) {
             console.error(err);
@@ -218,7 +211,7 @@ exports.updatePrice = async (req, res, next) => {
         }
         console.log(`Transaction ID: ${transactionId} Status: ${status} Block number: ${blockNumber}`);
     });
-  */
+  
     transaction.submit();
 
     // Disconnect from the gateway.
@@ -317,7 +310,7 @@ exports.requestPolicy = async (req, res, next) => {
     const contract = await getContract(gateway);
 
     // Submit the specified transaction.
-    // requestPolicy transaction - requires 8 argument, ex: ('requestPolicy', 'policy1', 'insurer12', 'holder12', 'THIRD_PARTY', 12122019 , 31122020)
+    // requestPolicy transaction - requires 8 argument, ex: ('requestPolicy', 'policy1', 'insurer12', 'holder12', 'THIRD_PARTY', 12122021 , 31122021)
     await contract.submitTransaction(
       'requestPolicy',
       req.body.id,
@@ -446,13 +439,13 @@ exports.getOrdersByStatusPaginated = async (req, res, next) => {
   }
 };
 
-exports.getOrdersByRange = async (req, res, next) => {
+exports.getPoliciesByRange = async (req, res, next) => {
   try {
     await checkAuthorization(req, res);
     const gateway = await setupGateway(req.headers['enrollment-id']);
     const contract = await getContract(gateway);
 
-    const result = await contract.evaluateTransaction('getOrdersByRange', req.query.startKey, req.query.endKey);
+    const result = await contract.evaluateTransaction('getPoliciesByRange', req.query.startKey, req.query.endKey);
 
     const rawResult = result.toString();
 
@@ -462,51 +455,9 @@ exports.getOrdersByRange = async (req, res, next) => {
     });
   } catch (err) {
     const msg = err.message;
-    const msgString = msg.slice(msg.indexOf('Errors:') + 8, msg.length);
-    const json = JSON.parse(msgString);
+    // const msgString = msg.slice(msg.indexOf('Errors:') + 8, msg.length);
+    // const json = JSON.parse(msgString);
     res.status(500);
-    res.send(json);
+    res.send(msg);
   }
 };
-
-async function checkAuthorization (req, res) {
-  try {
-    const enrollmentID = req.headers['enrollment-id'];
-    // Check to see if we've already enrolled the user.
-    const userExists = await wallet.exists(enrollmentID);
-    console.log('User Exists ' + userExists);
-    if (!userExists) {
-      return res.status(401).send({
-        message: `An identity for the user ${enrollmentID} does not exist in the wallet`
-      });
-    }
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
-}
-async function setupGateway (user) {
-  try {
-    const ccp = await utils.getCCP();
-    const gateway = new Gateway();
-    const connectionOptions = {
-      identity: user,
-      wallet: wallet
-    };
-    // Create a new gateway for connecting to the peer node.
-    await gateway.connect(ccp, connectionOptions);
-    return gateway;
-  } catch (error) {
-    throw error;
-  }
-}
-
-async function getContract (gateway) {
-  try {
-    const network = await gateway.getNetwork('mychannel');
-    // Get the contract from the network.
-    return await network.getContract('vehicle-manufacture');
-  } catch (err) {
-    throw new Error('Error connecting to channel . ERROR:' + err.message);
-  }
-}

@@ -10,13 +10,16 @@
     "body-parser": "^1.19.0",
     "chai": "^4.2.0",
     "cors": "^2.8.5",
+    "dotenv": "^8.0.0",
     "express": "^4.17.1",
-    "fabric-ca-client": "^2.2.9",
-    "fabric-network": "^2.2.9",
+    "fabric-ca-client": "^1.4.1",
+    "fabric-network": "^1.4.1",
     "fs": "0.0.1-security",
     "mocha": "^6.1.4",
+    "nanoid": "^2.0.3",
     "path": "^0.12.7",
     "pm2": "^3.5.1",
+    "shortid": "^2.2.14",
     "supertest": "^4.0.2",
     "swagger-ui-express": "^4.0.6"
   },
@@ -30,10 +33,12 @@
   },
   "scripts": {
     "start": "node index.js",
-    "test": "mocha -s 1000 -t 30000 --recursive --exit"
+    "test": "mocha -s 1000 -t 90000 --recursive --exit",
+    "test-negative": "mocha test/testNegative -s 1000 -t 90000 --recursive --exit"
   },
   "contributors": [
     "hdeanzak@id.ibm.com",
+    "knurherb@id.ibm.com",
     "labib.farag@ibm.com",
     "norhan.ali.araba@ibm.com"
   ],
