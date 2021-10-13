@@ -111,11 +111,11 @@ Part 7
 
 http://localhost:6001/api-docs
  
-4567788:Prius                       
+Order12:Prius                       
 30000
 
 {
-  "vehicleID": "4567788:Prius",
+  "vehicleID": "Order12:Prius",
   "value": "30000"
 }
 
@@ -132,7 +132,7 @@ Part 8
 =======
 http://localhost:6001/api-docs 
 
-3456777:Passat
+Order13:Passat
 35000
 
 http://localhost:5984/_utils 
@@ -163,5 +163,3 @@ Troubleshooting collection config issue
 cd ~/BlockchainDeveloper/code-solutions/ex06
 
 ./applyEx06Solution.sh
-
-error in simulation: transaction returned with failure: Error: Cannot get state. No state exists for key Order12:Prius org.vehiclelifecycle.price

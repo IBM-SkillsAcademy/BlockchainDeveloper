@@ -109,12 +109,8 @@ export class VehicleContract extends Contract {
         const transient = ctx.stub.getTransient();   // option B
         const bufferTranstient = transient.get('price');
 
-        // decode base64 encoded data
-        const base64String = bufferTranstient.toString();
-        const bufferPrice = Buffer.from(base64String, 'base64');
-
         // deserialize data into price object
-        const price = Price.deserialize(bufferPrice.toString());
+        const price = Price.deserialize(bufferTranstient.toString());
 
         // check if vehicle exist
         await ctx.getVehicleList().get(price.vehicleNumber);
