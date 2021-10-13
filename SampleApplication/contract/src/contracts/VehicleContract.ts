@@ -36,7 +36,6 @@ export class VehicleContract extends Contract {
         vehicles[0] = Vehicle.createInstance('CD58911', '4567788', 'Tomoko', 'Prius', 'Toyota', 'blue');
         vehicles[1] = Vehicle.createInstance('CD57271', '1230819', 'Jin soon', 'Tucson', 'Hyundai', 'green');
         vehicles[2] = Vehicle.createInstance('CD57291', '3456777', 'Max', 'Passat', 'Volkswagen', 'red');
-
         for (let i = 0; i < vehicles.length; i++) {
             vehicles[i].docType = 'vehicle';
             await ctx.getVehicleList().add(vehicles[i]);
@@ -44,7 +43,6 @@ export class VehicleContract extends Contract {
         }
         logger.info('============= END : Initialize Ledger ===========');
     }
-
     // ############################################################### Vehicle Functions #################################################
     /**
      * *** Exercise 02 > Part 2 ***
@@ -87,7 +85,6 @@ export class VehicleContract extends Contract {
         } else {
             throw new Error(`Order  with ID : ${orderId} doesn't exists`);
         }
-
         logger.info('============= END : Create vehicle ===========');
         return vehicle;
     }
@@ -106,7 +103,7 @@ export class VehicleContract extends Contract {
 
         // uncomment one of the following line to get value from transient data
         // const transient = ctx.stub.getArgs();        // option A
-        const transient = ctx.stub.getTransient();   // option B
+        // const transient = ctx.stub.getTransient();   // option B
         const bufferTranstient = transient.get('price');
 
         // deserialize data into price object
@@ -258,8 +255,10 @@ export class VehicleContract extends Contract {
         if (vehicle.vinStatus === VinStatus.ISSUED) {
             throw new Error(`VIN for vehicle  ${vehicleNumber} is already ISSUED`);
         }
+
         // Set vin status to "ISSUED"
         vehicle.vinStatus = VinStatus.ISSUED;
+
         // Update state in ledger
         await ctx.getVehicleList().updateVehicle(vehicle);
 
@@ -286,6 +285,7 @@ export class VehicleContract extends Contract {
         vehicle’s owner to the new owner parameter.
         This action will be performed by the regulator participant
         */
+
         logger.info('============= START : Change Vehicle Owner ===========');
         // Check if role === Regulator / Insurer
         await this.hasRole(ctx, ['Regulator', 'Insurer']);
@@ -294,6 +294,7 @@ export class VehicleContract extends Contract {
         const vehicle = await ctx.getVehicleList().get(vehicleNumber);
         // Change vehicle owner
         vehicle.owner = newOwner;
+
         // Update state in ledger
         await ctx.getVehicleList().updateVehicle(vehicle);
         logger.info('============= END : changevehicleOwner ===========');
@@ -311,7 +312,7 @@ export class VehicleContract extends Contract {
     @Returns('Price')
     public async getPriceDetails(ctx: VehicleContext, vehicleNumber: string): Promise <Price> {
         // get the priceList object and call its getPrice function
-        return await ctx.getPriceList().getPrice(vehicleNumber);
+        return await ctx.getPriceList().getPrice();
     }
 
     /**
