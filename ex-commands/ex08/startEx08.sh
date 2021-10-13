@@ -6,11 +6,10 @@ cp -R ex08Artifacts/contract/. ../../SampleApplication/contract/.
 
 
 echo "################## START NETWORK ########################"
-cd /home/blockchain/BlockchainDeveloper/Vehicle-Network
+cd /home/blockchain/BlockchainDeveloper/test-network
 
 
-./byfn.sh down
-./byfn.sh up -V 1.9.2
+./startNetwork.sh
 
 echo "Update Contract with Ex07 Artifacts "
 cd $ROOT
