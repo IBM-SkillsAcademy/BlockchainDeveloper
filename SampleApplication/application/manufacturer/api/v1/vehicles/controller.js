@@ -21,6 +21,7 @@ exports.placeOrder = async (req, res, next) => {
       req.body.model,
       req.body.color
     );
+    
 
     // Disconnect from the gateway.
     await gateway.disconnect();
