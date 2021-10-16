@@ -15,7 +15,7 @@ exports.enrollAdmin = async (req, res, next) => {
     const ccp = await utils.getCCP();
 
     // Create a new CA client for interacting with the CA.
-    const caInfo = ccp.certificateAuthorities["ca.org3.example.com"];
+    const caInfo = ccp.certificateAuthorities["ca.org2.example.com"];
     const caTLSCACerts = caInfo.tlsCACerts.pem;
     const ca = new FabricCAServices(
       caInfo.url,
@@ -42,7 +42,7 @@ exports.enrollAdmin = async (req, res, next) => {
         certificate: enrollment.certificate,
         privateKey: enrollment.key.toBytes(),
       },
-      mspId: "Org3MSP",
+      mspId: "Org2MSP",
       type: "X.509",
     };
     await wallet.put("admin", x509Identity);
@@ -84,7 +84,7 @@ exports.registerUser = async (req, res, next) => {
     const ccp = await utils.getCCP();
 
     // Create a new CA client for interacting with the CA.
-    const caInfo = ccp.certificateAuthorities["ca.org3.example.com"];
+    const caInfo = ccp.certificateAuthorities["ca.org2.example.com"];
     const caTLSCACerts = caInfo.tlsCACerts.pem;
     const caClient = new FabricCAServices(
       caInfo.url,
@@ -102,13 +102,13 @@ exports.registerUser = async (req, res, next) => {
     // if affiliation is specified by client, the affiliation value must be configured in CA
     const secret = await caClient.register(
       {
-        affiliation: "org3.department1",
+        affiliation: "org2.department1",
         enrollmentID: enrollmentID,
         role: "client",
         attrs: [
           {
             name: "role",
-            value: "Insurer",
+            value: "Regulator",
             ecert: true,
           },
         ],
@@ -124,7 +124,7 @@ exports.registerUser = async (req, res, next) => {
         certificate: enrollment.certificate,
         privateKey: enrollment.key.toBytes(),
       },
-      mspId: "Org3MSP",
+      mspId: "Org2MSP",
       type: "X.509",
     };
     await wallet.put(enrollmentID, x509Identity);
@@ -136,48 +136,3 @@ exports.registerUser = async (req, res, next) => {
     res.send(err);
   }
 };
-
-
-exports.createAffiliation = async (req, res, next) => {
-  try {
-    // get connection profile
-    const ccp = await utils.getCCP();
-    const walletPath = path.join(process.cwd(), "wallet");
-    const wallet = await Wallets.newFileSystemWallet(walletPath);
-
-    // Check to see if we've already enrolled the admin user.
-    const adminIdentity = await wallet.get('admin');
-    if (!adminIdentity) {
-      return res.status(401).send({
-        message: `An identity for the admin user "admin" does not exist in the wallet. Please run admin enrollment before retrying`
-      });
-    }
-
-    // Create a new CA client for interacting with the CA.
-    const caInfo = ccp.certificateAuthorities["ca.org3.example.com"];
-    const caTLSCACerts = caInfo.tlsCACerts.pem;
-    const caClient = new FabricCAServices(
-      caInfo.url,
-      { trustedRoots: caTLSCACerts, verify: false },
-      caInfo.caName
-    );
-
-    const provider = wallet
-    .getProviderRegistry()
-    .getProvider(adminIdentity.type);
-  const adminUser = await provider.getUserContext(adminIdentity, "admin");
-
-    await caClient.newAffiliationService().create({
-      name: 'org3.department1',
-      force: true
-    }, adminUser);
-
-    return res.send({
-      message: `Successfully created affiliation 'org3.department1'`
-    });
-  } catch (err) {
-    console.log(err);
-    res.send(err);
-  }
-};
-

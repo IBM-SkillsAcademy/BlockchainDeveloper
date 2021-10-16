@@ -26,7 +26,6 @@ exports.checkAuthorization = async (req, res, next) => {
     // Create a new file system based wallet for managing identities.
     const walletPath = path.join(process.cwd(), "wallet");
     const wallet = await Wallets.newFileSystemWallet(walletPath);
-    this.logger.info(`Wallet path: ${walletPath}`);
 
     // Check to see if we've already enrolled the user.
     const userExists = await wallet.get(enrollmentID);
@@ -46,7 +45,6 @@ exports.setupGateway = async (user) => {
     // Create a new file system based wallet for managing identities.
     const walletPath = path.join(process.cwd(), "wallet");
     const wallet = await Wallets.newFileSystemWallet(walletPath);
-    this.logger.info(`Wallet path: ${walletPath}`);
 
     const ccp = await this.getCCP();
     const gateway = new Gateway();
@@ -69,21 +67,15 @@ exports.setupGateway = async (user) => {
 exports.getContract = async (gateway) => {
   try {
     const network = await gateway.getNetwork("mychannel");
-/**
-    const listener = async (event) => {
-      // Handle block event
-  
-      console.log("block added", event)
-      // Listener may remove itself if desired
-     // if (event.blockNumber.equals(endBlock)) {
-      //    network.removeBlockListener(listener);
-      //}
-  }
-  const options = {
-      startBlock: 1
-  };
-  await network.addBlockListener(listener, options);
-*/
+       // Adding Block Listener to listen to new Blocks
+   
+   const blockListener = await network.addBlockListener('my-block-listener', (err, block) => {
+    if (err) {
+        console.error(err);
+        return;
+    }
+    console.log(`Block Added-----------------: ${JSON.stringify(block)}`);
+  });
     // Get the contract from the network.
     return await network.getContract("vehicle-network");
   } catch (err) {

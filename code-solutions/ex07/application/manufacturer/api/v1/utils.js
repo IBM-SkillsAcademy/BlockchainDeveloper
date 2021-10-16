@@ -8,14 +8,14 @@ exports.getCCP = async () => {
   try {
     const ccpPath = path.resolve(__dirname, '..', '..', '..', '..', '..',
       'test-network', 'organizations', 'peerOrganizations',
-      'org3.example.com', 'connection-org3.json');    
+      'org1.example.com', 'connection-org1.json');
     const ccpJSON = fs.readFileSync(ccpPath, 'utf8');
     let ccp = JSON.parse(ccpJSON);
 
     return ccp;
   } catch (err) {
     console.log(err);
-    return err;
+    throw err;
   }
 };
 
@@ -26,7 +26,7 @@ exports.checkAuthorization = async (req, res, next) => {
     // Create a new file system based wallet for managing identities.
     const walletPath = path.join(process.cwd(), "wallet");
     const wallet = await Wallets.newFileSystemWallet(walletPath);
-    this.logger.info(`Wallet path: ${walletPath}`);
+    console.log(`Wallet path: ${walletPath}`);
 
     // Check to see if we've already enrolled the user.
     const userExists = await wallet.get(enrollmentID);
@@ -36,8 +36,8 @@ exports.checkAuthorization = async (req, res, next) => {
       });
     }
   } catch (err) {
-    this.logger.log({ level: "error", message: err });
-    next(err);
+    console.log(err);
+    throw err;
   }
 };
 
@@ -46,7 +46,7 @@ exports.setupGateway = async (user) => {
     // Create a new file system based wallet for managing identities.
     const walletPath = path.join(process.cwd(), "wallet");
     const wallet = await Wallets.newFileSystemWallet(walletPath);
-    this.logger.info(`Wallet path: ${walletPath}`);
+    console.log(`Wallet path: ${walletPath}`);
 
     const ccp = await this.getCCP();
     const gateway = new Gateway();
@@ -68,8 +68,8 @@ exports.setupGateway = async (user) => {
 
 exports.getContract = async (gateway) => {
   try {
+   
     const network = await gateway.getNetwork("mychannel");
-/**
     const listener = async (event) => {
       // Handle block event
   
@@ -83,11 +83,9 @@ exports.getContract = async (gateway) => {
       startBlock: 1
   };
   await network.addBlockListener(listener, options);
-*/
     // Get the contract from the network.
     return await network.getContract("vehicle-network");
   } catch (err) {
     throw new Error("Error connecting to channel . ERROR:" + err.message);
   }
 };
-

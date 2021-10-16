@@ -180,4 +180,3 @@ exports.createAffiliation = async (req, res, next) => {
     res.send(err);
   }
 };
-

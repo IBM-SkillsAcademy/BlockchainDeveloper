@@ -30,7 +30,7 @@ exports.getVehicle = async (req, res, next) => {
        * This function queries vehicles with a specific ID
        * @property {function} evaluateTransaction gets vehicle with ID
        */
-     // result = await contract.evaluateTransaction('queryVehicle', req.query.id);
+      result = await contract.evaluateTransaction('queryVehicle', req.query.id);
       rawResult = result.toString();
     } else {
       // queryAllVehicles transaction - requires no arguments, ex: ('queryAllVehicless')
