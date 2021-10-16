@@ -203,15 +203,6 @@ exports.updatePrice = async (req, res, next) => {
     // submit the transaction
    let transaction= await contract.createTransaction('updatePriceDetails');
    transaction.setTransient(transientData);
-   
-   transaction.addCommitListener((err, transactionId, status, blockNumber) => {
-        if (err) {
-            console.error(err);
-            return;
-        }
-        console.log(`Transaction ID: ${transactionId} Status: ${status} Block number: ${blockNumber}`);
-    });
-  
     transaction.submit();
 
     // Disconnect from the gateway.
@@ -311,6 +302,7 @@ exports.requestPolicy = async (req, res, next) => {
 
     // Submit the specified transaction.
     // requestPolicy transaction - requires 8 argument, ex: ('requestPolicy', 'policy1', 'insurer12', 'holder12', 'THIRD_PARTY', 12122019 , 31122020)
+
     await contract.submitTransaction(
       'requestPolicy',
       req.body.id,

@@ -145,6 +145,7 @@ exports.createAffiliation = async (req, res, next) => {
     const walletPath = path.join(process.cwd(), "wallet");
     const wallet = await Wallets.newFileSystemWallet(walletPath);
 
+
     // Check to see if we've already enrolled the admin user.
     const adminIdentity = await wallet.get('admin');
     if (!adminIdentity) {
@@ -162,6 +163,7 @@ exports.createAffiliation = async (req, res, next) => {
       caInfo.caName
     );
 
+
     const provider = wallet
     .getProviderRegistry()
     .getProvider(adminIdentity.type);
@@ -171,6 +173,7 @@ exports.createAffiliation = async (req, res, next) => {
       name: 'org3.department1',
       force: true
     }, adminUser);
+
 
     return res.send({
       message: `Successfully created affiliation 'org3.department1'`

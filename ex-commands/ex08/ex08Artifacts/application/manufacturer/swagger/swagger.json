@@ -675,6 +675,7 @@
                   "endDate": {
                     "type": "string",
                     "example": "31122019"
+
                   }
                 }
               }

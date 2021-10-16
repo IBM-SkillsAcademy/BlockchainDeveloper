@@ -62,11 +62,11 @@ exports.changeOwner = async (req, res, next) => {
       'changeVehicleOwner',
       req.body.vehicleID,
       req.body.owner);
-      
+
 
     // Disconnect from the gateway.
     // await gateway.disconnect();
-  
+
     return res.send({
       message: `Vehicle with ID ${req.body.vehicleID} ownership has been changed to ${req.body.owner}`,
       response: response
@@ -172,24 +172,27 @@ exports.issuePolicy = async (req, res, next) => {
     const gateway = await setupGateway(req.headers['enrollment-id']);
     const contract = await getContract(gateway);
     //add Contract Listener
-  
-   const listener = await contract.addContractListener('my-contract-listener', 'POLICY_ISSUED', (err, event, blockNumber, transactionId, status) => {
-  if (err) {
-      console.error(err);
-      return;
-  }
-  
-  console.log(`Block Number: ${blockNumber} Transaction ID: ${transactionId} Status: ${status}`);
-})
 
+
+    /*
+        const listener = await contract.addContractListener('my-contract-listener', 'POLICY_ISSUED', (err, event, blockNumber, transactionId, status) => {
+          if (err) {
+            console.error(err);
+            return;
+          }
+    
+          console.log(`Block Number: ${blockNumber} Transaction ID: ${transactionId} Status: ${status}`);
+        })
+    */
     // Submit the specified transaction.
     // issuePolicy transaction - requires 2 argument, ex: ('issuePolicy', 'policy1')
-   await contract.submitTransaction(
+    await contract.submitTransaction(
       'issuePolicy',
       req.body.id);
 
     // Disconnect from the gateway.
-  //  await gateway.disconnect();
+
+    //  await gateway.disconnect();
 
     return res.send({
       message: `Policy with ID ${req.body.id} has been issued`,

@@ -140,6 +140,7 @@ describe('Vehicle cycle: ', () => {
     policyType: 'THIRD_PARTY',
     startDate: '12122019',
     endDate: '31122019'
+
   }
   const vin = `vin${generate('1234567890abcdef', 4)}`;
   describe('POST /api/v1/vehicles/orders', () => {

@@ -5,7 +5,8 @@ ROOT=${PWD}
 
 echo "################## populate Data ########################"
 
-cd /home/blockchain/BlockchainDeveloper2019/SampleApplication/application
+
+cd /home/blockchain/BlockchainDeveloper/SampleApplication/application
 ls
 ./enrollUsers.sh
 ./populateOrders.sh
@@ -14,6 +15,8 @@ curl -X POST "http://localhost:6001/api/v1/vehicles" -H  "accept: */*" -H  "enro
 
 
 curl -X POST "http://localhost:6001/api/v1/vehicles/policies/request" -H  "accept: */*" -H  "enrollment-id: Manu-User" -H  "Content-Type: application/json" -d "{\"id\":\"policy1\",\"vehicleNumber\":\"Order1:Accord\",\"insurerId\":\"insurer1\",\"holderId\":\"holder1\",\"policyType\":\"THIRD_PARTY\",\"startDate\":\"12122019\",\"endDate\":\"31122019\"}"
+
+
 
 
 ./stop.sh

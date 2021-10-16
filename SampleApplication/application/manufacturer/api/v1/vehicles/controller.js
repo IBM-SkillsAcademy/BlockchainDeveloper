@@ -205,13 +205,13 @@ exports.updatePrice = async (req, res, next) => {
    let transaction= await contract.createTransaction('updatePriceDetails');
    transaction.setTransient(transientData);
    
-   transaction.addCommitListener((err, transactionId, status, blockNumber) => {
-        if (err) {
-            console.error(err);
-            return;
-        }
-        console.log(`Transaction ID: ${transactionId} Status: ${status} Block number: ${blockNumber}`);
-    });
+  //  transaction.addCommitListener((err, transactionId, status, blockNumber) => {
+  //       if (err) {
+  //           console.error(err);
+  //           return;
+  //       }
+  //       console.log(`Transaction ID: ${transactionId} Status: ${status} Block number: ${blockNumber}`);
+  //   });
   
     transaction.submit();
 
@@ -246,11 +246,8 @@ exports.getPrice = async (req, res, next) => {
       result: obj
     });
   } catch (err) {
-    const msg = err.message;
-    const msgString = msg.slice(msg.indexOf('Errors:') + 8, msg.length);
-    const json = JSON.parse(msgString);
     res.status(500);
-    res.send(json);
+    res.send(err.message);
   }
 };
 
@@ -262,18 +259,13 @@ exports.getPriceByRange = async (req, res, next) => {
 
     // Evaluate the specified transaction.
     const result = await contract.evaluateTransaction('getPriceByRange', req.query.min, req.query.max);
-    const rawResult = result.toString();
-    const json = JSON.parse(rawResult);
-    const obj = JSON.parse(json);
+    const jsonResult = result.toString();
     return res.send({
-      result: obj
+      result: jsonResult
     });
   } catch (err) {
-    const msg = err.message;
-    const msgString = msg.slice(msg.indexOf('Errors:') + 8, msg.length);
-    const json = JSON.parse(msgString);
     res.status(500);
-    res.send(json);
+    res.send(err.message);
   }
 };
 

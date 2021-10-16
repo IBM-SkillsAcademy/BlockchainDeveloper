@@ -319,6 +319,7 @@ csr:
    hosts:
      - ed72cb5c947c
      - localhost
+     - ca_org3
    ca:
       expiry: 131400h
       pathlength: 1
