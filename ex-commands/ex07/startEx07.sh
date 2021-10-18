@@ -2,8 +2,8 @@
 ROOT=${PWD}
 echo "Update Contract files with Completed smart Contract"
 
-cp -R ex07Artifacts/contract/. ../../SampleApplication/contract/.
-
+cp -R ex07Artifacts/src/. ../../SampleApplication/contract/src/.
+cp ex07Artifacts/collections_config.json ../../SampleApplication/contract/collections_config.json
 
 echo "################## START NETWORK ########################"
 cd /home/blockchain/BlockchainDeveloper/test-network
