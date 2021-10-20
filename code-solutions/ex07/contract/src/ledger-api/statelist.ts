@@ -350,7 +350,6 @@ export class StateList<T extends State> {
         return state;
     }
 
-
     public async updateSimpleKey(state: T) {
         const key = `${this.name}:${state.getSplitKey()[0]}`;
     
