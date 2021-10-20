@@ -93,7 +93,7 @@ await ctx.getPolicyList().add(policy);
 policy.status = PolicyStatus.ISSUED;
 
 // Update policy asset in the ledger
-await ctx.getPolicyList().update(policy);
+await ctx.getPolicyList().updateSimpleKey(policy);
 
 return await ctx.getPolicyList().get(policyId);
 

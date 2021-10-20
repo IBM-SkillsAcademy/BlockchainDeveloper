@@ -403,7 +403,7 @@ export class VehicleContract extends Contract {
         policy.status = PolicyStatus.ISSUED;
 
         // Update policy asset in the ledger
-        await ctx.getPolicyList().update(policy);
+        await ctx.getPolicyList().updateSimpleKey(policy);
 
         /*
         Fire an event after the transaction is successfully committed to the ledger,

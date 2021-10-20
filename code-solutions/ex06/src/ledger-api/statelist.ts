@@ -349,4 +349,19 @@ export class StateList<T extends State> {
         const state = State.deserialize(Buffer.from(data), this.supportedClasses) as T;
         return state;
     }
+
+    public async updateSimpleKey(state: T) {
+        const key = `${this.name}:${state.getSplitKey()[0]}`;
+
+        const data = state.serialize();
+
+        const buff = await this.ctx.stub.getState(key);
+
+        if (buff.length === 0) {
+            throw new Error(`Cannot update state. No state exists for key ${key}`);
+        }
+
+        await this.ctx.stub.putState(key, data);
+
+    }
 }
