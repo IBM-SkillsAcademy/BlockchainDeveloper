@@ -24,10 +24,12 @@ import { SmartContractUtil } from './ts-smart-contract-util';
 
 import * as os from 'os';
 import * as path from 'path';
+import * as generate from 'nanoid/generate';
 
 describe('org.vehiclelifecycle.vehicle-vehicle-manufacture@1.9.4' , () => {
-    const orderId: string = `Orders`;
+    const orderId: string = `Order${generate('1234567890abcdef', 4)}`;
     const vehicleNumber = orderId + ':Accord';
+
 
     const homedir: string = os.homedir();
     const walletPath: string = path.join(homedir, '.fabric-vscode', 'v2', 'environments', '1 Org Local Fabric', 'wallets', 'Org1');
@@ -199,4 +201,5 @@ describe('org.vehiclelifecycle.vehicle-vehicle-manufacture@1.9.4' , () => {
         });
         
         
+
 

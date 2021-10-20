@@ -20,16 +20,19 @@ set-title "Build And Start Chaincode"
 set-title "Approve Definition"
 ./approveDefinition.sh
 
+set-title "Testing Chaincode"
 cd ~/BlockchainDeveloper/config
 CORE_PEER_ADDRESS=127.0.0.1:7051 peer chaincode invoke -o 127.0.0.1:7050 -C ch1 -n mycc -c '{"Args":["initLedger"]}' --isInit
 
 CORE_PEER_ADDRESS=127.0.0.1:7051 peer chaincode invoke -o 127.0.0.1:7050 -C ch1 -n mycc -c '{"Args":["placeOrder","123","John","Toyota","Accord","Black"]}'
 
+cd ~/BlockchainDeveloper/SampleApplication/contract
 code .
 
 ./buildAndStartChaincode.sh 
 
-CORE_PEER_ADDRESS=127.0.0.1:7051 peer chaincode invoke -o 127.0.0.1:7050 -C ch1 -n mycc -c '{"Args":["placeOrder","123" "John","Toyota","Accord","Black"]}'
+cd ~/BlockchainDeveloper/config
+CORE_PEER_ADDRESS=127.0.0.1:7051 peer chaincode invoke -o 127.0.0.1:7050 -C ch1 -n mycc -c '{"Args":["placeOrder","123","John","Toyota","Accord","Black"]}'
 
 
 
