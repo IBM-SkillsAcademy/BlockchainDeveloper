@@ -119,8 +119,6 @@ peer chaincode invoke -o orderer.example.com:7050 --tls \
 
 peer chaincode query -o orderer.example.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C mychannel -n vehicle-network -c '{"Args":["getOrders"]}'
 
-peer chaincode query -o orderer.example.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C mychannel -n vehicle-network -c '{"Args":["getOrders"]}'
-
 =======
 Part 5
 =======

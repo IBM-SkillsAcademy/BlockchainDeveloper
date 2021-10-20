@@ -15,5 +15,5 @@ cd ${ROOT}/test-network/
 ./startNetwork.sh
 
 echo "Update Contract with Ex05 Artifacts "
-# cd ${ROOT}/ex-commands/ex05
-# cp -R ex05Artifacts/src/contracts/VehicleContract.ts ../../SampleApplication/contract/src/contracts/VehicleContract.ts
+cd ${ROOT}/ex-commands/ex05
+cp -R ex05Artifacts/src/contracts/VehicleContract.ts ../../SampleApplication/contract/src/contracts/VehicleContract.ts

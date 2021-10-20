@@ -203,7 +203,6 @@ exports.updatePrice = async (req, res, next) => {
     // submit the transaction
    let transaction= await contract.createTransaction('updatePriceDetails');
    transaction.setTransient(transientData);
-   
   //  transaction.addCommitListener((err, transactionId, status, blockNumber) => {
   //       if (err) {
   //           console.error(err);
@@ -212,10 +211,11 @@ exports.updatePrice = async (req, res, next) => {
   //       console.log(`Transaction ID: ${transactionId} Status: ${status} Block number: ${blockNumber}`);
   //   });
   
-    transaction.submit();
+    transaction.setEndorsingOrganizations('Org2MSP');
+    await transaction.submit();
 
     // Disconnect from the gateway.
-  //  await gateway.disconnect();
+    await gateway.disconnect();
     return res.send({
       message: `The price for vehicle with ID ${req.body.vehicleID} has been updated`,
       details: req.body
