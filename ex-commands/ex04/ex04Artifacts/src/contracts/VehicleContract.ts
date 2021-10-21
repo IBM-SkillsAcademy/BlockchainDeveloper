@@ -254,7 +254,7 @@ export class VehicleContract extends Contract {
         // Get vehicle by vehicle number
         const vehicle = await ctx.getVehicleList().get(vehicleNumber);
         // Change vehicle owner
-        vehicle.owner = newOwner;
+        //vehicle.owner = newOwner;
         // Update state in ledger
         await ctx.getVehicleList().updateVehicle(vehicle);
         logger.info('============= END : changevehicleOwner ===========');
