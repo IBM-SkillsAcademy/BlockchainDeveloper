@@ -105,3 +105,7 @@ dist
 
 # hlf identity
 *.id
+
+# ex04 generated file
+config/~
+config/msp
