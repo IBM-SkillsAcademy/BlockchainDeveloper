@@ -39,16 +39,22 @@ CORE_PEER_ADDRESS=127.0.0.1:7051 peer chaincode invoke -o 127.0.0.1:7050 -C ch1 
 =======
 Part 2
 ======= 
+
 code .
+
 ISSUED
+
 assert(Object.keys(jsonarray).length >= 1); 
+
 return vehicle
+
 npm run build
-cd ~/BlockchainDeveloper2019/SampleApplication/contract/
+
+cd ~/BlockchainDeveloper/SampleApplication/contract/
 npm test
 
-
-
- 
-
-
+=======
+Part 3
+======= 
+cd ~/BlockchainDeveloper/ex-commands/ex04/
+./stopex04.sh
