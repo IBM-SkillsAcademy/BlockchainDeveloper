@@ -17,7 +17,6 @@
 * package dependencies, including fabric-network, which are
 * required for this test file to be run locally.
 */
-
 import * as assert from 'assert';
 import * as fabricNetwork from 'fabric-network';
 import { SmartContractUtil } from './ts-smart-contract-util';
