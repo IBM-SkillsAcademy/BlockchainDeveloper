@@ -397,7 +397,7 @@ export class VehicleContract extends Contract {
         */
 
         // Get policy by ID from policy list
-        const policy = await ctx.getPolicyList().get(id);
+        const policy = await ctx.getPolicyList().getSimpleKey(id);
 
         // Set policy status to "ISSUED"
         policy.status = PolicyStatus.ISSUED;
