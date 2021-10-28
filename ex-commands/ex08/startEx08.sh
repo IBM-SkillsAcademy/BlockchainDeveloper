@@ -1,5 +1,9 @@
 #!/bin/bash
 ROOT=${PWD}
+
+echo "## Stopping the existing network ##"
+./stopEx08.sh
+
 echo "Update Contract files with Completed smart Contract"
 
 cp -R ex08Artifacts/contract/. ../../SampleApplication/contract/.
