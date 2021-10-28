@@ -103,7 +103,7 @@ export class StateList<T extends State> {
         return this.query({});
     }
 
-    /**
+   /**
     * generic function used across exercises to update assets
     * Update a state in the list. Puts the new state in world state with
     * appropriate composite key.  Note that state defines its own key.
@@ -161,6 +161,7 @@ export class StateList<T extends State> {
         }
         return states;
     }
+    
     // Delete state with Key
     public delete(key: string) {
         const ledgerKey = this.ctx.stub.createCompositeKey(this.name, State.splitKey(key));
@@ -180,6 +181,38 @@ export class StateList<T extends State> {
             this.supportedClasses.set(stateClass.getClass(), stateClass);
         }
     }
+
+    /**
+     * *** Exercise 06 > Part 3 ***
+     * @param {T} state data object that will be stored in private data collection
+     * @param {string} collection the name of the private data collection being used
+     */
+    public async updatePrivate(state: T, collection: string) {
+        const key = this.ctx.stub.createCompositeKey(this.name, state.getSplitKey());
+        // serialize object data to a buffer array before putting it to ledger
+        const data = state.serialize();
+        // putPrivateData puts the specified `key` and `value` into the transaction's private writeSet.
+        await this.ctx.stub.putPrivateData(collection, key, data);
+    }
+
+    /**
+     * *** Exercise 06 > Part 3 > Step 5 ***
+     * @param {string} key: The vehicle key number used to store the price data object
+     * @param {string} collection: The name of the private data collection
+     * @returns {Promise<T>} price object as promise
+     */
+    public async getPrivate(key: string, collection: string): Promise<T> {
+        const ledgerKey = this.ctx.stub.createCompositeKey(this.name, State.splitKey(key));
+        // getPrivateData returns the value of the specified `key` from the specified `collection`
+        const data = await this.ctx.stub.getPrivateData(collection, ledgerKey);
+        // Check whether data exists
+        if (data.length === 0) {
+            throw new Error(`Cannot get state. No state exists for key ${key} ${this.name}`);
+        }
+        // Deserialize buffer array into supported class object
+        const state = State.deserialize(Buffer.from(data), this.supportedClasses) as T;
+        return state;
+    }
     /**
      * *** Exercise 3  > Part 4 ***
      * @param { string } key for which to return all history
@@ -193,14 +226,14 @@ export class StateList<T extends State> {
         The time stamp is the time stamp provided by the client in the proposal header.
          This method requires peer configuration core.ledger.history.enableHistoryDatabase to be true.*/
         const keyHistory = await this.ctx.stub.getHistoryForKey(ledgerKey);
-        // array of IHistoricState to hold query result
+       // array of IHistoricState to hold query result
         const history: Array<IHistoricState<T>> = [];
 
         let value = (await keyHistory.next()).value;
 
         while (value) {
-            // deserialize the state which convert object into one of a set of supported JSON classes
-            const state = State.deserialize(Buffer.from(value.value as any), this.supportedClasses);
+           // deserialize the state which convert object into one of a set of supported JSON classes
+           const state = State.deserialize(Buffer.from(value.value as any), this.supportedClasses);
 
             const historicState: IHistoricState<T> = new IHistoricState(
                 (value.timestamp.seconds as any).toInt(), value.txId, state as T,
@@ -222,7 +255,7 @@ export class StateList<T extends State> {
      * @returns T[] Array of states that exists in the range between start and end keys
      *  Query assets by range by using startkey and endkey. This function uses the API getStateByRange
      */
-    public async getAssetsByRange(startKey: string, endKey: string): Promise<T[]> {
+     public async getAssetsByRange(startKey: string, endKey: string): Promise<T[]> {
 
         const ledgerStartKey = `${this.name}:${State.splitKey(startKey)[0]}`;
 
@@ -252,21 +285,21 @@ export class StateList<T extends State> {
         return states;
 
     }
-    /**
-     * *** Exercise 3  > Part 5 ***
-     *
-     * @param { string } queryString: Query statment as string
-     * @param { number } pageSize: Number of query result per page
-     * @param { string } bookmark: When an empty string is passed as a value to the bookmark argument,
-     * the returned iterator can be used to fetch the first `pageSize` of query results. When the bookmark is not an empty string,
-     * the iterator can be used to fetch the first `pageSize` keys between the bookmark and the last key in the query result.
-     * @returns { QueryPaginationResponse<T> }: Object of type QueryPaginationResponse T, which contains array of states, number of returned results, and bookmark.
-     */
+ /**
+  * *** Exercise 3  > Part 5 ***
+  *
+  * @param { string } queryString: Query statment as string
+  * @param { number } pageSize: Number of query result per page
+  * @param { string } bookmark: When an empty string is passed as a value to the bookmark argument,
+  * the returned iterator can be used to fetch the first `pageSize` of query results. When the bookmark is not an empty string,
+  * the iterator can be used to fetch the first `pageSize` keys between the bookmark and the last key in the query result.
+  * @returns { QueryPaginationResponse<T> }: Object of type QueryPaginationResponse T, which contains array of states, number of returned results, and bookmark.
+  */
     public async queryWithPagination(queryString: string, pageSize: number, bookmark: string): Promise<QueryPaginationResponse<T>> {
         /*
         getQueryResultWithPagination, which performs a "rich" query against a state database. It is only supported for state databases that support rich query, for example,
         CouchDB. The query string is in the native syntax of the underlying state database.
-        */
+       */
         const result = await this.ctx.stub.getQueryResultWithPagination(queryString, pageSize, bookmark);
         // Create object of custom type QueryPaginationResponse (which exists under folder util)
         const queryPaginatedRes: QueryPaginationResponse<T> = new QueryPaginationResponse(result.metadata.fetchedRecordsCount, result.metadata.bookmark);
@@ -290,78 +323,47 @@ export class StateList<T extends State> {
         return queryPaginatedRes;
 
     }
-    /**
+
+  /**
      * *** Exercise 3 > Part 4 ***
      *
      * @returns { Number }   count total number of assets of specific type
      * Get Count of specific state (Vehicle , Order , ...)
      */
-    public async count(): Promise<number> {
-        /*Queries the state in the ledger based on a given partial composite key.
-        This function returns an iterator, which can be used to iterate over all composite keys
-        whose prefix matches the given partial composite key */
-        const data = await this.ctx.stub.getStateByPartialCompositeKey(this.name, []);
-        let counter = 0;
+   public async count(): Promise<number> {
+    /*Queries the state in the ledger based on a given partial composite key.
+    This function returns an iterator, which can be used to iterate over all composite keys
+    whose prefix matches the given partial composite key */
+    const data = await this.ctx.stub.getStateByPartialCompositeKey(this.name, []);
+    let counter = 0;
 
-        while (true) {
-            const next = await data.next();
+    while (true) {
+        const next = await data.next();
 
-            if (next.value) {
-                counter++;
-            }
-
-            if (next.done) {
-                break;
-            }
+        if (next.value) {
+            counter++;
         }
 
-        return counter;
-    }
-
-    /**
-     * *** Exercise 06 > Part 3 ***
-     * @param {T} state data object that will be stored in private data collection
-     * @param {string} collection the name of the private data collection being used
-     */
-     public async updatePrivate(state: T, collection: string) {
-        const key = this.ctx.stub.createCompositeKey(this.name, state.getSplitKey());
-        // serialize object data to a buffer array before putting it to ledger
-        const data = state.serialize();
-        // putPrivateData puts the specified `key` and `value` into the transaction's private writeSet.
-        await this.ctx.stub.putPrivateData(collection, key, data);
-    }
-
-    /**
-     * *** Exercise 06 > Part 3 > Step 5 ***
-     * @param {string} key: The vehicle key number used to store the price data object
-     * @param {string} collection: The name of the private data collection
-     * @returns {Promise<T>} price object as promise
-     */
-    public async getPrivate(key: string, collection: string): Promise<T> {
-        const ledgerKey = this.ctx.stub.createCompositeKey(this.name, State.splitKey(key));
-        // getPrivateData returns the value of the specified `key` from the specified `collection`
-        const data = await this.ctx.stub.getPrivateData(collection, ledgerKey);
-        // Check whether data exists
-        if (data.length === 0) {
-            throw new Error(`Cannot get state. No state exists for key ${key} ${this.name}`);
+        if (next.done) {
+            break;
         }
-        // Deserialize buffer array into supported class object
-        const state = State.deserialize(Buffer.from(data), this.supportedClasses) as T;
-        return state;
     }
 
-    public async updateSimpleKey(state: T) {
-        const key = `${this.name}:${state.getSplitKey()[0]}`;
+    return counter;
+   }
 
-        const data = state.serialize();
+   public async updateSimpleKey(state: T) {
+    const key = `${this.name}:${state.getSplitKey()[0]}`;
 
-        const buff = await this.ctx.stub.getState(key);
+    const data = state.serialize();
 
-        if (buff.length === 0) {
-            throw new Error(`Cannot update state. No state exists for key ${key}`);
-        }
+    const buff = await this.ctx.stub.getState(key);
 
-        await this.ctx.stub.putState(key, data);
-
+    if (buff.length === 0) {
+        throw new Error(`Cannot update state. No state exists for key ${key}`);
     }
+
+    await this.ctx.stub.putState(key, data);
+
+   }
 }
