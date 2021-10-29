@@ -209,13 +209,13 @@ exports.updatePrice = async (req, res, next) => {
         return;
       } else {
         // Handle transaction commit event
-        console.log(`Transaction ID: ${transactionId} Block number: ${blockNumber}`);
+        console.log(`Transaction ID: ${transactionId} is submitted.`);
       }
     }
-    const peers = contract.network.channel.getEndorsers();
+    const peers = await contract.network.channel.getEndorsers();
     await contract.network.addCommitListener(listener, peers, transactionId);
   */
-    transaction.submit();
+    await transaction.submit();
 
     // Disconnect from the gateway.
     await gateway.disconnect();
