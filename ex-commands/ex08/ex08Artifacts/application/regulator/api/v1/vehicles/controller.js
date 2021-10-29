@@ -5,6 +5,8 @@ const {
   getContract,
 } = require("../utils");
 
+const { BlockDecoder } = require('fabric-common');
+
 exports.getOrder = async (req, res, next) => {
   try {
     await checkAuthorization(req, res);
