@@ -49,7 +49,7 @@ export class Price extends State {
      */
     constructor(obj) {
         // uncomment one of the following line to be able to create a new price object
-        // super(Price.getClass(), [obj.vehicleNumber]);    // option A
+        super(Price.getClass(), [obj.vehicleNumber]);    // option A
         // super(Price.getClass());                         // option B
         Object.assign(this, obj);
     }

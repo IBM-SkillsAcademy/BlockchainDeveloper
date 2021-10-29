@@ -103,7 +103,7 @@ export class VehicleContract extends Contract {
 
         // uncomment one of the following line to get value from transient data
         // const transient = ctx.stub.getArgs();        // option A
-        // const transient = ctx.stub.getTransient();   // option B
+        const transient = ctx.stub.getTransient();   // option B
         const bufferTranstient = transient.get('price');
 
         // deserialize data into price object
@@ -312,7 +312,7 @@ export class VehicleContract extends Contract {
     @Returns('Price')
     public async getPriceDetails(ctx: VehicleContext, vehicleNumber: string): Promise <Price> {
         // get the priceList object and call its getPrice function
-        return await ctx.getPriceList().getPrice();
+        return await ctx.getPriceList().getPrice(vehicleNumber);
     }
 
     /**

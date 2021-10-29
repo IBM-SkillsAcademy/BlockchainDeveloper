@@ -24,7 +24,7 @@ export class PriceList <T extends Price> extends StateList<T> {
      */
     public async updatePrice(price: T) {
         // Call the updatePrivate function of the statelist class with collection name and object as input
-        return this.updatePrivate(price);
+        return this.updatePrivate(price, 'collectionVehiclePriceDetails');
     }
 
     /**
@@ -34,6 +34,6 @@ export class PriceList <T extends Price> extends StateList<T> {
      */
     public async getPrice(vehicleNumber) {
         // Call the getPrivate function of the statelist class with collection name and object as input
-        return this.getPrivate(vehicleNumber);
+        return this.getPrivate(vehicleNumber, 'collectionVehiclePriceDetails');
     }
 }
