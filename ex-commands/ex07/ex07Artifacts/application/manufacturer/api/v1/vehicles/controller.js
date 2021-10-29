@@ -204,7 +204,7 @@ exports.updatePrice = async (req, res, next) => {
     */
 
     // Disconnect from the gateway.
-  //  await gateway.disconnect();
+    await gateway.disconnect();
     return res.send({
       message: `The price for vehicle with ID ${req.body.vehicleID} has been updated`,
       details: req.body
