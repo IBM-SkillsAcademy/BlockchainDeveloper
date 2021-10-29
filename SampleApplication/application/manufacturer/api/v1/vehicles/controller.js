@@ -113,23 +113,23 @@ exports.createVehicle = async (req, res, next) => {
     * @param {Object} req: Express request object
     * @param {Object} res: Express response object
     */
-    await checkAuthorization(req, res);
+    //await checkAuthorization(req, res);
     /**
     *This function opens a gateway to the peer node with the user
     *enrolled and the wallets.
     *@param {String} enrollment-id user enrollment ID
     **/
-    const gateway = await setupGateway(req.headers['enrollment-id']);
+    //const gateway = await setupGateway(req.headers['enrollment-id']);
     /**
      * This function gets the contract on which the transaction is performed.
      * @param {Gateway} gateway: The opened gateway to peer node
      */
-    const contract = await getContract(gateway);
+    //const contract = await getContract(gateway);
     /**
      * This function submits the specified transaction
      * @property {function} submitTransaction to submit the specified transaction from the contract
      */
-
+/*
     await contract.submitTransaction(
       'createVehicle',
       req.body.orderID,
@@ -137,7 +137,7 @@ exports.createVehicle = async (req, res, next) => {
       req.body.model,
       req.body.color,
       req.body.owner);
-
+*/
     // Disconnect from the gateway.
     await gateway.disconnect();
     return res.send({
@@ -197,11 +197,11 @@ exports.updatePrice = async (req, res, next) => {
       price: Buffer.from(JSON.stringify(price))
     };
     // submit the transaction
-  
+    /*
    let transaction= await contract.createTransaction('updatePriceDetails');
    transaction.setTransient(transientData);
     transaction.submit();
-    
+    */
 
     // Disconnect from the gateway.
   //  await gateway.disconnect();
@@ -235,10 +235,8 @@ exports.getPrice = async (req, res, next) => {
     });
   } catch (err) {
     const msg = err.message;
-    const msgString = msg.slice(msg.indexOf('Errors:') + 8, msg.length);
-    const json = JSON.parse(msgString);
     res.status(500);
-    res.send(json);
+    res.send(msg);
   }
 };
 
@@ -252,15 +250,14 @@ exports.getPriceByRange = async (req, res, next) => {
     const result = await contract.evaluateTransaction('getPriceByRange', req.query.min, req.query.max);
     const rawResult = result.toString();
     const json = JSON.parse(rawResult);
-    return res.send(
-       json
-    );
+
+    return res.send({
+      json
+    });
   } catch (err) {
     const msg = err.message;
-    const msgString = msg.slice(msg.indexOf('Errors:') + 8, msg.length);
-    const json = JSON.parse(msgString);
     res.status(500);
-    res.send(json);
+    res.send(msg);
   }
 };
 
