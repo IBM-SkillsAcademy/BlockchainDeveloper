@@ -59,10 +59,8 @@ exports.getOrder = async (req, res, next) => {
     });
   } catch (err) {
     const msg = err.message;
-    const msgString = msg.slice(msg.indexOf('Errors:') + 8, msg.length);
-    const json = JSON.parse(msgString);
     res.status(500);
-    res.send(json);
+    res.send(msg);
   }
 };
 
@@ -178,10 +176,8 @@ exports.getVehicle = async (req, res, next) => {
     });
   } catch (err) {
     const msg = err.message;
-    const msgString = msg.slice(msg.indexOf('Errors:') + 8, msg.length);
-    const json = JSON.parse(msgString);
     res.status(500);
-    res.send(json);
+    res.send(msg);
   }
 };
 
@@ -237,10 +233,8 @@ exports.getPrice = async (req, res, next) => {
     });
   } catch (err) {
     const msg = err.message;
-    const msgString = msg.slice(msg.indexOf('Errors:') + 8, msg.length);
-    const json = JSON.parse(msgString);
     res.status(500);
-    res.send(json);
+    res.send(msg);
   }
 };
 
@@ -260,10 +254,8 @@ exports.getPriceByRange = async (req, res, next) => {
     });
   } catch (err) {
     const msg = err.message;
-    const msgString = msg.slice(msg.indexOf('Errors:') + 8, msg.length);
-    const json = JSON.parse(msgString);
     res.status(500);
-    res.send(json);
+    res.send(msg);
   }
 };
 
@@ -287,10 +279,8 @@ exports.getPolicy = async (req, res, next) => {
     });
   } catch (err) {
     const msg = err.message;
-    const msgString = msg.slice(msg.indexOf('Errors:') + 8, msg.length);
-    const json = JSON.parse(msgString);
     res.status(500);
-    res.send(json);
+    res.send(msg);
   }
 };
 
@@ -373,10 +363,8 @@ exports.getHistoryForVehicle = async (req, res, next) => {
     });
   } catch (err) {
     const msg = err.message;
-    const msgString = msg.slice(msg.indexOf('Errors:') + 8, msg.length);
-    const json = JSON.parse(msgString);
     res.status(500);
-    res.send(json);
+    res.send(msg);
   }
 };
 
@@ -396,10 +384,8 @@ exports.getHistoryForOrder = async (req, res, next) => {
     });
   } catch (err) {
     const msg = err.message;
-    const msgString = msg.slice(msg.indexOf('Errors:') + 8, msg.length);
-    const json = JSON.parse(msgString);
     res.status(500);
-    res.send(json);
+    res.send(msg);
   }
 };
 
@@ -423,10 +409,8 @@ exports.getOrdersByStatusPaginated = async (req, res, next) => {
     });
   } catch (err) {
     const msg = err.message;
-    const msgString = msg.slice(msg.indexOf('Errors:') + 8, msg.length);
-    const json = JSON.parse(msgString);
     res.status(500);
-    res.send(json);
+    res.send(msg);
   }
 };
 
