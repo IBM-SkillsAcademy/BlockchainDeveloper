@@ -250,9 +250,9 @@ exports.getPriceByRange = async (req, res, next) => {
     const result = await contract.evaluateTransaction('getPriceByRange', req.query.min, req.query.max);
     const rawResult = result.toString();
     const json = JSON.parse(rawResult);
-    const obj = JSON.parse(json);
+
     return res.send({
-      result: obj
+      json
     });
   } catch (err) {
     const msg = err.message;

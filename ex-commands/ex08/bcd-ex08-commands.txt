@@ -4,7 +4,6 @@ Part 1
 set-title "Start Network"
 
 docker rm -f $(docker ps -aq); docker volume rm -f $(docker volume ls -q)
-
 docker ps -a
 
 cd ~/BlockchainDeveloper/ex-commands/ex08
@@ -17,11 +16,9 @@ cd ~/BlockchainDeveloper/ex-commands/ex08
 Part 2
 =======
 cd ~/BlockchainDeveloper/SampleApplication/application/manufacturer 
-
 set-title "manufacturer screen"
 
 cd ~/BlockchainDeveloper/SampleApplication/application/insurer
-
 set-title "insurer screen"
 
 cd ~/BlockchainDeveloper/SampleApplication/application
@@ -30,13 +27,14 @@ code .
 npm start
 
 http://localhost:6003/api-docs
-Insu-User
 
+Insu-User
 Order1:Accord
 John
 
 npm start
 
+Insu-User
 policy1
 
 npm start

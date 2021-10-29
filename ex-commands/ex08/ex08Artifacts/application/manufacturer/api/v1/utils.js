@@ -69,6 +69,15 @@ exports.setupGateway = async (user) => {
 exports.getContract = async (gateway) => {
   try {
     const network = await gateway.getNetwork("mychannel");
+
+
+    // Adding Block Listener to listen to blocks
+    /*
+    await network.addBlockListener(async (block) => {
+      console.log(`Block Added-----------------: ${JSON.stringify(block)}`);
+    });
+    */
+
     // Get the contract from the network.
     return await network.getContract("vehicle-network");
   } catch (err) {

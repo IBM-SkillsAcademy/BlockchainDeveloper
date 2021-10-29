@@ -8,7 +8,7 @@ exports.getCCP = async () => {
   try {
     const ccpPath = path.resolve(__dirname, '..', '..', '..', '..', '..',
       'test-network', 'organizations', 'peerOrganizations',
-      'org3.example.com', 'connection-org3.json');
+      'org3.example.com', 'connection-org3.json');    
     const ccpJSON = fs.readFileSync(ccpPath, 'utf8');
     let ccp = JSON.parse(ccpJSON);
 
@@ -26,7 +26,6 @@ exports.checkAuthorization = async (req, res, next) => {
     // Create a new file system based wallet for managing identities.
     const walletPath = path.join(process.cwd(), "wallet");
     const wallet = await Wallets.newFileSystemWallet(walletPath);
-    this.logger.info(`Wallet path: ${walletPath}`);
 
     // Check to see if we've already enrolled the user.
     const userExists = await wallet.get(enrollmentID);
@@ -46,7 +45,6 @@ exports.setupGateway = async (user) => {
     // Create a new file system based wallet for managing identities.
     const walletPath = path.join(process.cwd(), "wallet");
     const wallet = await Wallets.newFileSystemWallet(walletPath);
-    this.logger.info(`Wallet path: ${walletPath}`);
 
     const ccp = await this.getCCP();
     const gateway = new Gateway();
@@ -70,20 +68,17 @@ exports.getContract = async (gateway) => {
   try {
     const network = await gateway.getNetwork("mychannel");
 
-    // Adding Block Listener to listen to new Blocks
+
+    // Adding Block Listener to listen to blocks
     /*
-    const blockListener = await network.addBlockListener('my-block-listener', (err, block) => {
-     if (err) {
-         console.error(err);
-         return;
-     }
-     console.log(`Block Added-----------------: ${JSON.stringify(block)}`);
- });
- */
+    await network.addBlockListener(async (block) => {
+      console.log(`Block Added-----------------: ${block}`);
+    });
+    */
+
     // Get the contract from the network.
     return await network.getContract("vehicle-network");
   } catch (err) {
     throw new Error("Error connecting to channel . ERROR:" + err.message);
   }
 };
-

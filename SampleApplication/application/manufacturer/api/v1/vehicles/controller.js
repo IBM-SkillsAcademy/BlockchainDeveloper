@@ -197,21 +197,14 @@ exports.updatePrice = async (req, res, next) => {
       price: Buffer.from(JSON.stringify(price))
     };
     // submit the transaction
+  
    let transaction= await contract.createTransaction('updatePriceDetails');
    transaction.setTransient(transientData);
-  //  transaction.addCommitListener((err, transactionId, status, blockNumber) => {
-  //       if (err) {
-  //           console.error(err);
-  //           return;
-  //       }
-  //       console.log(`Transaction ID: ${transactionId} Status: ${status} Block number: ${blockNumber}`);
-  //   });
-  
-    transaction.setEndorsingOrganizations('Org2MSP');
-    await transaction.submit();
+    transaction.submit();
+    
 
     // Disconnect from the gateway.
-    await gateway.disconnect();
+  //  await gateway.disconnect();
     return res.send({
       message: `The price for vehicle with ID ${req.body.vehicleID} has been updated`,
       details: req.body
@@ -241,8 +234,11 @@ exports.getPrice = async (req, res, next) => {
       result: obj
     });
   } catch (err) {
+    const msg = err.message;
+    const msgString = msg.slice(msg.indexOf('Errors:') + 8, msg.length);
+    const json = JSON.parse(msgString);
     res.status(500);
-    res.send(err.message);
+    res.send(json);
   }
 };
 
@@ -254,13 +250,17 @@ exports.getPriceByRange = async (req, res, next) => {
 
     // Evaluate the specified transaction.
     const result = await contract.evaluateTransaction('getPriceByRange', req.query.min, req.query.max);
-    const jsonResult = result.toString();
-    return res.send({
-      result: jsonResult
-    });
+    const rawResult = result.toString();
+    const json = JSON.parse(rawResult);
+    return res.send(
+       json
+    );
   } catch (err) {
+    const msg = err.message;
+    const msgString = msg.slice(msg.indexOf('Errors:') + 8, msg.length);
+    const json = JSON.parse(msgString);
     res.status(500);
-    res.send(err.message);
+    res.send(json);
   }
 };
 

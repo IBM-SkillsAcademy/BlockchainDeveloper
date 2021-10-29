@@ -3,6 +3,7 @@ ROOT=${PWD}
 echo "Update Contract files with Completed smart Contract"
 
 cp -R ex07Artifacts/src/. ../../SampleApplication/contract/src/.
+cp -R ex07Artifacts/META-INF/. ../../SampleApplication/contract/META-INF/.
 cp ex07Artifacts/collections_config.json ../../SampleApplication/contract/collections_config.json
 
 echo "################## START NETWORK ########################"
