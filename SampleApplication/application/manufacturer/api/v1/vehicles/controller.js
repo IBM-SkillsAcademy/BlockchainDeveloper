@@ -113,23 +113,23 @@ exports.createVehicle = async (req, res, next) => {
     * @param {Object} req: Express request object
     * @param {Object} res: Express response object
     */
-    //await checkAuthorization(req, res);
+    await checkAuthorization(req, res);
     /**
     *This function opens a gateway to the peer node with the user
     *enrolled and the wallets.
     *@param {String} enrollment-id user enrollment ID
     **/
-    //const gateway = await setupGateway(req.headers['enrollment-id']);
+    const gateway = await setupGateway(req.headers['enrollment-id']);
     /**
      * This function gets the contract on which the transaction is performed.
      * @param {Gateway} gateway: The opened gateway to peer node
      */
-    //const contract = await getContract(gateway);
+    const contract = await getContract(gateway);
     /**
      * This function submits the specified transaction
      * @property {function} submitTransaction to submit the specified transaction from the contract
      */
-/*
+
     await contract.submitTransaction(
       'createVehicle',
       req.body.orderID,
@@ -137,7 +137,7 @@ exports.createVehicle = async (req, res, next) => {
       req.body.model,
       req.body.color,
       req.body.owner);
-*/
+
     // Disconnect from the gateway.
     await gateway.disconnect();
     return res.send({
@@ -197,14 +197,21 @@ exports.updatePrice = async (req, res, next) => {
       price: Buffer.from(JSON.stringify(price))
     };
     // submit the transaction
-    /*
    let transaction= await contract.createTransaction('updatePriceDetails');
    transaction.setTransient(transientData);
-    transaction.submit();
-    */
+  //  transaction.addCommitListener((err, transactionId, status, blockNumber) => {
+  //       if (err) {
+  //           console.error(err);
+  //           return;
+  //       }
+  //       console.log(`Transaction ID: ${transactionId} Status: ${status} Block number: ${blockNumber}`);
+  //   });
+  
+    transaction.setEndorsingOrganizations('Org2MSP');
+    await transaction.submit();
 
     // Disconnect from the gateway.
-  //  await gateway.disconnect();
+    await gateway.disconnect();
     return res.send({
       message: `The price for vehicle with ID ${req.body.vehicleID} has been updated`,
       details: req.body
@@ -234,9 +241,8 @@ exports.getPrice = async (req, res, next) => {
       result: obj
     });
   } catch (err) {
-    const msg = err.message;
     res.status(500);
-    res.send(msg);
+    res.send(err.message);
   }
 };
 
@@ -248,16 +254,13 @@ exports.getPriceByRange = async (req, res, next) => {
 
     // Evaluate the specified transaction.
     const result = await contract.evaluateTransaction('getPriceByRange', req.query.min, req.query.max);
-    const rawResult = result.toString();
-    const json = JSON.parse(rawResult);
-
+    const jsonResult = result.toString();
     return res.send({
-      json
+      result: jsonResult
     });
   } catch (err) {
-    const msg = err.message;
     res.status(500);
-    res.send(msg);
+    res.send(err.message);
   }
 };
 
