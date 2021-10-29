@@ -1,7 +1,7 @@
 import { Vehicle } from '../assets/vehicle';
 import { IState } from '../ledger-api/state';
 import { StateList } from '../ledger-api/statelist';
-import { VehicleContext } from '../utils/vehicleContext';
+import {  VehicleContext } from '../utils/vehicleContext';
 
 export class VehicleList <T extends Vehicle> extends StateList<T> {
 
@@ -21,14 +21,5 @@ export class VehicleList <T extends Vehicle> extends StateList<T> {
 
     public async updateVehicle(vehicle) {
         return this.update(vehicle);
-    }
-    /**
-     * *** Exercise 03 > Part 4 ***
-     * @param  {string} vehicleNumber vehicle number to return history for
-     * get history for vehicle as provenance of changes over vehicle
-     */
-    public async getVehicleHistory(vehicleNumber) {
-        // call function defined in statelist.ts
-        return this.getHistory(vehicleNumber);
     }
 }
