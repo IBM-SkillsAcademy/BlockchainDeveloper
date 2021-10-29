@@ -163,7 +163,7 @@ exports.getVehicle = async (req, res, next) => {
     // Evaluate the specified transaction.
     let result;
     if (req.query.id) {
-    // if vehicle id specified queryVehicle transaction - requires 1 argument, ex: ('queryVehicle', 'vehicle4')
+      // if vehicle id specified queryVehicle transaction - requires 1 argument, ex: ('queryVehicle', 'vehicle4')
       result = await contract.evaluateTransaction('queryVehicle', req.query.id);
     } else {
       // queryAllVehicles transaction - requires no arguments, ex: ('queryAllVehicless')
@@ -197,21 +197,28 @@ exports.updatePrice = async (req, res, next) => {
       price: Buffer.from(JSON.stringify(price))
     };
     // submit the transaction
-   let transaction= await contract.createTransaction('updatePriceDetails');
-   transaction.setTransient(transientData);
-   /*
-   transaction.addCommitListener((err, transactionId, status, blockNumber) => {
-        if (err) {
-            console.error(err);
-            return;
-        }
-        console.log(`Transaction ID: ${transactionId} Status: ${status} Block number: ${blockNumber}`);
-    });
+    let transaction = await contract.createTransaction('updatePriceDetails');
+    transaction.setTransient(transientData);
+ /*
+   const transactionId = transaction.identityContext.transactionId;
+
+    const listener = (error, event) => {
+      if (error) {
+        // Handle peer communication error
+        console.error(error);
+        return;
+      } else {
+        // Handle transaction commit event
+        console.log(`Transaction ID: ${transactionId} Block number: ${blockNumber}`);
+      }
+    }
+    const peers = contract.network.channel.getEndorsers();
+    await contract.network.addCommitListener(listener, peers, transactionId);
   */
     transaction.submit();
 
     // Disconnect from the gateway.
-  //  await gateway.disconnect();
+    await gateway.disconnect();
     return res.send({
       message: `The price for vehicle with ID ${req.body.vehicleID} has been updated`,
       details: req.body

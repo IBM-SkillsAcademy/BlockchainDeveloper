@@ -170,14 +170,14 @@ exports.issuePolicy = async (req, res, next) => {
     //add Contract Listener
 
     /*
-        const listener = await contract.addContractListener('my-contract-listener', 'POLICY_ISSUED', (err, event, blockNumber, transactionId, status) => {
-          if (err) {
-            console.error(err);
-            return;
-          }
-    
-          console.log(`Block Number: ${blockNumber} Transaction ID: ${transactionId} Status: ${status}`);
-        })
+    const listener = async (event) => {
+      if (event.eventName === 'POLICY_ISSUED') {
+        const details = event.payload.toString('utf8');
+        // Run business process to handle orders
+        console.log(details);
+      }
+    };
+    await contract.addContractListener(listener);
     */
     // Submit the specified transaction.
     // issuePolicy transaction - requires 2 argument, ex: ('issuePolicy', 'policy1')
@@ -186,7 +186,7 @@ exports.issuePolicy = async (req, res, next) => {
       req.body.id);
 
     // Disconnect from the gateway.
-    //  await gateway.disconnect();
+    await gateway.disconnect();
 
     return res.send({
       message: `Policy with ID ${req.body.id} has been issued`,
