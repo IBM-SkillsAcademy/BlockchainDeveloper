@@ -282,13 +282,20 @@ exports.queryBlock = async (req, res, next) => {
     const network = await gateway.getNetwork("mychannel");
     const channel = network.getChannel();
     console.log(parseInt(req.query.blockNumber));
-/*
-    let block = await channel.queryBlock(parseInt(req.query.blockNumber));
-*/
+
+    /*
+    const contract = network.getContract('qscc');
+    const resultByte = await contract.evaluateTransaction(
+      'GetBlockByNumber',
+      channel.name,
+      req.query.blockNumber
+    );
+    const block = BlockDecoder.decode(resultByte);
+    */
+
     return res.send({
       message: `Block Details listed`,
-      details: `Block Info : ${block.header.number}   Number of Transactions :  ${block.data.data.length}
-      ID of the transaction in the block  ${block.data.data[0].payload.header.channel_header.tx_id}`
+      details: `Block Info : ${block.header.number}    Number of Transactions :  ${block.data.data.length}     ID of the transaction in the block  ${block.data.data[0].payload.header.channel_header.tx_id}`
     });
 
 

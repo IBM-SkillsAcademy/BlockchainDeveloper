@@ -49,7 +49,6 @@ Order1:Accord
 Part 3
 =======
 set-title "regulator screen"
-
 cd ~/BlockchainDeveloper/SampleApplication/application/regulator
 
 npm start

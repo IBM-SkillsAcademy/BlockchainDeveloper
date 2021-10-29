@@ -71,8 +71,13 @@ exports.getContract = async (gateway) => {
 
     // Adding Block Listener to listen to blocks
     /*
-    await network.addBlockListener(async (block) => {
-    console.log(`Block Added-----------------: ${JSON.stringify(block)}`);
+   await network.addBlockListener(async (block) => {
+      const info = {
+        "number": block.blockNumber.low,
+        "previous_hash": block.blockData.header.previous_hash,
+        "data_hash": block.blockData.header.data_hash
+      };
+      console.log(`Block Added-----------------: ${JSON.stringify(info)}`);
     });
     */
 
