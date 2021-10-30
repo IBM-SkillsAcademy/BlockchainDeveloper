@@ -300,9 +300,6 @@ exports.queryBlock = async (req, res, next) => {
       details: `Block Info : ${block.header.number}    Number of Transactions :  ${block.data.data.length}     ID of the transaction in the block  ${block.data.data[0].payload.header.channel_header.tx_id}`
     });
 
-
-
-
   } catch (err) {
     throw new Error(err);
   }
