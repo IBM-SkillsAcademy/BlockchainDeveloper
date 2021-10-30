@@ -54,7 +54,6 @@ cd ~/BlockchainDeveloper/SampleApplication/application/regulator
 npm start
 
 http://localhost:6002/api-docs
-npm start
 
 Regu-User
 25

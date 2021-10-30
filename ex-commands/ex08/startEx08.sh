@@ -23,6 +23,7 @@ cp -R ex08Artifacts/application/insurer/api/v1/utils.js ../../SampleApplication/
 cp -R ex08Artifacts/application/insurer/api/v1/vehicles/controller.js ../../SampleApplication/application/insurer/api/v1/vehicles/controller.js
 cp -R ex08Artifacts/application/manufacturer/api/v1/vehicles/controller.js ../../SampleApplication/application/manufacturer/api/v1/vehicles/controller.js
 cp -R ex08Artifacts/application/regulator/api/v1/vehicles/controller.js ../../SampleApplication/application/regulator/api/v1/vehicles/controller.js
+cp -R ex08Artifacts/application/regulator/api/v1/utils.js ../../SampleApplication/application/regulator/api/v1/utils.js
 
 
 echo "################## enroll Admin and users in applications ########################"

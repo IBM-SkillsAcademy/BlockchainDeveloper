@@ -35,7 +35,6 @@ exports.checkAuthorization = async (req, res, next) => {
       });
     }
   } catch (err) {
-    this.logger.log({ level: "error", message: err });
     next(err);
   }
 };
