@@ -209,7 +209,7 @@ exports.updatePrice = async (req, res, next) => {
         return;
       } else {
         // Handle transaction commit event
-        console.log(`Transaction ID: ${transactionId} is submitted.`);
+        console.log(`Transaction ID: ${event.transactionId} is submitted.`);
       }
     }
     const peers = await contract.network.channel.getEndorsers();
