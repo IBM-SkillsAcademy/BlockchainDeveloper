@@ -2,17 +2,13 @@
 
 # set project's root folder
 cd ../../
-ROOT=`pwd`
+ROOT=${PWD}
 
-# # apply last exercise solution
-# rm -rf ${ROOT}/SampleApplication/contract/src
-# rm -f ${ROOT}/SampleApplication/contract/collections_config.json
-# rm -f ${ROOT}/SampleApplication/contract/package.json
-# cp -r ${ROOT}/code-solutions/ex05/src ${ROOT}/SampleApplication/contract
-# cp ${ROOT}/code-solutions/ex05/collections_config.json ${ROOT}/SampleApplication/contract
-# cp ${ROOT}/code-solutions/ex05/package.json ${ROOT}/SampleApplication/contract
+cd ~/BlockchainDeveloper
+git restore .
+git clean -fd
+git pull
 
-# TODO: temporary copy from ex03, change to ex05 later
 cd ${ROOT}/ex-commands/ex03
 ./applySolution.sh
 

@@ -2,9 +2,14 @@
 
 # set project's root folder
 cd ../../
-ROOT=`pwd`
-
 ROOT=${PWD}
+
+cd ~/BlockchainDeveloper
+git restore .
+git clean -fd
+git pull
+
+cd $ROOT
 echo "Update Contract files with Completed EX03"
 cd ${ROOT}/ex-commands/ex03
 ./applySolution.sh

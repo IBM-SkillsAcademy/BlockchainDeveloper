@@ -1,5 +1,12 @@
 #!/bin/bash
 ROOT=${PWD}
+
+cd ~/BlockchainDeveloper
+git restore .
+git clean -fd
+git pull
+
+cd $ROOT
 echo "Update Contract files with Completed smart Contract"
 
 cp -R ex07Artifacts/src/. ../../SampleApplication/contract/src/.

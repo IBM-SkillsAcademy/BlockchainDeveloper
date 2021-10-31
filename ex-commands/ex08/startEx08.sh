@@ -1,6 +1,12 @@
 #!/bin/bash
 ROOT=${PWD}
 
+cd ~/BlockchainDeveloper
+git restore .
+git clean -fd
+git pull
+
+cd $ROOT
 echo "## Stopping the existing network ##"
 ./stopEx08.sh
 

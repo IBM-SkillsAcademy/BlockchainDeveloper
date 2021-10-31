@@ -2,6 +2,11 @@
 
 [[ -d ~/my-first-chaincode ]] && rm -R ~/my-first-chaincode
 
+cd ~/BlockchainDeveloper
+git restore .
+git clean -fd
+git pull
+
 docker rm -f $(docker ps -aq) 
 docker volume rm -f $(docker volume ls -q)
 count=`cat /etc/resolv.conf | sed -n "/options/p" | wc -l`

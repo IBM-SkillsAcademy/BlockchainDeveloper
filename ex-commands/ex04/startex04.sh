@@ -1,5 +1,12 @@
 #!/bin/bash
+ROOT=${PWD}
 
+cd ~/BlockchainDeveloper
+git restore .
+git clean -fd
+git pull
+
+cd $ROOT
 # apply last exercise solution
 cp ex04Artifacts/settings.json ~/.config/Code/User/settings.json
 rm -rf ../../SampleApplication/contract/src

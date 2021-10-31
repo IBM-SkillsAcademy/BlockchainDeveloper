@@ -1,5 +1,12 @@
  #!/bin/bash
 ROOT=${PWD}
+
+cd ~/BlockchainDeveloper
+git restore .
+git clean -fd
+git pull
+
+cd $ROOT
 echo "Update Contract files with Completed EX02"
 cp -R ../../code-solutions/ex02/src/. ../../SampleApplication/contract/src/.
 cp ../../code-solutions/ex02/package.json ../../SampleApplication/contract/package.json
