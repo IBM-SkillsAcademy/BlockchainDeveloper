@@ -87,7 +87,7 @@ Part 5
 =======
 const policy = Policy.createInstance(id, vehicleNumber, insurerId, holderId, policyType, startDate, endDate);
 // Add policy asset to the ledger.
-await ctx.getPolicyList().add(policy);
+await ctx.getPolicyList().addPolicy(policy);
 
 
 policy.status = PolicyStatus.ISSUED;
@@ -95,7 +95,7 @@ policy.status = PolicyStatus.ISSUED;
 // Update policy asset in the ledger
 await ctx.getPolicyList().updateSimpleKey(policy);
 
-return await ctx.getPolicyList().get(policyId);
+return await ctx.getPolicyList().getPolicy(policyId);
 
 return await ctx.getPolicyList().getAll();
 
