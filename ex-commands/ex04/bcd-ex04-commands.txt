@@ -47,7 +47,7 @@ ISSUED
 assert(Object.keys(jsonarray).length >= 1); 
 
 return vehicle
-
+cd ~/BlockchainDeveloper/SampleApplication/contract
 npm run build
 
 cd ~/BlockchainDeveloper/SampleApplication/contract/
