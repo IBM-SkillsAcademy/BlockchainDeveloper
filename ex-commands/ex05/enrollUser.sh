@@ -30,12 +30,14 @@ cp ../../test-network/organizations/peerOrganizations/$2.example.com/ca/ca.$2.ex
 chmod +777 -R $HOME/fabric-ca/client/
 
 fabric-ca-client enroll -u https://admin:adminpw@ca_$2:${PORT}  --tls.certfiles ca.$2.example.com-cert.pem
+sleep 3
 
 ATTRS=role=$4:ecert
 OUTPUT=$(fabric-ca-client register --id.type client --id.name $1 --id.affiliation $2.$3 --id.attrs ${ATTRS} --tls.certfiles ca.$2.example.com-cert.pem | tail -1)
 PASSWORD=$(echo $OUTPUT | awk -F" " '{print $2}')
 
 fabric-ca-client enroll -u https://$1:${PASSWORD}@ca_$2:${PORT}  --tls.certfiles ca.$2.example.com-cert.pem
+sleep 3
 cp -r $HOME/fabric-ca/client/msp/signcerts $HOME/fabric-ca/client/msp/admincerts
 
 # check if directory exists from cryptogen

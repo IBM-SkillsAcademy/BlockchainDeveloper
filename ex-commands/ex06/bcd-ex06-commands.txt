@@ -47,7 +47,7 @@ Part 4
 =======
 
 cd ~/BlockchainDeveloper/SampleApplication/contract 
-npm run-script build 
+npm run build 
 
 cd ~/BlockchainDeveloper/test-network
 ./upgradeChaincode.sh 1.9.7 2 ../SampleApplication/contract/collections_config.json
