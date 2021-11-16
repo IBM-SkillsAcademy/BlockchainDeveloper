@@ -5,6 +5,8 @@ const {
   getContract,
 } = require("../utils");
 
+
+
 exports.placeOrder = async (req, res, next) => {
   try {
     await checkAuthorization(req, res);
@@ -154,6 +156,7 @@ exports.createVehicle = async (req, res, next) => {
   }
 };
 
+
 exports.getVehicle = async (req, res, next) => {
   try {
     await checkAuthorization(req, res);
@@ -180,6 +183,7 @@ exports.getVehicle = async (req, res, next) => {
     res.send(msg);
   }
 };
+
 
 exports.updatePrice = async (req, res, next) => {
   try {
@@ -438,3 +442,4 @@ exports.getPoliciesByRange = async (req, res, next) => {
     res.send(msg);
   }
 };
+
