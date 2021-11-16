@@ -2,7 +2,7 @@
 Part 1
 =======     
 cd ~/BlockchainDeveloper/ex-commands/ex04/
-./startex04.sh
+./startEx04.sh
 
 cd ex04Artifacts/
 set-title "Start Orderer"
