@@ -57,4 +57,4 @@ npm test
 Part 3
 ======= 
 cd ~/BlockchainDeveloper/ex-commands/ex04/
-./stopex04.sh
+./stopEx04.sh
