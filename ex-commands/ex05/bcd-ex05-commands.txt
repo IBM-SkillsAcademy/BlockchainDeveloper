@@ -70,7 +70,7 @@ cd ~/BlockchainDeveloper/SampleApplication/contract
 npm run build 
 
 cd ~/BlockchainDeveloper/test-network
-./upgradeChaincode.sh 1.9.7 2
+./upgradeChaincode.sh 1.9.6 2
 
 =======
 Part 4 
@@ -78,8 +78,6 @@ Part 4
 set-title Manufacturer
 
 set-title Regulator
-
-set-title Insurer 
 
 docker exec -it cli bash
 

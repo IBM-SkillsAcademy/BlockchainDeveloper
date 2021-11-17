@@ -22,3 +22,4 @@ cd ${ROOT}/test-network/
 echo "Update Contract with Ex05 Artifacts "
 cd ${ROOT}/ex-commands/ex05
 cp -R artifacts/src/contracts/VehicleContract.ts ../../SampleApplication/contract/src/contracts/VehicleContract.ts
+cp artifacts/package.json ../../SampleApplication/contract/package.json
