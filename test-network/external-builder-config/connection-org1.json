@@ -1,0 +1,5 @@
+{
+    "address": "vehicle-external-chaincode-org1:7777",
+    "dial_timeout": "10s",
+    "tls_required": false
+}

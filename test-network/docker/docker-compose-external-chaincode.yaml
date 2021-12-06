@@ -1,0 +1,60 @@
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+version: '2'
+
+volumes:
+  vehicle-external-chaincode-org1:
+  vehicle-external-chaincode-org2:
+  vehicle-external-chaincode-org3:
+
+
+
+
+networks:
+  test:
+
+services:
+
+  vehicle-external-chaincode-org1:
+    container_name: vehicle-external-chaincode-org1
+    image: vehicle-chaincode-external
+    environment:
+      - FABRIC_LOGGING_SPEC=INFO
+    working_dir: /chaincode
+    command: /external-builder-config/extractPackageID.sh 1 7777
+    volumes:
+        - ../external-builder-config:/external-builder-config
+    ports:
+      - 7777:7777
+    networks:
+      - test
+  vehicle-external-chaincode-org2:
+    container_name: vehicle-external-chaincode-org2
+    image: vehicle-chaincode-external
+    environment:
+      - FABRIC_LOGGING_SPEC=INFO
+    working_dir: /chaincode
+    command: /external-builder-config/extractPackageID.sh 2 8888
+    volumes:
+        - ../external-builder-config:/external-builder-config
+    ports:
+      - 8888:8888
+    networks:
+      - test
+
+  vehicle-external-chaincode-org3:
+    container_name: vehicle-external-chaincode-org3
+    image: vehicle-chaincode-external
+    environment:
+      - FABRIC_LOGGING_SPEC=INFO
+    working_dir: /chaincode
+    command: /external-builder-config/extractPackageID.sh 3 9999
+    volumes:
+        - ../external-builder-config:/external-builder-config
+    ports:
+      - 9999:9999
+    networks:
+       - test

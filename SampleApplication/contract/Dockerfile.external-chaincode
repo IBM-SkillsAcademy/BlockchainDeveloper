@@ -1,0 +1,12 @@
+ARG base_image=node:12.20.2
+FROM ${base_image}
+
+WORKDIR /chaincode
+
+COPY . /chaincode
+
+RUN npm install
+
+RUN npm run build
+
+

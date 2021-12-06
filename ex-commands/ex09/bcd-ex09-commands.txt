@@ -1,0 +1,87 @@
+=======
+Part 1
+=======
+cd ~/BlockchainDeveloper/test-network/external-builder-config
+gedit core.yaml
+
+externalBuilders:
+        - name: vehicle-chaincode-builder
+          path: /opt/buildpack
+=======
+Part 2
+=======
+cd ~/BlockchainDeveloper/test-network/docker
+gedit docker-compose-test-net.yaml
+
+- ./../external-builder-config/core.yaml:/etc/hyperledger/fabric/core.yaml
+- ./../external-builder-config/buildpack:/opt/buildpack
+=======
+Part 3
+=======
+~/BlockchainDeveloper/test-network/external-builder-config/buildpack/bin 
+nautilus .
+
+=======
+Part 4
+=======
+cd ~/BlockchainDeveloper/ex-commands/ex09
+./startEx09.sh
+
+=======
+Part 5
+=======
+
+docker exec -ti cli bash
+
+cd /external-builder-config/
+./deployCC.sh
+
+http://localhost:6001/api-docs/
+
+docker logs peer0.org1.example.com
+
+=======
+Part 6
+=======
+
+gedit /BlockchainDeveloper/SampleApplication/contract/package.json
+
+"startServer": "fabric-chaincode-node server",
+
+cd ~/BlockchainDeveloper/SampleApplication/contract
+
+docker build -f Dockerfile.external-chaincode . -t vehicle-chaincode-external
+
+=======
+Part 7
+=======
+
+cd ~/BlockchainDeveloper/test-network/docker
+docker-compose -f docker-compose-external-chaincode.yaml up -d
+
+
+=======
+Part 8
+=======
+
+http://localhost:6001/api-docs/
+
+Manu-user
+
+{
+  "orderID": "vehicle13",
+  "manufacturer": "Honda",
+  "model": "Accord",
+  "color": "Black",
+  "owner": "Tom"
+}
+
+
+=======
+Part 9
+=======
+
+cd ~/BlockchainDeveloper/ex-commands/ex09/
+./stopEx09.sh
+
+
