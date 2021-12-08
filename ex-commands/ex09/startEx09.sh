@@ -3,8 +3,7 @@ ROOT=${PWD}
 cd $ROOT
 
 cp -R ex09Artifacts/contract/. ../../SampleApplication/contract/.
-cp ex09Artifacts/docker-compose-test-net.yaml ../../test-network/docker/docker-compose-test-net.yaml
-cp ex09Artifacts/core-backup.yaml ../../test-network/external-builder-config/core.yaml
+
 echo "################## START NETWORK ########################"
 cd /home/blockchain/BlockchainDeveloper/test-network
 

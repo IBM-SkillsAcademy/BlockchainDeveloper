@@ -85,8 +85,8 @@ services:
         - ../organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/msp:/etc/hyperledger/fabric/msp
         - ../organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls:/etc/hyperledger/fabric/tls
         - peer0.org1.example.com:/var/hyperledger/production
-        - ./../external-builder-config/core.yaml:/etc/hyperledger/fabric/core.yaml
-        - ./../external-builder-config/buildpack:/opt/buildpack
+
+
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: peer node start
     ports:
@@ -125,8 +125,8 @@ services:
         - ../organizations/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/msp:/etc/hyperledger/fabric/msp
         - ../organizations/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/tls:/etc/hyperledger/fabric/tls
         - peer1.org1.example.com:/var/hyperledger/production
-        - ./../external-builder-config/core.yaml:/etc/hyperledger/fabric/core.yaml
-        - ./../external-builder-config/buildpack:/opt/buildpack
+
+
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: peer node start
 
@@ -166,8 +166,8 @@ services:
         - ../organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/msp:/etc/hyperledger/fabric/msp
         - ../organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls:/etc/hyperledger/fabric/tls
         - peer0.org2.example.com:/var/hyperledger/production
-        - ./../external-builder-config/core.yaml:/etc/hyperledger/fabric/core.yaml
-        - ./../external-builder-config/buildpack:/opt/buildpack
+
+
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: peer node start
     ports:
@@ -192,8 +192,8 @@ services:
         - ../organizations/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/msp:/etc/hyperledger/fabric/msp
         - ../organizations/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls:/etc/hyperledger/fabric/tls
         - peer1.org2.example.com:/var/hyperledger/production
-        - ./../external-builder-config/core.yaml:/etc/hyperledger/fabric/core.yaml
-        - ./../external-builder-config/buildpack:/opt/buildpack
+
+
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: peer node start
     ports:
@@ -232,8 +232,8 @@ services:
         - ../organizations/peerOrganizations/org3.example.com/peers/peer0.org3.example.com/msp:/etc/hyperledger/fabric/msp
         - ../organizations/peerOrganizations/org3.example.com/peers/peer0.org3.example.com/tls:/etc/hyperledger/fabric/tls
         - peer0.org3.example.com:/var/hyperledger/production
-        - ./../external-builder-config/core.yaml:/etc/hyperledger/fabric/core.yaml
-        - ./../external-builder-config/buildpack:/opt/buildpack
+
+
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: peer node start
     ports:
@@ -257,8 +257,7 @@ services:
         - ../organizations/peerOrganizations/org3.example.com/peers/peer1.org3.example.com/msp:/etc/hyperledger/fabric/msp
         - ../organizations/peerOrganizations/org3.example.com/peers/peer1.org3.example.com/tls:/etc/hyperledger/fabric/tls
         - peer1.org3.example.com:/var/hyperledger/production
-        - ./../external-builder-config/core.yaml:/etc/hyperledger/fabric/core.yaml
-        - ./../external-builder-config/buildpack:/opt/buildpack
+
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: peer node start
     ports:

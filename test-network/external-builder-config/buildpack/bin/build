@@ -13,6 +13,8 @@ fi
 
 #simply copy the endpoint information to specified output location
 cp $SOURCE/connection.json $OUTPUT/connection.json
+mkdir /tmp/connection
+cp $SOURCE/connection.json /tmp/connection/connection.json
 
 if [ -d "$SOURCE/metadata" ]; then
     cp -a $SOURCE/metadata $OUTPUT/metadata
